@@ -1,0 +1,1628 @@
+{
+  "app": {
+    "name": "5GPhones",
+    "tagline": "Tu tienda única para todo lo relacionado con 5G",
+    "heroBanner": {
+      "subtitle": "Reparaciones expertas, accesorios premium y los últimos dispositivos en un solo lugar"
+    },
+    "featuredProducts": {
+      "title": "Nuevas Llegadas",
+      "description": "Descubre nuestros últimos productos y accesorios",
+      "viewAll": "Ver Todo"
+    },
+    "deviceBrands": {
+      "title": "Principales Marcas de Dispositivos",
+      "viewAll": "Ver Todas las Marcas"
+    },
+    "categories": {
+      "title": "Categorías de Productos",
+      "browse": "Explorar",
+      "description": "Explora nuestra selección de {{category}} para todas tus necesidades.",
+      "viewAll": "Ver Todas las Categorías"
+    },
+    "carousel": {
+      "title": "Servicios de Reparación",
+      "phoneRepair": {
+        "category": "Servicio de Reparación",
+        "title": "Reparación de Pantalla",
+        "description": "Reemplazo profesional de pantallas para todos los modelos de teléfonos con servicio el mismo día y piezas de calidad.",
+        "button": "Programar una Reparación"
+      },
+      "batteryReplacement": {
+        "category": "Servicio de Batería",
+        "title": "Reemplazo de Batería",
+        "description": "Extiende la vida de tu dispositivo con nuestro servicio profesional de reemplazo de batería. Rápido, confiable y asequible.",
+        "button": "Reservar Servicio de Batería"
+      },
+      "tradeIn": {
+        "category": "Intercambio",
+        "title": "Vende tu Teléfono",
+        "description": "Obtén efectivo al instante por tu dispositivo antiguo. Ofrecemos precios competitivos para teléfonos en cualquier condición.",
+        "button": "Vender Tu Teléfono"
+      },
+      "accessories": {
+        "category": "Tienda",
+        "title": "Accesorios Premium",
+        "description": "Descubre nuestra colección de fundas, protectores de pantalla y soluciones de carga de alta calidad para todos los dispositivos.",
+        "button": "Comprar Accesorios"
+      }
+    },
+    "latestDevices": {
+      "title": "Nuevos Productos",
+      "iphone": {
+        "category": "Nuevas Llegadas",
+        "title": "iPhone Pro Max",
+        "description": "Experimenta el iPhone más potente hasta la fecha con el último chip de la serie A, sistema de cámara profesional y batería para todo el día."
+      },
+      "samsung": {
+        "category": "Nuevas Llegadas",
+        "title": "Samsung Galaxy Serie S",
+        "description": "Descubre la vanguardista serie Galaxy S con pantallas impresionantes, sistemas de cámara revolucionarios y rendimiento ultrarrápido."
+      },
+      "pixel": {
+        "category": "Nuevas Llegadas",
+        "title": "Google Pixel",
+        "description": "Explora el Google Pixel con su excepcional cámara, experiencia Android limpia y funciones inteligentes impulsadas por la IA de Google."
+      },
+      "xiaomi": {
+        "category": "Nuevas Llegadas",
+        "title": "Serie Flagship de Xiaomi",
+        "description": "Smartphones premium con especificaciones de gama alta a precios competitivos. Experimenta tecnología de vanguardia sin gastar una fortuna."
+      }
+    },
+    "gadgets": {
+      "title": "Accesorios Electrónicos",
+      "smartwatch": {
+        "category": "Wearables",
+        "title": "Relojes Inteligentes",
+        "description": "Mantente conectado y monitorea tu actividad física con nuestra colección de relojes inteligentes premium de marcas como Apple, Samsung y Garmin."
+      },
+      "earbuds": {
+        "category": "Audio",
+        "title": "Auriculares Inalámbricos",
+        "description": "Experimenta un sonido cristalino y conectividad perfecta con nuestra selección de auriculares inalámbricos premium para música, llamadas y más."
+      },
+      "tablets": {
+        "category": "Informática",
+        "title": "Tablets y iPads",
+        "description": "Perfectos para trabajo y entretenimiento, nuestra selección de tablets incluye los últimos modelos de Apple, Samsung y otras marcas líderes."
+      },
+      "laptops": {
+        "category": "Informática",
+        "title": "Portátiles y MacBooks",
+        "description": "Potencia tu jornada laboral con portátiles y MacBooks de alto rendimiento que cuentan con los últimos procesadores y pantallas impresionantes."
+      }
+    },
+    "services": {
+      "title": "Piezas de Reparación",
+      "description": "Servicios de reparación profesional para todos los dispositivos móviles con piezas de calidad y técnicos expertos",
+      "time": "30-60 min",
+      "timeVaries": "1-3 días",
+      "warranty": "Garantía de 90 días",
+      "noRecoveryNoFee": "Sin Recuperación, Sin Cargo",
+      "book": "Reservar Servicio",
+      "viewAll": "Ver Todos los Servicios",
+      "screenRepair": {
+        "title": "Reparación de Pantalla",
+        "description": "Servicio profesional de reemplazo de pantalla con piezas de calidad y técnicos expertos"
+      },
+      "battery": {
+        "title": "Reemplazo de Batería",
+        "description": "Extiende la vida de tu dispositivo con un servicio profesional de reemplazo de batería"
+      },
+      "insurance": {
+        "category": "Protección",
+        "title": "Seguro de Dispositivos",
+        "description": "Protege tu inversión con nuestros planes de seguro integral que cubren daños accidentales, robo y más."
+      },
+      "dataRecovery": {
+        "category": "Recuperación",
+        "title": "Recuperación de Datos",
+        "description": "¿Perdiste datos importantes? Nuestros técnicos expertos pueden recuperar fotos, contactos y archivos de dispositivos dañados o con mal funcionamiento."
+      },
+      "customization": {
+        "category": "Personalización",
+        "title": "Personalización de Dispositivos",
+        "description": "Haz que tu dispositivo sea verdaderamente tuyo con servicios de personalización profesional que incluyen skins, grabados y fundas personalizadas."
+      },
+      "training": {
+        "category": "Aprendizaje",
+        "title": "Formación Tecnológica",
+        "description": "Aprovecha al máximo tus dispositivos con sesiones de formación personalizadas que abarcan desde la configuración básica hasta funciones avanzadas."
+      }
+    },
+    "refurbished": {
+      "title": "Dispositivos Reacondicionados",
+      "iphone": {
+        "category": "Reacondicionado",
+        "title": "iPhone Reacondicionado",
+        "description": "Ahorra hasta un 40% en iPhones reacondicionados certificados que lucen y funcionan como nuevos, con garantía completa y envío gratuito."
+      },
+      "samsung": {
+        "category": "Reacondicionado",
+        "title": "Samsung Galaxy Reacondicionado",
+        "description": "Dispositivos Samsung premium reacondicionados, probados exhaustivamente y restaurados a condición como nuevo, a una fracción del precio original."
+      },
+      "phones": {
+        "category": "Reacondicionado",
+        "title": "Teléfonos Reacondicionados de Calidad",
+        "description": "Teléfonos reacondicionados ecológicos y económicos con garantía de calidad y garantía estándar."
+      },
+      "tablets": {
+        "category": "Reacondicionado",
+        "title": "Tablets Reacondicionadas",
+        "description": "Tablets reacondicionadas profesionalmente de las mejores marcas, perfectas para trabajo o entretenimiento a precios accesibles."
+      }
+    },
+    "tradeIn": {
+      "title": "Programa de Intercambio de Teléfonos",
+      "feature1": "Intercambio Fácil",
+      "feature2": "Cotización Instantánea",
+      "feature3": "Ecológico",
+      "description": "Cambia tu dispositivo antiguo por efectivo o crédito de tienda. Aceptamos teléfonos en cualquier condición, y puedes obtener una cotización instantánea en línea.",
+      "sell": {
+        "category": "Vende Tu Teléfono",
+        "title": "Obtén Efectivo al Instante",
+        "description": "Cambia tu dispositivo antiguo por efectivo al instante o crédito de tienda. Ofrecemos precios competitivos para teléfonos en cualquier condición."
+      },
+      "upgrade": {
+        "category": "Actualiza",
+        "title": "Actualiza Tu Dispositivo",
+        "description": "Entrega tu teléfono actual y obtén crédito adicional para tu próxima compra de un dispositivo nuevo o reacondicionado."
+      },
+      "recycle": {
+        "category": "Ecológico",
+        "title": "Recicla Tu Tecnología Antigua",
+        "description": "Ayuda a reducir los desechos electrónicos intercambiando tus dispositivos antiguos. Nos aseguraremos de que se reciclen o reacondicionen adecuadamente para su reutilización."
+      },
+      "estimate": {
+        "category": "Presupuesto Online",
+        "title": "Obtén una Cotización Online",
+        "description": "Comprueba cuánto vale tu dispositivo en solo minutos con nuestra herramienta de estimación online. Sin obligación de vender."
+      },
+      "cashOffer": "Oferta en Efectivo",
+      "storeCredit": "Crédito de Tienda",
+      "sellButton": "Vende el Tuyo",
+      "upgradeButton": "Actualiza Ahora",
+      "quoteButton": "Obtener Cotización",
+      "deviceCondition": "Condición",
+      "storageCapacity": "Almacenamiento",      "colorLabel": "Color",
+      "cta": "Obtén el Valor de tu Dispositivo",
+      "topPrices": "Mejores Precios de Intercambio",
+      "device": "Dispositivo",
+      "estimatedValue": "Valor Estimado"
+    },
+    "repairRequest": {
+      "title": "Solicitud de Reparación de Dispositivos",
+      "subtitle": "¿No encuentras tu dispositivo en nuestra lista? Solicita un presupuesto de reparación",
+      "form": {
+        "title": "Solicitar Presupuesto de Reparación",
+        "deviceName": "Nombre del Dispositivo",
+        "deviceNamePlaceholder": "Ej., iPhone 13 Pro, Samsung Galaxy S21",
+        "deviceType": "Tipo de Dispositivo",
+        "deviceTypePlaceholder": "Ej., Smartphone, Tablet, Portátil",
+        "deviceBrand": "Marca",
+        "deviceBrandPlaceholder": "Ej., Apple, Samsung, Google",
+        "deviceColor": "Color del Dispositivo",
+        "deviceColorPlaceholder": "Ej., Negro, Blanco, Dorado",
+        "deviceModelYear": "Año del Modelo",
+        "deviceModelYearPlaceholder": "Ej., 2022, 2023",
+        "serialNumber": "Número de Serie (Opcional)",
+        "serialNumberPlaceholder": "Número de serie del dispositivo si está disponible",
+        "problemDescription": "Describe el Problema",
+        "problemDescriptionPlaceholder": "Por favor, describe detalladamente los problemas de tu dispositivo",
+        "customerEmail": "Tu Email",
+        "customerEmailPlaceholder": "Enviaremos tu presupuesto de reparación a este email",
+        "customerPhone": "Número de Teléfono",
+        "customerPhonePlaceholder": "Tu número de contacto",
+        "submitButton": "Enviar Solicitud",
+        "processing": "Procesando...",
+        "success": "¡Solicitud Enviada con Éxito!",
+        "successMessage": "Gracias por tu solicitud de reparación. La revisaremos y te responderemos en 24 horas con un presupuesto de reparación.",
+        "error": "Error al Enviar Solicitud",
+        "errorMessage": "Hubo un problema al enviar tu solicitud. Por favor, inténtalo de nuevo o contáctanos directamente."
+      },
+      "admin": {
+        "title": "Solicitudes de Reparación",
+        "subtitle": "Administrar solicitudes de reparación de clientes",
+        "pendingTitle": "Solicitudes de Reparación Pendientes",
+        "allTitle": "Todas las Solicitudes de Reparación",
+        "deviceDetails": "Detalles del Dispositivo",
+        "customerDetails": "Detalles del Cliente",
+        "requestDate": "Fecha de Solicitud",
+        "status": "Estado",
+        "actions": "Acciones",
+        "viewDetails": "Ver Detalles",
+        "updateStatus": "Actualizar Estado",
+        "viewButton": "Ver Detalles",
+        "approveButton": "Aprobar",
+        "rejectButton": "Rechazar",
+        "convertButton": "Convertir a Reparación",
+        "convertToAppointment": "Convertir a Cita",
+        "addNotes": "Agregar Notas",
+        "notesPlaceholder": "Agregar notas sobre esta solicitud de reparación",
+        "saveChanges": "Guardar Cambios",
+        "saveNotesButton": "Guardar Notas",
+        "emailCustomerButton": "Enviar Email al Cliente",
+        "noRequests": "No se encontraron solicitudes de reparación",
+        "statusUpdated": "Estado actualizado correctamente",
+        "fetchError": "Error al obtener solicitudes de reparación",
+        "updateError": "Error al actualizar solicitud de reparación",
+        "search": {
+          "placeholder": "Buscar solicitudes...",
+          "noResults": "No se encontraron resultados para '{term}'",
+          "tooltip": "Buscar por dispositivo, cliente o descripción"
+        },
+        "filters": {
+          "all": "Todas las Solicitudes",
+          "pending": "Solicitudes Pendientes",
+          "approved": "Solicitudes Aprobadas",
+          "rejected": "Solicitudes Rechazadas",
+          "converted": "Solicitudes Convertidas"
+        },
+        "table": {
+          "id": "ID",
+          "device": "Dispositivo",
+          "customer": "Cliente",
+          "status": "Estado",
+          "created": "Creado",
+          "actions": "Acciones"
+        }
+      },
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobado",
+        "rejected": "Rechazado",
+        "converted": "Convertido"
+      }
+    },
+    "repair": {
+      "title": "Reparación de Dispositivos",
+      "subtitle": "Servicio de reparación rápido y profesional",
+      "description": "Ofrecemos servicios de reparación profesional para todo tipo de dispositivos móviles. Programe su reparación ahora para un servicio el mismo día.",
+      "schedule": "Programar una Reparación",
+      "servicesTitle": "Nuestros Servicios de Reparación",
+      "services": "Servicios de Reparación",
+      "service": "servicio",
+      "servicesDescription": "Seleccione los servicios que necesita para su dispositivo",
+      "servicesLabel": "Servicios",
+      "screenRepair": "Reemplazo de Pantalla",
+      "batteryReplacement": "Reemplazo de Batería",
+      "chargingPort": "Reparación de Puerto de Carga",
+      "waterDamage": "Tratamiento de Daño por Agua",
+      "serviceDescription": "Reparación profesional con piezas originales",
+      "deviceTypes": "Selección de Dispositivo",
+      "deviceTypesPageDescription": "Seleccione su dispositivo para ver las opciones de reparación disponibles",
+      "summary": "Resumen de Reparación",
+      "estimatedTotal": "Total Estimado",      "brands": "Marcas",
+      "brand": "Marca",
+      "device": "Dispositivo",
+      "appointment": "Fecha de Cita",
+      "confirmation": {
+        "title": "Confirmación de Cita",
+        "thanks": "Gracias por su solicitud de reparación",
+        "dateTime": "Fecha y Hora",
+        "date": "Fecha",
+        "time": "Hora"
+      },
+      "form": {
+        "selectDevice": "Seleccione Su Dispositivo",
+        "selectServices": "Seleccione Servicios de Reparación",
+        "selectDateTime": "Seleccione Fecha y Hora",
+        "contactInfo": "Información de Contacto",
+        "problemDescription": "Describa el problema",
+        "deviceSerialNumber": "Número de Serie del Dispositivo",
+        "devicePassword": "Patrón/PIN de Desbloqueo del Dispositivo",
+        "passwordDisclaimer": "Esto ayuda a nuestros técnicos a probar su dispositivo después de la reparación"
+      },
+      "scheduleRepair": "Programar Reparación",
+      "noModelsForDevice": "No hay opciones de reparación disponibles para este dispositivo",
+      "selectDeviceInfo": "Por favor seleccione su dispositivo para continuar",
+      "selectRepairService": "Por favor seleccione al menos un servicio de reparación",
+      "selectDateTime": "Por favor seleccione una fecha y hora para su cita",
+      "filterByDeviceType": "Tipo de Dispositivo",
+      "filterBySeries": "Serie",
+      "filterByModel": "Modelo",
+      "chooseOptions": "Seleccionar Opciones",
+      "cantFindDevice": "¿No encuentra su dispositivo en nuestra lista?",
+      "deviceNotListed": "¿No ve su dispositivo en la lista? Envíe una solicitud de reparación personalizada.",
+      "customRepairRequest": "Enviar Solicitud de Reparación Personalizada",
+      "submitCustomRepairRequest": "Enviar Solicitud Personalizada",
+      "customRequest": {
+        "title": "Solicitud de Reparación de Dispositivo Personalizado",
+        "subtitle": "Solicite una reparación para un dispositivo que no está en nuestra lista estándar",
+        "description": "Por favor proporcione detalles sobre su dispositivo y el problema que está experimentando. Nuestro equipo revisará su solicitud y se pondrá en contacto con usted dentro de las 24 horas.",
+        "form": {
+          "deviceName": "Nombre del Dispositivo",
+          "deviceNamePlaceholder": "ej., Samsung Galaxy Z Fold 4",
+          "deviceType": "Tipo de Dispositivo",
+          "deviceTypePlaceholder": "ej., Smartphone, Tablet, Laptop",
+          "deviceBrand": "Marca del Dispositivo",
+          "deviceBrandPlaceholder": "ej., Apple, Samsung, Google",
+          "deviceColor": "Color del Dispositivo",
+          "deviceColorPlaceholder": "ej., Negro, Blanco, Azul",
+          "modelYear": "Año del Modelo",
+          "modelYearPlaceholder": "ej., 2022",
+          "serialNumber": "Número de Serie (opcional)",
+          "serialNumberPlaceholder": "Si lo conoce, proporcione el número de serie del dispositivo",
+          "problemDescription": "Descripción del Problema",
+          "problemDescriptionPlaceholder": "Por favor describa el problema en detalle",
+          "contactInformation": "Información de Contacto",
+          "email": "Correo Electrónico",
+          "phone": "Número de Teléfono",
+          "submit": "Enviar Solicitud de Reparación",
+          "submitting": "Enviando...",
+          "requiredField": "Este campo es obligatorio"
+        }
+      },
+      "requestConfirmation": {
+        "title": "Solicitud Enviada",
+        "subtitle": "Gracias por su solicitud de reparación",
+        "description": "Hemos recibido su solicitud de reparación personalizada y la revisaremos en breve. Un miembro de nuestro equipo se pondrá en contacto con usted dentro de 24 horas para discutir sus opciones de reparación.",
+        "requestNumber": "Número de Solicitud",
+        "whatHappensNext": "¿Qué sigue?",
+        "step1": "Nuestro equipo revisará su solicitud",
+        "step2": "Nos pondremos en contacto con usted para discutir las opciones de reparación y precios",
+        "step3": "Una vez aprobado, programaremos su cita de reparación",
+        "returnToHome": "Volver al Inicio",
+        "viewAllRepairs": "Ver Todas las Solicitudes"
+      },
+      "admin": {
+        "title": "Gestión de Solicitudes de Reparación",
+        "subtitle": "Administrar solicitudes de reparación de dispositivos personalizados",
+        "noRequests": "No se encontraron solicitudes de reparación",
+        "filters": {
+          "all": "Todas",
+          "pending": "Pendientes",
+          "approved": "Aprobadas",
+          "rejected": "Rechazadas",
+          "converted": "Convertidas"
+        },
+        "table": {
+          "id": "ID",
+          "device": "Dispositivo",
+          "customer": "Cliente",
+          "status": "Estado",
+          "created": "Creado",
+          "actions": "Acciones"
+        },
+        "status": {
+          "pending": "Pendiente",
+          "approved": "Aprobada",
+          "rejected": "Rechazada",
+          "converted": "Convertida"
+        },
+        "viewDetails": "Ver Detalles",
+        "updateStatus": "Actualizar Estado",
+        "addNotes": "Agregar Notas",
+        "notes": "Notas del Administrador",
+        "notesPlaceholder": "Agregue cualquier nota o comentario sobre esta solicitud de reparación",
+        "saveChanges": "Guardar Cambios",
+        "saving": "Guardando...",
+        "convertToAppointment": "Convertir a Cita"
+      }
+    }
+  },
+  "products": {
+    "title": "Productos",
+    "search": {
+      "hideFilters": "Ocultar Filtros",
+      "showFilters": "Mostrar Filtros",
+      "noResults": "No se encontraron productos",
+      "tryAnotherSearch": "Intenta ajustar tus criterios de búsqueda",
+      "clearAll": "Borrar Todos los Filtros"
+    },
+    "sort": {
+      "title": "Ordenar Por",
+      "newest": "Más Reciente",
+      "oldest": "Más Antiguo",
+      "priceAsc": "Precio: Menor a Mayor",
+      "priceDesc": "Precio: Mayor a Menor"
+    },
+    "pagination": {
+      "showing": "Mostrando",
+      "of": "de",
+      "products": "productos",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    }
+  },
+  "shipping": {
+    "policy": {
+      "title": "Política de Envío y Entrega",
+      "subtitle": "Información sobre nuestras opciones de envío, plazos y políticas",
+      "domesticShipping": "Envío Nacional",
+      "internationalShipping": "Envío Internacional",
+      "standardShipping": "Envío Estándar",
+      "standardDomesticDescription": "Nuestra opción de envío estándar ofrece entrega confiable a precios accesibles para todos los pedidos nacionales.",
+      "standardDomesticTime": "3-5 días hábiles",
+      "standardDomesticCost": "€5.99 (Gratis para pedidos superiores a €50)",
+      "expressShipping": "Envío Express",
+      "expressDomesticDescription": "¿Necesita sus artículos rápidamente? Elija nuestra opción de entrega express para un servicio más rápido.",
+      "expressDomesticTime": "1-2 días hábiles",
+      "expressDomesticCost": "€12.99",
+      "standardInternational": "Internacional Estándar",
+      "standardInternationalDescription": "Enviamos a la mayoría de los países del mundo con nuestro servicio internacional estándar.",
+      "standardInternationalTime": "7-14 días hábiles",
+      "standardInternationalCost": "Desde €15.99",
+      "expressInternational": "Internacional Express",
+      "expressInternationalDescription": "Obtenga una entrega más rápida a destinos internacionales con nuestro servicio express.",
+      "expressInternationalTime": "3-5 días hábiles",
+      "expressInternationalCost": "Desde €29.99",
+      "processingTime": "Procesamiento de Pedidos",
+      "processingTimeDescription": "Los pedidos se procesan generalmente dentro de 1-2 días hábiles después de la confirmación del pago. Durante temporadas altas o períodos promocionales, el procesamiento puede tomar 1-2 días hábiles adicionales.",
+      "deliveryTime": "Tiempo de Entrega",
+      "shippingCost": "Costo",
+      "additionalInformation": "Información Adicional",
+      "trackingInfo": "Seguimiento de Pedidos",
+      "trackingDescription": "Se proporcionará un número de seguimiento por correo electrónico una vez que su pedido haya sido enviado. Puede usarlo para monitorear el estado de su entrega.",
+      "shippingRestrictions": "Restricciones de Envío",
+      "restrictionsDescription": "Algunos productos no pueden enviarse a ciertas ubicaciones debido a regulaciones locales. Le notificaremos si hay alguna restricción para su pedido.",
+      "internationalInfo": "Información de Pedidos Internacionales",
+      "internationalDescription": "Enviamos a la mayoría de los países del mundo. Los clientes internacionales son responsables de todos los impuestos de importación y tasas aduaneras que puedan incurrir.",
+      "importantNote": "Nota Importante",
+      "customsNote": "Los envíos internacionales pueden estar sujetos a inspección aduanera y posibles retrasos. Los aranceles e impuestos de importación son responsabilidad del destinatario y no están incluidos en el costo de envío.",
+      "faqs": "Preguntas Frecuentes",
+      "faq1": {
+        "question": "¿Cómo puedo rastrear mi pedido?",
+        "answer": "Una vez que su pedido sea enviado, recibirá un correo electrónico de confirmación con información de seguimiento. También puede rastrear su pedido iniciando sesión en su cuenta y viendo su historial de pedidos."
+      },
+      "faq2": {
+        "question": "¿Qué sucede si mi paquete está dañado o faltan artículos?",
+        "answer": "Póngase en contacto con nuestro servicio al cliente dentro de las 48 horas posteriores a la recepción de su paquete si llega dañado o faltan artículos. Trabajaremos rápidamente para resolver el problema."
+      },
+      "faq3": {
+        "question": "¿Envían a apartados postales?",
+        "answer": "Sí, enviamos a apartados postales para opciones de envío estándar, pero el envío express requiere una dirección física para la entrega."
+      },
+      "faq4": {
+        "question": "¿Cómo se calculan los costos de envío?",
+        "answer": "Los costos de envío se calculan en función del peso de su pedido, el método de envío seleccionado y su ubicación de entrega. El costo exacto se mostrará en el momento del pago antes de completar su compra."
+      }
+    }
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Encuentre respuestas a preguntas comunes sobre nuestros productos, servicios y políticas",
+    "searchPlaceholder": "Buscar preguntas...",
+    "noResults": "No se encontraron preguntas coincidentes",
+    "clearSearch": "Borrar búsqueda",
+    "stillNeedHelp": "¿Aún Necesita Ayuda?",
+    "contactDescription": "¿No encuentra lo que busca? Nuestro equipo de soporte está aquí para ayudarle con cualquier pregunta o inquietud.",
+    "contactUsButton": "Contáctenos",
+    "categories": {
+      "general": "Preguntas Generales",
+      "orders": "Pedidos",
+      "shipping": "Envío",
+      "returns": "Devoluciones y Reembolsos",
+      "products": "Productos",
+      "repairs": "Servicios de Reparación"
+    },
+
+    "general": {
+      "what": {
+        "question": "¿Qué es FinOpenPOS?",
+        "answer": "FinOpenPOS es un sistema de punto de venta de código abierto diseñado específicamente para tiendas de reparación de teléfonos y minoristas de electrónica. Nuestra plataforma ofrece gestión integral de inventario, seguimiento de reparaciones, gestión de clientes y funcionalidad de comercio electrónico para ayudar a las empresas a operar de manera más eficiente."
+      },
+      "account": {
+        "question": "¿Cómo creo una cuenta?",
+        "answer": "Para crear una cuenta, haga clic en el botón 'Registrarse' en la esquina superior derecha del sitio web. Complete sus datos incluyendo nombre, dirección de correo electrónico y contraseña. Recibirá un correo electrónico de confirmación para verificar su cuenta antes de poder comenzar a usarla."
+      },
+      "login": {
+        "question": "¿Cómo inicio sesión en mi cuenta?",
+        "answer": "Haga clic en el botón 'Iniciar Sesión' en la esquina superior derecha del sitio web. Ingrese la dirección de correo electrónico y la contraseña que utilizó al crear su cuenta. Si ha olvidado su contraseña, puede restablecerla haciendo clic en el enlace 'Olvidé mi Contraseña' en la página de inicio de sesión."
+      },
+      "password": {
+        "question": "¿Cómo restablezco mi contraseña?",
+        "answer": "Si ha olvidado su contraseña, haga clic en el botón 'Iniciar Sesión' y luego seleccione 'Olvidé mi Contraseña'. Ingrese su dirección de correo electrónico y recibirá instrucciones sobre cómo restablecer su contraseña. Por razones de seguridad, el enlace de restablecimiento expira después de 24 horas."
+      }
+    },
+
+    "orders": {
+      "track": {
+        "question": "¿Cómo puedo hacer seguimiento a mi pedido?",
+        "answer": "Puede hacer seguimiento a su pedido iniciando sesión en su cuenta y visitando la sección 'Mis Pedidos'. Haga clic en el pedido específico que desea rastrear y verá el estado actual y la información de seguimiento. También puede rastrear su pedido utilizando el número de seguimiento proporcionado en su correo electrónico de confirmación de envío."
+      },
+      "cancel": {
+        "question": "¿Puedo cancelar mi pedido?",
+        "answer": "Sí, puede cancelar su pedido si aún no ha sido enviado. Inicie sesión en su cuenta, vaya a 'Mis Pedidos', seleccione el pedido que desea cancelar y haga clic en el botón 'Cancelar Pedido'. Si el pedido ya ha sido enviado, deberá iniciar una devolución una vez que lo reciba."
+      },
+      "modify": {
+        "question": "¿Puedo modificar mi pedido después de realizarlo?",
+        "answer": "Las modificaciones limitadas pueden ser posibles si el pedido aún no ha sido procesado. Póngase en contacto con nuestro equipo de atención al cliente lo antes posible con su número de pedido y los cambios que le gustaría hacer. Haremos todo lo posible para atender su solicitud."
+      },
+      "payment": {
+        "question": "¿Qué métodos de pago aceptan?",
+        "answer": "Aceptamos las principales tarjetas de crédito y débito (Visa, MasterCard, American Express), PayPal y transferencias bancarias. Toda la información de pago se procesa y encripta de forma segura. Para ciertas regiones, también ofrecemos opciones de pago contra entrega."
+      }
+    },
+
+    "shipping": {
+      "time": {
+        "question": "¿Cuánto tiempo tardará en recibir mi pedido?",
+        "answer": "Los pedidos nacionales generalmente tardan de 3 a 5 días hábiles con envío estándar, o de 1 a 2 días hábiles con envío express. Los pedidos internacionales pueden tardar de 7 a 14 días hábiles dependiendo del país de destino y del procesamiento aduanero. Tenga en cuenta que estos son estimados y los tiempos de entrega reales pueden variar."
+      },
+      "cost": {
+        "question": "¿Cuánto cuesta el envío?",
+        "answer": "El envío nacional estándar cuesta €5.99 y es gratuito para pedidos superiores a €50. El envío nacional express cuesta €12.99. El envío internacional comienza en €15.99 para estándar y €29.99 para express, con costos finales dependiendo del país de destino, peso del paquete y método de envío seleccionado."
+      },
+      "international": {
+        "question": "¿Realizan envíos internacionales?",
+        "answer": "Sí, enviamos a la mayoría de los países del mundo. Los clientes internacionales son responsables de todos los aranceles, impuestos de importación y tasas aduaneras que puedan aplicarse. Estos cargos adicionales no están incluidos en el costo de envío y serán cobrados por el servicio de entrega o la oficina de aduanas."
+      },
+      "track": {
+        "question": "¿Cómo puedo rastrear mi envío?",
+        "answer": "Una vez que su pedido se envíe, recibirá un correo electrónico con un número de seguimiento. Puede usar este número en nuestro sitio web en 'Mis Pedidos' o directamente en el sitio web del transportista para rastrear el viaje de su paquete y la fecha estimada de entrega."
+      }
+    },
+
+    "returns": {
+      "policy": {
+        "question": "¿Cuál es su política de devoluciones?",
+        "answer": "Ofrecemos una política de devolución de 30 días para la mayoría de los artículos. Los productos deben estar sin usar, en su embalaje original y en las mismas condiciones que cuando los recibió. Algunos productos, como licencias de software o artículos personalizados, no se pueden devolver. Consulte nuestra página de Política de Devoluciones para obtener detalles completos."
+      },
+      "start": {
+        "question": "¿Cómo inicio una devolución?",
+        "answer": "Para iniciar una devolución, inicie sesión en su cuenta, vaya a 'Mis Pedidos', seleccione el pedido que contiene el artículo que desea devolver y haga clic en 'Devolver Artículos'. Siga las indicaciones para completar la solicitud de devolución. Una vez aprobada, recibirá instrucciones sobre cómo enviar el artículo de vuelta."
+      },
+      "refund": {
+        "question": "¿Cuánto tiempo tarda en procesarse un reembolso?",
+        "answer": "Después de recibir e inspeccionar su devolución, procesaremos su reembolso dentro de 3-5 días hábiles. El tiempo que tarda en aparecer en su cuenta depende de su método de pago: las tarjetas de crédito generalmente tardan de 5 a 10 días hábiles, mientras que los reembolsos de PayPal generalmente se procesan dentro de 24-48 horas."
+      },
+      "damage": {
+        "question": "¿Qué sucede si recibo artículos dañados o incorrectos?",
+        "answer": "Si recibe artículos dañados o incorrectos, póngase en contacto con nuestro equipo de atención al cliente dentro de las 48 horas posteriores a la entrega. Tome fotos de los artículos o embalajes dañados e incluya su número de pedido en su mensaje. Organizaremos un reemplazo o reembolso según corresponda."
+      }
+    },
+    "products": {
+      "warranty": {
+        "question": "¿Qué garantía tienen sus productos?",
+        "answer": "La mayoría de nuestros productos vienen con una garantía estándar del fabricante, que generalmente varía de 1 a 3 años dependiendo del artículo. La información específica de garantía se encuentra en cada página de producto. Para reclamaciones de garantía, deberá proporcionar prueba de compra y el embalaje original si es posible."
+      },
+      "availability": {
+        "question": "¿Puedo recibir una notificación cuando un artículo agotado esté disponible?",
+        "answer": "Sí, en cualquier página de producto agotado, encontrará un botón 'Notificarme cuando esté disponible'. Ingrese su dirección de correo electrónico para recibir una notificación automática cuando el artículo vuelva a estar en stock. Este servicio es gratuito y puede cancelar la suscripción a las notificaciones en cualquier momento."
+      },
+      "specs": {
+        "question": "¿Dónde puedo encontrar especificaciones detalladas del producto?",
+        "answer": "Las especificaciones detalladas del producto están disponibles en la página de cada producto, en la pestaña 'Especificaciones'. Si necesita información adicional que no está listada, póngase en contacto con nuestro equipo de atención al cliente y estaremos encantados de proporcionarle más detalles."
+      },
+      "compatibility": {
+        "question": "¿Cómo puedo verificar si un producto es compatible con mi dispositivo?",
+        "answer": "La información de compatibilidad del producto se encuentra en la página de cada producto, en la sección 'Compatibilidad'. También puede usar nuestra herramienta de verificación de compatibilidad ingresando su modelo de dispositivo para ver todos los productos compatibles. Si aún tiene dudas, nuestro equipo de atención al cliente puede ayudar a verificar la compatibilidad antes de realizar una compra."
+      }
+    },
+
+    "repairs": {
+      "service": {
+        "question": "¿Qué servicios de reparación ofrecen?",
+        "answer": "Ofrecemos una amplia gama de servicios de reparación para smartphones, tablets, laptops y otros dispositivos electrónicos. Nuestros servicios incluyen reemplazos de pantalla, reemplazos de batería, tratamiento de daños por agua, reparaciones de puertos de carga, reemplazos de cámara, solución de problemas de software y más. Visite nuestra página de reparaciones para ver una lista completa de servicios para su dispositivo específico."
+      },
+      "process": {
+        "question": "¿Cómo funciona el proceso de reparación?",
+        "answer": "Nuestro proceso de reparación es simple: 1) Programe una cita de reparación en línea o traiga su dispositivo a nuestra tienda, 2) Nuestros técnicos diagnosticarán el problema y le proporcionarán un presupuesto, 3) Con su aprobación, completaremos la reparación, generalmente el mismo día para la mayoría de los problemas comunes, 4) Se le notificará cuando su dispositivo esté listo para recoger o entregar."
+      },
+      "warranty": {
+        "question": "¿Ofrecen garantía en las reparaciones?",
+        "answer": "Sí, todas nuestras reparaciones vienen con una garantía de 90 días que cubre tanto piezas como mano de obra. Si experimenta el mismo problema dentro del período de garantía, lo arreglaremos sin costo adicional. Nuestra garantía no cubre nuevos daños, daños por agua o problemas de software no relacionados con la reparación original."
+      },
+      "time": {
+        "question": "¿Cuánto tiempo tardan las reparaciones?",
+        "answer": "La mayoría de las reparaciones comunes como reemplazos de pantalla, reemplazos de batería y arreglos de puertos de carga se completan en 1-2 horas. Las reparaciones más complejas pueden tomar hasta 24-48 horas. Para reparaciones especializadas que requieren piezas por encargar, le proporcionaremos un tiempo estimado durante el diagnóstico inicial."
+      },
+      "cost": {
+        "question": "¿Cuánto cuestan sus servicios de reparación?",
+        "answer": "Los costos de reparación varían según el modelo de su dispositivo y el problema específico. Proporcionamos diagnósticos gratuitos y le daremos un presupuesto transparente antes de proceder con cualquier reparación. Para reparaciones comunes, puede consultar nuestro sitio web para obtener precios o contactarnos para una estimación personalizada."
+      },
+      "track": {
+        "question": "¿Cómo puedo hacer seguimiento al estado de mi reparación?",
+        "answer": "Puede realizar un seguimiento del estado de su reparación ingresando su número de ticket de reparación en nuestro sitio web o iniciando sesión en su cuenta. También recibirá actualizaciones automáticas por correo electrónico o SMS en cada etapa del proceso de reparación, incluyendo cuando recibamos su dispositivo, cuando comencemos a trabajar en él y cuando esté listo para recoger o entregar."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contáctenos",
+    "subtitle": "¿Tiene preguntas o necesita ayuda? Póngase en contacto con nuestro equipo.",
+    "getInTouch": "Póngase en Contacto",
+    "contactInfo": "Nuestra información de contacto",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Correo Electrónico",
+    "hours": "Horario de Atención",
+    "contactForm": "Formulario de Contacto",
+    "formDescription": "Complete el formulario a continuación y nos pondremos en contacto con usted lo antes posible.",
+    "name": "Nombre Completo",
+    "namePlaceholder": "Ingrese su nombre completo",
+    "emailPlaceholder": "Ingrese su dirección de correo electrónico",
+    "subject": "Asunto",
+    "subjectPlaceholder": "¿De qué se trata?",
+    "message": "Mensaje",
+    "messagePlaceholder": "¿Cómo podemos ayudarle?",
+    "send": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "messageSent": "¡Su mensaje ha sido enviado con éxito! Nos pondremos en contacto con usted pronto.",
+    "messageError": "No se pudo enviar el mensaje. Inténtelo de nuevo más tarde.",
+    "findUs": "Encuéntrenos",
+    "nameRequired": "El nombre es obligatorio",
+    "emailRequired": "El correo electrónico es obligatorio",
+    "emailInvalid": "Por favor, ingrese una dirección de correo electrónico válida",
+    "subjectRequired": "El asunto es obligatorio",
+    "messageRequired": "El mensaje es obligatorio"
+  },
+
+  "customerSupport": {
+    "title": "Atención al Cliente",
+    "dashboard": "Panel de Soporte al Cliente",
+    "activeChats": "Conversaciones Activas",
+    "loading": "Cargando conversaciones de soporte...",
+    "noActiveChats": "No hay conversaciones activas",
+    "emptyStateMessage": "Cuando los clientes comiencen a chatear, sus conversaciones aparecerán aquí.",
+    "agentsOnline": "Agentes de soporte en línea",
+    "aiAssistant": "Asistente IA respondiendo",
+    "loadingHistory": "Cargando historial de chat...",
+    "typeMessage": "Escribe un mensaje...",
+    "send": "Enviar",
+    "customerInfo": {
+      "title": "Información del Cliente",
+      "edit": "Editar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "customerDetails": "Detalles del Cliente",
+      "phoneNumber": "Número de Teléfono",
+      "email": "Correo Electrónico",
+      "address": "Dirección",
+      "notes": "Notas",
+      "editInfo": "Editar Información",
+      "editNotes": "Editar Notas",
+      "memberSince": "Cliente Desde",
+      "totalOrders": "Pedidos Totales",
+      "totalSpent": "Gasto Total",
+      "lastPurchase": "Última Compra",
+      "tags": "Etiquetas",
+      "loyalCustomer": "Cliente frecuente, suele comprar productos premium."
+    },
+    "show": "Mostrar Info. del Cliente",
+    "hide": "Ocultar Info. del Cliente"
+  },
+
+  "terms": {
+    "title": "Términos y Condiciones",
+    "subtitle": "Por favor, lea estos términos cuidadosamente antes de utilizar nuestros servicios.",
+    "lastUpdated": "Última actualización: {date}",
+    "introduction": "Bienvenido a FinOpenPOS. Estos términos y condiciones describen las reglas y regulaciones para el uso de nuestro sitio web y servicios. Al acceder a este sitio web y utilizar nuestros servicios, asumimos que acepta estos términos y condiciones en su totalidad. No continúe usando el sitio web y los servicios de FinOpenPOS si no acepta todos los términos y condiciones establecidos en esta página.",
+    "contactTitle": "Información de Contacto",
+    "contactDescription": "Si tiene alguna pregunta sobre estos Términos y Condiciones, contáctenos:",
+    "emailLabel": "Correo Electrónico",
+    "phoneLabel": "Teléfono",
+    "addressLabel": "Dirección",
+    "email": "legal@finopenspos.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "Bondgenotenlaan 84A, Lovaina, Bélgica",
+    "section1": {
+      "title": "1. Aceptación de Términos",
+      "content1": "Al crear una cuenta en nuestro sitio web, realizar un pedido a través de nuestra plataforma, o acceder o utilizar nuestros servicios, usted acepta estar sujeto a estos Términos y Condiciones.",
+      "content2": "Si no está de acuerdo con alguna parte de estos términos, por favor no utilice nuestro sitio web o servicios."
+    },
+    "section2": {
+      "title": "2. Cuentas de Usuario",
+      "content1": "Cuando crea una cuenta con nosotros, debe proporcionar información precisa, completa y actualizada. Usted es responsable de mantener la confidencialidad de su cuenta y contraseña, y de restringir el acceso a su computadora.",
+      "content2": "Usted acepta asumir la responsabilidad de todas las actividades que ocurran bajo su cuenta. Si cree que ha habido un uso no autorizado de su cuenta, debe notificarnos inmediatamente."
+    },
+    "section3": {
+      "title": "3. Productos y Servicios",
+      "content1": "Todos los productos y servicios están sujetos a disponibilidad. Nos reservamos el derecho de descontinuar cualquier producto o servicio en cualquier momento.",
+      "content2": "Nos esforzamos por mostrar con la mayor precisión posible los colores y características de nuestros productos. No podemos garantizar que la pantalla de su dispositivo refleje con precisión el color real de los productos.",
+      "list": {
+        "item1": "Las descripciones y especificaciones de los productos están sujetas a cambios sin previo aviso.",
+        "item2": "Los precios están sujetos a cambios sin previo aviso.",
+        "item3": "Nos reservamos el derecho de limitar las cantidades de cualquier producto o servicio que ofrecemos.",
+        "item4": "Todas las descripciones de productos y servicios están sujetas a cambios en cualquier momento sin previo aviso, a nuestra entera discreción."
+      }
+    },
+    "section4": {
+      "title": "4. Pedidos y Pagos",
+      "content1": "Al realizar un pedido, acepta proporcionar información de compra y cuenta actual, completa y precisa. Nos reservamos el derecho de rechazar o cancelar su pedido en cualquier momento por razones que incluyen, entre otras, la disponibilidad del producto, errores en la información del producto o precio, o problemas identificados por nuestro departamento de crédito y prevención de fraudes.",
+      "content2": "Todos los pagos deben realizarse en su totalidad antes de la entrega de productos o servicios. Aceptamos varios métodos de pago que se especifican en nuestro sitio web."
+    },
+    "section5": {
+      "title": "5. Envío y Entrega",
+      "content1": "Para obtener información detallada sobre nuestros métodos de envío, tiempos estimados de entrega y costos asociados, consulte nuestra Política de Envíos.",
+      "content2": "No somos responsables por retrasos en la entrega causados por circunstancias fuera de nuestro control, como procesamiento aduanero, desastres naturales, condiciones climáticas severas o retrasos del transportista."
+    },
+    "section6": {
+      "title": "6. Devoluciones y Reembolsos",
+      "content1": "Nuestra Política de Devoluciones y Reembolsos describe los procedimientos y condiciones para devolver productos y recibir reembolsos. Al realizar un pedido con nosotros, acepta los términos especificados en esta política.",
+      "content2": "Nos reservamos el derecho de rechazar devoluciones que no cumplan con nuestra política de devolución."
+    },
+    "section7": {
+      "title": "7. Propiedad Intelectual",
+      "content1": "Todo el contenido incluido en este sitio web, como texto, gráficos, logotipos, iconos de botones, imágenes, clips de audio, descargas digitales, compilaciones de datos y software, es propiedad de FinOpenPOS o de sus proveedores de contenido y está protegido por las leyes internacionales de derechos de autor.",
+      "content2": "Usted no puede reproducir, distribuir, mostrar, vender, arrendar, transmitir, crear trabajos derivados, traducir, modificar, aplicar ingeniería inversa, desensamblar, descompilar o explotar de otro modo este sitio web o cualquier parte del mismo sin nuestro consentimiento explícito por escrito."
+    },
+    "section8": {
+      "title": "8. Limitación de Responsabilidad",
+      "content1": "En la máxima medida permitida por la ley, no seremos responsables de ningún daño indirecto, incidental, especial, consecuente o punitivo, ni de ninguna pérdida de beneficios o ingresos, ya sea incurrida directa o indirectamente, ni de ninguna pérdida de datos, uso, buena voluntad u otras pérdidas intangibles, resultantes de su acceso o uso o imposibilidad de acceder o usar los servicios.",
+      "content2": "Nuestra responsabilidad total por todas las reclamaciones derivadas de o relacionadas con los servicios se limita al mayor de: (a) la cantidad de tarifas que nos pagó en los 12 meses anteriores a la acción que da lugar a la responsabilidad, o (b) €100."
+    },
+    "section9": {
+      "title": "9. Ley Aplicable",
+      "content1": "Estos Términos se regirán e interpretarán de acuerdo con las leyes de Bélgica, sin tener en cuenta sus disposiciones sobre conflictos de leyes.",
+      "content2": "Cualquier disputa que surja bajo o en relación con estos Términos estará sujeta a la jurisdicción exclusiva de los tribunales ubicados en Bélgica."
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidad",
+    "subtitle": "Cómo recopilamos, utilizamos y protegemos su información personal",
+    "lastUpdated": "Última actualización: {date}",
+    "introduction": "En FinOpenPOS, respetamos su privacidad y estamos comprometidos a proteger sus datos personales. Esta Política de Privacidad le informará sobre cómo cuidamos sus datos personales cuando visita nuestro sitio web y le informará sobre sus derechos de privacidad y cómo la ley lo protege.",
+    "cookieConsent": {
+      "title": "Aviso de Cookies",
+      "description": "Utilizamos cookies para mejorar su experiencia en nuestro sitio. Algunas cookies son esenciales para el funcionamiento del sitio, mientras que otras nos ayudan a entender cómo utiliza el sitio y a proporcionarle contenido y anuncios personalizados.",
+      "acceptAll": "Aceptar Todas las Cookies",
+      "acceptEssential": "Aceptar Solo Esenciales",
+      "customizeSettings": "Personalizar Ajustes",
+      "preferencesTitle": "Preferencias de Cookies",
+      "preferencesDescription": "Las cookies nos ayudan a ofrecer nuestros servicios. Al utilizar nuestro sitio web, acepta el uso de cookies. Puede gestionar sus preferencias de cookies a continuación.",
+      "save": "Guardar Preferencias",
+      "cancel": "Cancelar",
+      "manageCookies": "Administrar Configuración de Cookies",
+      "learnMore": "Más Información"
+    },
+    "summary": "Resumen",
+    "fullPolicy": "Política Completa",
+    "summary1": {
+      "title": "Datos que Recopilamos",
+      "content": "Recopilamos información personal que usted nos proporciona, información recopilada automáticamente sobre su dispositivo e información de terceros."
+    },
+    "summary2": {
+      "title": "Cómo Protegemos sus Datos",
+      "content": "Implementamos medidas de seguridad robustas para proteger sus datos y nunca vendemos su información personal a terceros."
+    },
+    "keyPoints": "Puntos Clave",
+    "keyPoint1": "Solo recopilamos datos necesarios para proporcionar nuestros servicios y mejorar su experiencia.",
+    "keyPoint2": "Sus datos se almacenan de forma segura y se protegen con encriptación estándar de la industria.",
+    "keyPoint3": "Usted tiene control sobre su información y puede solicitar acceso, corrección o eliminación.",
+    "keyPoint4": "Utilizamos cookies para mejorar su experiencia de navegación y analizar el tráfico del sitio web.",
+    "keyPoint5": "Solo compartimos sus datos con terceros cuando es necesario para proporcionar nuestros servicios o cuando lo exige la ley.",
+    "section1": {
+      "title": "Información que Recopilamos",
+      "content1": "Recopilamos varios tipos de información de y sobre los usuarios de nuestro sitio web, incluida información por la cual puede ser identificado personalmente, como nombre, dirección postal, dirección de correo electrónico, número de teléfono e información de pago ('datos personales').",
+      "content2": "Recopilamos esta información directamente de usted cuando nos la proporciona, automáticamente mientras navega por el sitio, y de terceros como socios comerciales y proveedores de análisis.",
+      "list": {
+        "item1": "Información de contacto (por ejemplo, correo electrónico, número de teléfono)",
+        "item2": "Credenciales de cuenta (por ejemplo, nombre de usuario, contraseña)",
+        "item3": "Información de pago (por ejemplo, detalles de tarjeta de crédito, dirección de facturación)",
+        "item4": "Historial de pedidos y preferencias",
+        "item5": "Información del dispositivo y datos de navegación"
+      }
+    },
+    "section2": {
+      "title": "Cómo Utilizamos su Información",
+      "content1": "Utilizamos su información para proporcionar y mejorar nuestros servicios, procesar transacciones, comunicarnos con usted, personalizar su experiencia y cumplir con las obligaciones legales.",
+      "content2": "También podemos utilizar su información para enviarle comunicaciones promocionales sobre nuestros productos y servicios, pero puede optar por no recibir estas comunicaciones en cualquier momento."
+    },
+    "section3": {
+      "title": "Compartir y Divulgar Información",
+      "content1": "No vendemos sus datos personales a terceros. Podemos compartir su información con proveedores de servicios que nos ayudan a operar nuestro negocio, con su consentimiento o según lo exija la ley.",
+      "content2": "También podemos compartir información agregada o anonimizada que no lo identifica directamente con terceros para fines de marketing, publicidad o investigación."
+    },
+    "section4": {
+      "title": "Cookies y Tecnologías de Seguimiento",
+      "content1": "Utilizamos cookies, balizas web y tecnologías similares para mejorar su experiencia en nuestro sitio web, analizar tendencias, administrar el sitio web, rastrear los movimientos de los usuarios en el sitio web y recopilar información demográfica sobre nuestra base de usuarios en general.",
+      "content2": "Puede controlar las cookies a través de la configuración de su navegador y otras herramientas. Sin embargo, si bloquea ciertas cookies, es posible que no pueda utilizar algunas características de nuestro sitio web.",
+      "cookiesTitle": "Tipos de Cookies que Utilizamos:",
+      "cookiesDescription": "Utilizamos diferentes tipos de cookies para diversos propósitos:",
+      "cookieTypes": {
+        "essential": "Cookies Esenciales",
+        "essentialDesc": "Requeridas para que el sitio web funcione correctamente",
+        "preferences": "Cookies de Preferencias",
+        "preferencesDesc": "Recuerdan su configuración y preferencias",
+        "statistics": "Cookies de Estadísticas",
+        "statisticsDesc": "Nos ayudan a entender cómo los visitantes interactúan con nuestro sitio web",
+        "marketing": "Cookies de Marketing",
+        "marketingDesc": "Se utilizan para rastrear visitantes en sitios web con fines de marketing"
+      }
+    },
+    "section5": {
+      "title": "Seguridad de Datos",
+      "content1": "Hemos implementado medidas de seguridad físicas, técnicas y administrativas apropiadas para proteger sus datos personales contra pérdida accidental, acceso no autorizado, uso o divulgación.",
+      "content2": "Sin embargo, ningún método de transmisión a través de Internet o almacenamiento electrónico es 100% seguro. Si bien nos esforzamos por utilizar medios comercialmente aceptables para proteger sus datos personales, no podemos garantizar su seguridad absoluta."
+    },
+    "section6": {
+      "title": "Sus Derechos",
+      "content1": "Dependiendo de su ubicación, puede tener varios derechos con respecto a sus datos personales, incluyendo:",
+      "list": {
+        "item1": "El derecho a acceder y recibir una copia de sus datos personales",
+        "item2": "El derecho a corregir datos personales inexactos",
+        "item3": "El derecho a solicitar la eliminación de sus datos personales",
+        "item4": "El derecho a restringir u oponerse a nuestro procesamiento de sus datos personales"
+      }
+    },
+    "section7": {
+      "title": "Cambios en esta Política de Privacidad",
+      "content1": "Podemos actualizar nuestra Política de Privacidad de vez en cuando. Le notificaremos cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de 'Última Actualización'.",
+      "content2": "Se le aconseja revisar periódicamente esta Política de Privacidad para cualquier cambio. Los cambios a esta Política de Privacidad son efectivos cuando se publican en esta página."
+    },
+    "contactTitle": "Contáctenos",
+    "contactDescription": "Si tiene alguna pregunta sobre esta Política de Privacidad, o si desea ejercer alguno de sus derechos de protección de datos, contáctenos.",
+    "email": "privacy@finopenspos.com",
+    "contactButton": "Contáctenos sobre Privacidad"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "retry": "Reintentar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "viewDetails": "Ver Detalles",
+    "locale": "es",
+    "switchToDarkMode": "Cambiar a modo oscuro",
+    "switchToLightMode": "Cambiar a modo claro",
+    "darkMode": "Modo oscuro",
+    "lightMode": "Modo claro",
+    "theme": "Tema"
+  },
+  "orders": {
+    "title": "Mis Pedidos",
+    "subtitle": "Ver y administrar tu historial de pedidos",
+    "noOrders": "Aún no tienes ningún pedido",
+    "startShopping": "Empezar a comprar",
+    "orderNumber": "Pedido #",
+    "date": "Fecha",
+    "status": "Estado",
+    "total": "Total",
+    "viewDetails": "Ver detalles",
+    "orderDetails": "Detalles del Pedido",
+    "itemsOrdered": "Artículos Pedidos",
+    "backToOrders": "Volver a pedidos",
+    "orderSummary": "Resumen del Pedido",
+
+    "discount": "Descuento",
+    "paymentInformation": "Información de Pago",
+    "method": "Método",
+    "creditCard": "Tarjeta de Crédito",
+    "cashOnDelivery": "Pago Contra Entrega",
+    "transactionId": "ID de Transacción",
+
+    "orderTimeline": "Línea de Tiempo del Pedido",
+    "orderPlaced": "Pedido Realizado",
+    "orderConfirmed": "Tu pedido ha sido confirmado",
+    "orderProcessing": "En Proceso",
+    "orderBeingPrepared": "Tu pedido está siendo preparado",
+    "orderShipped": "Enviado",
+    "orderOnItsWay": "Tu pedido está en camino",
+    "orderDelivered": "Entregado",
+    "orderCompleted": "Tu pedido ha sido entregado",
+    "orderCancelled": "Cancelado",
+    "orderCancelledDescription": "Este pedido ha sido cancelado",
+    "current": "Actual",
+    "shippingAddress": "Dirección de Envío",
+    "billingAddress": "Dirección de Facturación",
+    "paymentMethod": "Método de Pago",
+    "subtotal": "Subtotal",
+    "shipping": "Envío",
+    "tax": "Impuestos",
+    "orderTotal": "Total del Pedido",
+    "trackPackage": "Rastrear Paquete",
+    "cancelOrder": "Cancelar Pedido",
+    "returnItems": "Devolver Artículos",
+    "reorder": "Volver a Pedir",
+    "downloadInvoice": "Descargar Factura",
+    "contactSupport": "Contactar Soporte",
+    "filter": "Filtrar Pedidos",
+    "filterByStatus": "Filtrar por Estado",
+    "filterByDate": "Filtrar por Fecha",
+    "sortBy": "Ordenar por",
+    "newest": "Más Recientes Primero",
+    "oldest": "Más Antiguos Primero",
+    "priceLowHigh": "Precio: De Menor a Mayor",
+    "priceHighLow": "Precio: De Mayor a Menor",
+    "allOrders": "Todos los Pedidos",
+    "pending": "Pendiente",
+    "processing": "Procesando",
+    "shipped": "Enviado",
+    "delivered": "Entregado",
+    "cancelled": "Cancelado",
+    "search": "Buscar pedidos..."
+  },
+  "emails": {
+    "verificationSubject": "Verifique su dirección de correo electrónico - FinOpenPOS",
+    "verificationHeading": "Verifique su dirección de correo electrónico",
+    "verificationIntro": "Gracias por suscribirse a nuestro boletín. Por favor, haga clic en el botón de abajo para verificar su dirección de correo electrónico.",
+    "verifyButton": "Verificar correo electrónico",
+    "verifyButtonText": "Verifique su correo electrónico visitando este enlace",
+    "verificationExpires": "Este enlace de verificación caducará en 24 horas.",
+    "unsubscribeText": "Para cancelar la suscripción a nuestro boletín, haga clic aquí:",
+    "unsubscribeLink": "Cancelar suscripción",
+    "regards": "Saludos cordiales",
+    "orderConfirmation": "Confirmación de pedido",
+    "orderNumber": "Número de pedido",
+    "orderDate": "Fecha de pedido",
+    "orderTotal": "Total del pedido",
+    "thankYouOrder": "¡Gracias por su pedido!",
+    "orderDetails": "Detalles del pedido",
+    "shippingAddress": "Dirección de envío",
+    "billingAddress": "Dirección de facturación",
+    "paymentMethod": "Método de pago",
+    "viewOrderStatus": "Ver estado del pedido"  },
+  "navigation": {
+    "home": "Inicio",
+    "products": "Productos",
+    "cart": "Carrito",
+    "checkout": "Finalizar Compra",
+    "account": "Cuenta",
+    "login": "Iniciar Sesión",
+    "logout": "Cerrar Sesión",
+    "register": "Registrarse",
+    "search": "Buscar productos...",
+    "categories": "Categorías",
+    "brands": "Marcas",
+    "brandsEmpty": "No se encontraron marcas",
+    "repair": "Servicios de Reparación",
+    "sustainability": "Sostenibilidad"
+  },
+  "filters": {
+    "title": "Filtros",
+    "reset": "Restablecer",
+    "apply": "Aplicar",
+    "category": "Categoría",
+    "brand": "Marca",
+    "priceRange": "Rango de Precio",
+    "minPrice": "Precio Mínimo",
+    "maxPrice": "Precio Máximo",
+    "availability": "Disponibilidad",
+    "inStock": "En Stock",
+    "outOfStock": "Agotado",
+    "condition": "Condición",
+    "allConditions": "Todas las Condiciones",
+    "excellent": "Excelente",
+    "good": "Bueno",
+    "fair": "Aceptable",
+    "variants": "Variantes",
+    "allProducts": "Todos los Productos",
+    "withVariants": "Con Variantes",
+    "withoutVariants": "Sin Variantes",
+    "compatibleModels": "Modelos Compatibles"
+  },  "newsletter": {
+    "verificationSuccess": "¡Suscripción Confirmada!",
+    "verificationSuccessMessage": "Gracias por confirmar su suscripción a nuestro boletín. Ahora recibirá actualizaciones sobre nuestros productos, servicios y promociones.",
+    "unsubscribeSuccess": "Cancelación Exitosa",
+    "unsubscribeSuccessMessage": "Su suscripción a nuestro boletín ha sido cancelada con éxito. Lamentamos verlo partir. Si cambia de opinión, siempre puede suscribirse nuevamente desde nuestro sitio web.",
+    "verificationError": "Verificación Fallida",
+    "verificationErrorMessage": "No pudimos verificar su suscripción. Es posible que el enlace de verificación no sea válido o haya caducado.",
+    "unsubscribeError": "Error al Cancelar Suscripción",
+    "unsubscribeErrorMessage": "No pudimos procesar su solicitud de cancelación. Es posible que el enlace no sea válido o haya caducado.",
+    "returnToHomepage": "Volver a la Página Principal",
+    "subscribeTitle": "Suscríbase a nuestro Boletín",
+    "subscribeDescription": "Reciba las últimas actualizaciones sobre nuestros productos y servicios",
+    "emailPlaceholder": "Ingrese su correo electrónico",
+    "subscribeButton": "Suscribirse",
+    "subscribing": "Suscribiendo...",
+    "subscribeSuccess": "¡Gracias por suscribirse!",
+    "subscribeSuccessMessage": "Por favor, revise su correo electrónico para confirmar su suscripción. Le hemos enviado un correo de verificación.",
+    "subscribeError": "Error de Suscripción",
+    "subscribeErrorMessage": "No pudimos procesar su solicitud de suscripción. Por favor, inténtelo de nuevo o contacte a nuestro equipo de soporte.",
+    "subscribeAgain": "Suscribirse de Nuevo",
+    "loading": "Cargando...",
+    "emailRequired": "El correo electrónico es obligatorio",
+    "invalidEmail": "Por favor, ingrese una dirección de correo electrónico válida",
+    "alreadySubscribed": "Este correo electrónico ya está suscrito a nuestro boletín"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Introduce tu correo electrónico y contraseña para iniciar sesión",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "password": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "signIn": "Iniciar sesión",
+      "signInProcessing": "Iniciando sesión...",
+      "noAccount": "¿No tienes una cuenta?",
+      "createAccount": "Crear cuenta",
+      "error": "Correo electrónico o contraseña inválidos"
+    },
+    "signUpSuccess": {
+      "title": "Registro Exitoso",
+      "subtitle": "Gracias por crear una cuenta",
+      "message": "Te hemos enviado un correo de confirmación. Por favor, revisa tu bandeja de entrada y haz clic en el enlace para verificar tu dirección de correo electrónico.",
+      "checkInbox": "Revisa tu bandeja de entrada",
+      "checkSpam": "Si no ves el correo en tu bandeja de entrada, por favor revisa tu carpeta de spam."
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Introduce tus datos para crear una nueva cuenta",
+      "name": "Nombre completo",
+      "namePlaceholder": "Juan Pérez",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "passwordRequirements": "La contraseña debe tener al menos 6 caracteres",
+      "createAccount": "Crear cuenta",
+      "creatingAccount": "Creando cuenta...",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Iniciar sesión",
+      "passwordsNotMatch": "Las contraseñas no coinciden",
+      "success": "¡Cuenta creada exitosamente!",
+      "error": "Error al crear la cuenta",
+      "emailAlreadyInUse": "Esta dirección de correo electrónico ya está en uso",
+      "invalidEmail": "Por favor, introduce una dirección de correo electrónico válida",
+      "invalidPassword": "La contraseña no cumple con los requisitos",
+      "tooManyAttempts": "Demasiados intentos, por favor intenta más tarde",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+      "emailRequired": "Se requiere dirección de correo electrónico"
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi contraseña",
+      "subtitle": "Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "submit": "Enviar enlace de restablecimiento",
+      "processing": "Enviando...",
+      "success": "Revisa tu correo electrónico para obtener un enlace de restablecimiento de contraseña",
+      "error": "Error al enviar el enlace de restablecimiento",
+      "backToLogin": "Volver a iniciar sesión",
+      "updatePasswordDesc": "Introduce tu nueva contraseña a continuación. Por razones de seguridad, tu contraseña debe tener al menos 6 caracteres."
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Introduce tu nueva contraseña",
+      "password": "Nueva contraseña",
+      "confirmPassword": "Confirmar nueva contraseña",
+      "submit": "Restablecer contraseña",
+      "processing": "Restableciendo...",
+      "success": "¡Contraseña restablecida exitosamente!",
+      "error": "Error al restablecer la contraseña",
+      "cancel": "Cancelar",
+      "passwordsNotMatch": "Las contraseñas no coinciden"
+    },
+    "account": {
+      "title": "Mi Cuenta",
+      "profile": "Perfil",
+      "personalInfo": "Información Personal",
+      "personalInfoDescription": "Administra tu información personal",
+      "name": "Nombre Completo",
+      "technicianDashboard": "Panel de Técnico",
+      "technicianDashboardDesc": "Administra tus citas de reparación y haz seguimiento de tu trabajo.",
+      "manageUser": "Administrar Usuarios",
+      "manageProducts": "Administrar Productos",
+      "repairDashboard": "Panel de Reparaciones",
+      "email": "Dirección de Correo Electrónico",
+      "phone": "Número de Teléfono",
+      "adminDashboard": "Panel de Administración",
+      "adminDashboardDescription": "Administra usuarios, pedidos y configuraciones.",
+      "manageAppointments": "Administrar Citas",
+      "manageOrders": "Administrar Pedidos",
+      "role": "Rol de Usuario",
+      "roleCustomer": "Cliente",
+      "roleTechnician": "Técnico",
+      "roleAdmin": "Administrador",
+      "password": "Contraseña",
+      "cancel": "Cancelar",
+      "updatePassword": "Actualizar contraseña",
+      "updatePasswordDesc": "Introduce tu nueva contraseña a continuación. Por razones de seguridad, tu contraseña debe tener al menos 6 caracteres.",
+      "passwordUpdated": "Contraseña actualizada exitosamente",
+      "updateProfile": "Actualizar perfil",
+      "updating": "Actualizando...",
+      "updateSuccess": "Perfil actualizado exitosamente",
+      "updateError": "Error al actualizar el perfil",
+      "preferences": "Preferencias",
+      "language": "Idioma",
+      "notifications": "Notificaciones",
+      "emailNotifications": "Notificaciones por correo electrónico",
+      "deleting": "Eliminando...",
+      "deleteError": "Error al eliminar la cuenta",
+      "deleteSuccess": "Cuenta eliminada exitosamente",
+      "deletingAccountError": "Error al eliminar la cuenta",
+      "smsNotifications": "Notificaciones por SMS",
+      "danger": "Zona de Peligro",
+      "warning": " Esta acción no se puede deshacer",
+      "deleteAccountDescription": "Eliminar permanentemente tu cuenta y todos los datos asociados.",
+      "deleteAccount": "Eliminar cuenta",
+      "deleteWarning": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu cuenta y todos los datos."
+    }
+  },
+  "admin": {
+    "dashboard": "Panel de Administración",
+    "orders": "Gestión de Pedidos",
+    "ordersDescription": "Ver y gestionar todos los pedidos de clientes",
+    "products": "Gestión de Productos",
+    "productsDescription": "Gestionar tu inventario de productos",
+    "users": "Gestión de Usuarios",
+    "usersDescription": "Gestionar cuentas de usuario y permisos",
+    "settings": "Configuración del Sistema",
+    "settingsDescription": "Configurar ajustes y preferencias del sistema",
+    "analytics": "Análisis e Informes",
+    "analyticsDescription": "Ver métricas de negocio y generar informes",
+    "orderId": "ID de Pedido",
+    "customer": "Cliente",
+    "amount": "Importe",
+    "actions": "Acciones",
+    "viewDetails": "Ver Detalles",
+    "updateStatus": "Actualizar Estado",
+    "deleteOrder": "Eliminar Pedido",
+    "newOrder": "Nuevo Pedido",
+    "updateOrderStatus": "Actualizar Estado del Pedido",
+    "selectStatus": "Seleccionar Estado",
+    "confirmStatusUpdate": "Confirmar Actualización de Estado",
+    "orderUpdated": "Estado del pedido actualizado correctamente",
+    "orderDeleted": "Pedido eliminado correctamente",
+    "allTime": "Todo el Tiempo",
+    "today": "Hoy",
+    "thisWeek": "Esta Semana",
+    "thisMonth": "Este Mes",
+    "filterByStatus": "Filtrar por Estado",
+    "tryAdjustingFilters": "Intenta ajustar tu búsqueda o filtros",
+    "loadingOrders": "Cargando pedidos...",
+    "searchOrders": "Buscar pedidos...",
+    "sendNewsletter": "Enviar Boletín",
+    "newsletterStats": "Estadísticas del Boletín",
+    "newsletterStatsDescription": "Información actual de suscriptores",
+    "activeSubscribers": "{count} suscriptores activos",
+    "loadingStats": "Cargando estadísticas...",
+    "composeNewsletter": "Redactar Boletín",
+    "composeNewsletterDescription": "Crear y enviar un boletín a todos los suscriptores verificados",
+    "printInvoice": "Imprimir Factura",
+    "restoreOrder": "Restaurar Pedido",
+    "cancelOrder": "Cancelar Pedido",
+    "changeStatusForOrder": "Cambiar el estado del pedido",
+    "emailSubject": "Asunto del Email",
+    "emailSubjectPlaceholder": "Introduce el asunto del boletín",
+    "newsletterContent": "Contenido del Boletín",
+    "htmlContent": "Contenido HTML",
+    "htmlContentPlaceholder": "Introduce el contenido HTML para el boletín",
+    "textContent": "Contenido de Texto Plano",
+    "textContentPlaceholder": "Introduce la versión de texto plano del boletín",
+    "preview": "Vista Previa",
+    "sendingNewsletter": "Enviando...",
+    "newsletterFormIncomplete": "Por favor completa todos los campos",
+    "newsletterSentSuccess": "¡Boletín enviado a {count} suscriptores!",
+    "newsletterSendFailed": "Error al enviar el boletín",
+    "formattingOptions": "Opciones de Formato",
+    "insertImage": "Insertar Imagen",
+    "insertLink": "Insertar Enlace",
+    "previewNewsletter": "Vista Previa del Boletín",
+    "generatePlainText": "Generar desde HTML"
+  },
+  "footer": {
+    "description": "Sistema de punto de venta de código abierto para tiendas de reparación de teléfonos y minoristas de electrónica.",
+    "quickLinks": "Enlaces Rápidos",
+    "products": "Productos",
+    "categories": "Categorías",
+    "brands": "Marcas",
+    "customerService": "Servicio al Cliente",
+    "contactUs": "Contáctenos",
+    "faqs": "Preguntas Frecuentes",
+    "shippingPolicy": "Política de Envío",
+    "returns": "Devoluciones y Reembolsos",
+    "contact": "Contáctenos",
+    "address": "123 Calle Reparación, Ciudad Tech, TC 98765",
+    "phone": "+1 (555) 123-4567",
+    "email": "support@finopenspos.com",
+    "hours": "Lun-Vie: 9AM-6PM, Sáb: 10AM-4PM",
+    "copyright": "© {year} FinOpenPOS. Todos los derechos reservados.",
+    "followUs": "Síguenos",
+    "theme": "Tema",
+    "subscribeToNewsletter": "Suscríbete a nuestro boletín",
+    "newsletterDescription": "Mantente actualizado con nuestros últimos productos, servicios y promociones.",
+    "emailPlaceholder": "Introduce tu email",
+    "subscribe": "Suscribir",
+    "subscribing": "Suscribiendo...",
+    "subscriptionSuccess": "¡Suscrito correctamente al boletín!",
+    "subscriptionError": "Error al suscribirse. Por favor, inténtalo de nuevo.",
+    "language": "Idioma",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio",
+    "repairs": "Servicios de Reparación",
+    "deviceRepair": "Reparación de Dispositivos",
+    "scheduleRepair": "Programar Reparación",
+    "trackRepair": "Seguimiento de Reparación",
+    "repairParts": "Piezas de Repuesto",
+    "proudlyMadeBy": "Orgullosamente hecho por ahmadullah.dev"
+  },
+  "sustainability": {
+    "heroTitle": "Nuestro Compromiso con la Sostenibilidad",
+    "heroSubtitle": "Tomando acciones significativas hoy para un mañana más verde en Bélgica y más allá",
+    "learnMore": "Conoce Más Sobre Nuestras Iniciativas",
+    "recycledScreensCount": "5,000+",
+    "recycledScreensText": "Pantallas de teléfonos recicladas desde 2022",
+    "co2Reduction": "60 toneladas",
+    "co2ReductionText": "Emisiones de CO₂ ahorradas mediante nuestras prácticas",
+    "batteryCount": "8,500+",
+    "batteryText": "Baterías correctamente recicladas y reutilizadas",
+    "recyclingTab": "Reciclaje de Pantallas",
+    "initiativesTab": "Iniciativas",
+    "impactTab": "Impacto Ambiental",
+    "partnersTab": "Socios y Certificaciones",
+    "recyclingTitle": "Programa de Reciclaje de Pantallas de Móviles",
+    "recyclingDesc1": "Las pantallas de los teléfonos móviles contienen valiosos materiales raros como indio y oro que pueden extraerse y reutilizarse. Nuestro proceso especializado de reciclaje garantiza que estos materiales no terminen en vertederos.",
+    "recyclingDesc2": "Cuando nos traes tus dispositivos antiguos, los desmontamos adecuadamente y enviamos los componentes a instalaciones de reciclaje certificadas en Bélgica. Este proceso reduce la necesidad de minería ambientalmente dañina y ayuda a crear una economía circular.",
+    "recycleButton": "Recicla Tu Dispositivo",
+    "learnProcessButton": "Conoce Nuestro Proceso",
+    "imageAlt": "Proceso de reciclaje de pantallas de teléfonos",
+    "recyclingStatsTitle": "El Impacto del Reciclaje de Pantallas",
+    "rareMetalsTitle": "Recuperación de Metales Raros",
+    "rareMetalsText": "Recuperar indio y otros metales preciosos reduce el impacto dañino de la minería",
+    "wasteReductionTitle": "Reducción de Residuos Electrónicos",
+    "wasteReductionText": "Cada pantalla reciclada evita que materiales peligrosos lleguen a los vertederos",
+    "energySavingTitle": "Conservación de Energía",
+    "energySavingText": "El reciclaje utiliza hasta un 85% menos de energía que la producción de nuevas pantallas",
+    "ourInitiatives": "Nuestras Iniciativas de Sostenibilidad",
+    "batteryProgramTitle": "Programa de Reciclaje de Baterías",
+    "batteryProgramDesc": "Nuestro completo programa de reciclaje de baterías garantiza que las baterías de iones de litio de teléfonos y dispositivos electrónicos sean procesadas de forma segura para extraer cobalto, litio y otros materiales para su reutilización.",
+    "batteryPoint1": "Puntos de recogida seguros en todas nuestras ubicaciones",
+    "batteryPoint2": "Asociaciones con recicladores belgas certificados",
+    "batteryPoint3": "Recursos educativos sobre la eliminación de baterías",
+    "carbonNeutralTitle": "Entregas Carbono Neutrales",
+    "carbonNeutralDesc": "Nos hemos asociado con servicios de entrega ecológicos en Bélgica para ofrecer opciones de envío neutras en carbono, utilizando vehículos eléctricos y programas de compensación de carbono.",
+    "carbonPoint1": "Entregas locales mediante vehículos eléctricos",
+    "carbonPoint2": "Programa de compensación de carbono para distancias más largas",
+    "carbonPoint3": "Materiales de embalaje ecológicos",
+    "refurbishedTitle": "Programa de Dispositivos Reacondicionados",
+    "refurbishedDesc": "Nuestro programa de reacondicionamiento certificado extiende la vida de dispositivos que de otro modo se convertirían en residuos, reduciendo la demanda de fabricación y sus impactos ambientales asociados.",
+    "refurbishedPoint1": "Pruebas de calidad y reparación por técnicos certificados",
+    "refurbishedPoint2": "Garantía extendida en productos reacondicionados",
+    "refurbishedPoint3": "Opciones de canje para dispositivos antiguos de clientes",
+    "treePlantingTitle": "Una Reparación, Un Árbol",
+    "treePlantingDesc": "Por cada servicio de reparación importante, contribuimos a los esfuerzos de reforestación en Bélgica y en todo el mundo, en asociación con organizaciones ambientales locales.",
+    "treePlantingPoint1": "Más de 2.000 árboles plantados desde el lanzamiento del programa",
+    "treePlantingPoint2": "Enfoque en especies belgas nativas en bosques locales",
+    "treePlantingPoint3": "Sistema de seguimiento para que los clientes monitoreen el crecimiento de su árbol",
+    "impactTitle": "Nuestro Impacto Ambiental",
+    "impactDesc": "Estamos comprometidos con la transparencia en nuestros esfuerzos ambientales. Así es como nuestras iniciativas están marcando la diferencia en Bélgica y globalmente.",
+    "annualImpactTitle": "Impacto Ambiental Anual (2023)",
+    "screensRecycled": "Pantallas recicladas",
+    "devicesRefurbished": "Dispositivos reacondicionados",
+    "co2Saved": "Emisiones de CO₂ ahorradas",
+    "eWasteRecovered": "Residuos electrónicos recuperados",
+    "materialRecoveryTitle": "Impacto de la Recuperación de Materiales",
+    "materialRecoveryDesc": "A través de nuestros programas de reciclaje, hemos recuperado cantidades significativas de materiales valiosos que de otro modo se perderían en los vertederos:",
+    "gold": "Oro",
+    "silver": "Plata",
+    "copper": "Cobre",
+    "rareEarth": "Elementos de Tierras Raras",
+    "lithium": "Litio",
+    "communityImpactTitle": "Impacto Ambiental Comunitario",
+    "communityImpactDesc": "Nuestros esfuerzos de sostenibilidad se extienden más allá de nuestras tiendas para impactar positivamente en la comunidad belga:",
+    "communityPoint1": "Talleres educativos sobre gestión de residuos electrónicos en 15 escuelas locales",
+    "communityPoint2": "Colaboración con el municipio de Lovaina para eventos comunitarios de recolección de residuos electrónicos",
+    "communityPoint3": "Donación de dispositivos reacondicionados a comunidades desfavorecidas",
+    "partnersTitle": "Nuestros Socios Ambientales y Certificaciones",
+    "partnersDesc": "Colaboramos con organizaciones ambientales líderes y mantenemos certificaciones que reflejan nuestro compromiso con prácticas comerciales sostenibles.",
+    "certificationsTitle": "Nuestras Certificaciones",
+    "iso14001": "Certificación de Sistema de Gestión Ambiental",
+    "r2Cert": "Estándar para reciclaje y reacondicionamiento de productos electrónicos",
+    "belgianEcoLabel": "Etiqueta Ecológica Belga",
+    "ecoLabelDesc": "Reconocidos por prácticas ambientales excepcionales en Bélgica",
+    "eStewards": "Certificación para el reciclaje responsable de residuos electrónicos",
+    "partnershipsTitle": "Nuestras Asociaciones",
+    "recupelDesc": "Organización belga para la recolección y procesamiento de residuos electrónicos",
+    "natuurpuntDesc": "Socio para nuestras iniciativas de plantación de árboles en bosques flamencos",
+    "circularDesc": "Colaboración para promover modelos de negocio circulares",
+    "bondDesc": "Colaboración en campañas de conciencia ambiental",
+    "getInvolvedTitle": "Participa en Nuestros Esfuerzos de Sostenibilidad",
+    "getInvolvedDesc": "Hay muchas formas en las que puedes participar y apoyar nuestras iniciativas ambientales.",
+    "recycleDeviceTitle": "Recicla Tu Dispositivo",
+    "recycleDeviceDesc": "Trae tus teléfonos antiguos y dispositivos electrónicos a cualquiera de nuestras ubicaciones para un reciclaje adecuado, incluso si no necesitas reparaciones.",
+    "findDropoff": "Encuentra Puntos de Entrega",
+    "buyRefurbishedTitle": "Elige Reacondicionado",
+    "buyRefurbishedDesc": "Extiende el ciclo de vida de los dispositivos electrónicos comprando dispositivos reacondicionados certificados con nuestra garantía de calidad.",
+    "browseRefurbished": "Explora Dispositivos Reacondicionados",
+    "spreadAwarenessTitle": "Difunde Conciencia",
+    "spreadAwarenessDesc": "Ayúdanos a educar a otros sobre la importancia del reciclaje de residuos electrónicos y el uso sostenible de dispositivos electrónicos.",
+    "downloadResources": "Descargar Recursos",
+    "faqTitle": "Preguntas Frecuentes",
+    "faqDesc": "Aprende más sobre nuestras iniciativas de sostenibilidad y cómo puedes contribuir.",
+    "faq1Question": "¿Cómo aseguran el reciclaje adecuado de los componentes de los dispositivos?",
+    "faq1Answer": "Trabajamos exclusivamente con socios de reciclaje certificados en Bélgica que cumplen con los más altos estándares ambientales. Cada componente es rastreado a través de nuestro sistema para garantizar que llegue a la instalación de reciclaje apropiada. Realizamos auditorías regulares de las instalaciones y procesos de nuestros socios para mantener el cumplimiento de las regulaciones ambientales belgas y de la UE.",
+    "faq2Question": "¿Qué sucede con los datos en los dispositivos reciclados?",
+    "faq2Answer": "Todos los dispositivos que entran en nuestro programa de reciclaje se someten a un proceso seguro de borrado de datos que cumple con los requisitos del RGPD y los estándares de la industria para la destrucción de datos. Proporcionamos un certificado de borrado de datos a petición, dándote tranquilidad de que tu información personal ha sido manejada adecuadamente.",
+    "faq3Question": "¿Puedo reciclar cualquier marca o tipo de dispositivo con ustedes?",
+    "faq3Answer": "¡Sí! Aceptamos todas las marcas, modelos y tipos de dispositivos electrónicos para reciclaje - no solo teléfonos. Esto incluye tablets, laptops, relojes inteligentes, auriculares inalámbricos y otros pequeños dispositivos electrónicos. Incluso si el dispositivo está completamente no funcional, los materiales aún pueden recuperarse y reciclarse adecuadamente.",
+    "faq4Question": "¿Ofrecen algún incentivo para reciclar dispositivos antiguos?",
+    "faq4Answer": "¡Absolutamente! Cuando reciclas un dispositivo con nosotros, recibirás un cupón de descuento para futuras reparaciones o compras. Para dispositivos que aún tienen algún valor, nuestro programa de canje ofrece crédito en la tienda o efectivo dependiendo de la condición y el modelo de tu dispositivo.",
+    "ctaTitle": "Únete a Nosotros para Marcar la Diferencia",
+    "ctaText": "Cada dispositivo reciclado contribuye a un futuro más sostenible para Bélgica y nuestro planeta. Comienza hoy tu viaje ambiental con nosotros.",
+    "recycleNowButton": "Recicla Ahora",
+    "learnMoreButton": "Programa una Recolección"
+  },
+
+  "returnsPolicy": {
+    "title": "Política de Devoluciones y Reembolsos",
+    "subtitle": "Información sobre nuestro proceso de devolución, elegibilidad y procedimientos de reembolso",
+    "lastUpdated": "Última actualización: {date}",
+    "introduction": "En 5GPhones, queremos que estés completamente satisfecho con tu compra. Si no estás totalmente contento con tu pedido, estamos aquí para ayudarte.",
+    "summary": "Resumen",
+    "fullPolicy": "Política Completa",
+    "returnEligibility": {
+      "title": "Elegibilidad de Devolución",
+      "point1": "Período de devolución de 30 días",
+      "point2": "Los artículos deben estar sin usar y en su embalaje original",
+      "point3": "Algunos artículos no son retornables (software, artículos personalizados)"
+    },
+    "returnProcess": {
+      "title": "Proceso de Devolución",
+      "point1": "Inicia sesión y solicita a través de 'Mis Pedidos'",
+      "point2": "Envía los artículos de vuelta usando nuestra etiqueta",
+      "point3": "Rastrea el estado de tu devolución en tu cuenta"
+    },
+    "refunds": {
+      "title": "Proceso de Reembolso",
+      "point1": "Procesados dentro de 3-5 días hábiles",
+      "point2": "Reembolsos de tarjetas de crédito: 5-10 días hábiles",
+      "point3": "Reembolsos de PayPal: 24-48 horas"
+    },
+    "specialCases": {
+      "title": "Casos Especiales",
+      "point1": "Artículos dañados: Contactar dentro de 48 horas",
+      "point2": "Artículos incorrectos: Reemplazo o reembolso completo",
+      "point3": "Servicios de reparación: Se aplican términos especiales"
+    },
+    "section1": {
+      "title": "Elegibilidad de Devolución",
+      "content1": "Ofrecemos una política de devolución de 30 días para la mayoría de los artículos comprados en nuestra tienda. Para ser elegible para una devolución, el artículo debe estar sin usar, en su embalaje original y en las mismas condiciones en que lo recibiste.",
+      "content2": "Los artículos no retornables incluyen:",
+      "nonReturnable1": "Licencias de software y productos digitales",
+      "nonReturnable2": "Tarjetas de regalo y vales promocionales",
+      "nonReturnable3": "Artículos hechos a medida o personalizados",
+      "nonReturnable4": "Artículos marcados como no retornables en el momento de la compra",
+      "nonReturnable5": "Artículos con sellos rotos, a menos que estén defectuosos"
+    },
+    "section2": {
+      "title": "Proceso de Devolución",
+      "content1": "Para iniciar una devolución, sigue estos pasos:",
+      "process1": "Inicia sesión en tu cuenta y ve a 'Mis Pedidos'.",
+      "process2": "Selecciona el pedido que contiene el/los artículo(s) que deseas devolver.",
+      "process3": "Haz clic en 'Devolver artículos' y selecciona los productos específicos.",
+      "process4": "Elige tu motivo de devolución y el método de reembolso preferido.",
+      "process5": "Imprime la etiqueta de envío de devolución proporcionada (si corresponde).",
+      "process6": "Empaqueta el/los artículo(s) de manera segura con todos los embalajes y componentes originales.",
+      "process7": "Envía el paquete usando la etiqueta proporcionada o tu transportista preferido.",
+      "content2": "Puedes rastrear el estado de tu devolución en tu cuenta bajo 'Mis devoluciones'."
+    },
+    "section3": {
+      "title": "Reembolsos",
+      "content1": "Después de recibir e inspeccionar tu devolución, procesaremos tu reembolso. El reembolso se realizará al método de pago original, a menos que se especifique lo contrario.",
+      "content2": "Tiempos de procesamiento de reembolsos:",
+      "refundTime1": "Reembolsos de tarjetas de crédito: 5-10 días hábiles para aparecer en tu extracto",
+      "refundTime2": "Reembolsos de PayPal: 24-48 horas",
+      "refundTime3": "Transferencias bancarias: 3-7 días hábiles",
+      "refundTime4": "Crédito de tienda: Inmediato",
+      "content3": "Si no has recibido tu reembolso dentro del plazo esperado, verifica tu cuenta bancaria nuevamente, luego contacta a tu compañía de tarjeta de crédito o banco. A veces puede tomar tiempo para que los reembolsos se publiquen oficialmente."
+    },
+    "section4": {
+      "title": "Artículos Dañados o Incorrectos",
+      "content1": "Si recibes artículos dañados o incorrectos, comunícate con nuestro equipo de servicio al cliente dentro de las 48 horas posteriores a la entrega. Para agilizar el proceso, por favor:",
+      "damagedProcess1": "Toma fotos claras de los artículos o embalajes dañados",
+      "damagedProcess2": "Incluye tu número de pedido al contactarnos",
+      "damagedProcess3": "Conserva todo el embalaje original hasta que se resuelva el problema",
+      "content2": "Para artículos dañados o incorrectos, organizaremos un reemplazo o emitiremos un reembolso completo, incluidos los gastos de envío incurridos."
+    },
+    "section5": {
+      "title": "Costos de Envío de Devolución",
+      "content1": "Para devoluciones estándar (cambio de opinión), los clientes son responsables de los costos de envío de devolución, a menos que se indique lo contrario.",
+      "content2": "Proporcionamos envío de devolución gratuito en estos casos:",
+      "freeReturn1": "Productos dañados o defectuosos",
+      "freeReturn2": "Artículos enviados incorrectos",
+      "freeReturn3": "Artículos sustancialmente diferentes a lo descrito",
+      "freeReturn4": "Productos cubiertos por promociones específicas que ofrecen devoluciones gratuitas",
+      "content3": "Para usar nuestra etiqueta de devolución prepagada (cuando corresponda), selecciona esta opción durante el proceso de iniciación de devolución en tu cuenta."
+    },
+    "section6": {
+      "title": "Devoluciones de Servicios de Reparación",
+      "content1": "Para servicios de reparación, se aplican diferentes términos de devolución:",
+      "repairReturn1": "Si no estás satisfecho con una reparación, contáctanos dentro de los 7 días posteriores a la finalización del servicio",
+      "repairReturn2": "Todas las reparaciones incluyen una garantía de 90 días tanto en piezas como en mano de obra",
+      "repairReturn3": "Si el mismo problema se repite dentro del período de garantía, lo arreglaremos sin costo adicional",
+      "repairReturn4": "Nuestra garantía no cubre nuevos daños, daños por agua o problemas de software no relacionados con la reparación original",
+      "content2": "Para el servicio de garantía, lleva tu dispositivo a cualquiera de nuestras ubicaciones con tu recibo de reparación o información de garantía."
+    },
+    "section7": {
+      "title": "Contáctanos",
+      "content1": "Si tienes alguna pregunta sobre nuestra política de devolución, contáctanos:",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "hours": "Horario"
+    },
+    "contactSupport": "Contactar Soporte",
+    "initiateReturn": "Iniciar una Devolución"
+  },
+  "myDevices": {
+    "myDevices": "Mis Dispositivos",
+    "loading": "Cargando tus dispositivos...",
+    "sellAnotherPhone": "Vender Otro Teléfono",
+    "noDevicesYet": "Aún No Hay Dispositivos",
+    "noDevicesDescription": "Todavía no has enviado ningún dispositivo para intercambio. Vende tu teléfono antiguo y recibe efectivo al instante.",
+    "sellYourPhone": "Vende Tu Teléfono",
+    "condition": "Condición",
+    "estimatedValue": "Valor Estimado",
+    "offeredValue": "Valor Ofrecido",
+    "pendingReview": "Pendiente de Revisión",
+    "viewDetails": "Ver Detalles",
+    "tradeInDetails": "Detalles del Intercambio",
+    "tradeInSubmitted": "Intercambio enviado el {date}",
+    "phoneImages": "Fotos del Teléfono",
+    "storage": "Almacenamiento",
+    "color": "Color",
+    "noColor": "Color no especificado",
+    "notSpecified": "No especificado",
+    "accessories": "Accesorios",
+    "charger": "Cargador",
+    "box": "Caja Original",
+    "otherAccessories": "Accesorios Adicionales",
+    "none": "Ninguno",
+    "additionalDetails": "Detalles Adicionales",
+    "feedbackFromStore": "Comentarios de la Tienda",
+    "statusHistory": "Historial de Estado",
+    "noStatusUpdates": "No hay actualizaciones de estado disponibles",
+    "viewPhotos": "Ver Fotos",
+    "backToDetails": "Volver a los Detalles",
+    "errorLoading": "Error al Cargar Dispositivos",
+    "tryAgainLater": "Ocurrió un error. Por favor intenta nuevamente más tarde.",
+    "status": {
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "completed": "Completado",
+      "cancelled": "Cancelado"
+    }
+  },
+  "tradeIn": {
+    "title": "Vende Tu Teléfono",
+    "subtitle": "Obtén efectivo al instante por tu dispositivo antiguo",
+    "myDevicesTitle": "Mis Dispositivos",
+    "myDevicesSubtitle": "Sigue el estado de tus intercambios",
+    "selectYourDevice": "Selecciona tu dispositivo",
+    "selectDeviceDescription": "Selecciona el dispositivo que quieres vender",
+    "selectDeviceBrand": "Selecciona la Marca del Dispositivo",
+    "selectDeviceType": "Selecciona el Tipo de Dispositivo",
+    "selectDeviceSeries": "Selecciona la Serie del Dispositivo",
+    "selectDeviceModel": "Selecciona el Modelo del Dispositivo",
+    "selectPhoneCondition": "Selecciona la Condición de tu Teléfono",
+    "deviceDetails": "Detalles del Dispositivo",
+    "deviceCondition": "Condición del Dispositivo",
+    "phoneCondition": "Condición del Teléfono",
+    "phoneConditionDescription": "Cuéntanos sobre la condición de tu teléfono",
+    "selectCondition": "Selecciona condición",
+    "storageCapacity": "Capacidad de Almacenamiento",
+    "color": "Color",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Añade cualquier información adicional sobre tu dispositivo...",
+    "accessories": "Accesorios",
+    "hasCharger": "Tiene Cargador",
+    "hasBox": "Tiene Caja Original",
+    "hasAccessories": "Tiene Accesorios Adicionales",
+    "includesCharger": "Incluye cargador",
+    "includesOriginalBox": "Incluye caja original",
+    "includesAdditionalAccessories": "Incluye accesorios adicionales",
+    "noAccessories": "No incluye accesorios",
+    "uploadImages": "Subir Imágenes",
+    "uploadImagesDesc": "Sube hasta 6 fotos claras de tu dispositivo. Incluye frente, parte trasera y cualquier daño.",
+    "uploadPhotos": "Subir Fotos",
+    "addImage": "Añadir Imagen",
+    "addPhoto": "Añadir Foto",
+    "removeImage": "Eliminar",
+    "imageRequirement": "Las imágenes deben mostrar claramente la condición del dispositivo",
+    "uploadPhotoDescription": "Sube hasta 6 fotos que muestren tu dispositivo desde diferentes ángulos, incluyendo cualquier daño visible",
+    "uploadedPhotos": "Fotos Subidas",
+    "estimatedValue": "Valor Estimado",
+    "submitTrade": "Enviar Intercambio",
+    "submitTradeIn": "Enviar Intercambio",
+    "submitting": "Enviando...",
+    "tradeInSubmitted": "Intercambio Enviado",
+    "tradeInSuccess": "¡Tu solicitud de intercambio ha sido enviada correctamente! Puedes verificar el estado en la sección Mis Dispositivos.",
+    "viewMyDevices": "Ver Mis Dispositivos",
+    "tradeInError": "Error al enviar el intercambio",
+    "fetchError": "Error al cargar datos. Por favor, inténtalo de nuevo.",
+    "tooManyImages": "Máximo 6 imágenes permitidas",
+    "missingInformation": "Por favor, completa toda la información requerida",
+    "estimateError": "Error al calcular la estimación. Por favor, inténtalo de nuevo.",
+    "calculating": "Calculando...",
+    "getEstimate": "Obtener Estimación",
+    "tryAgain": "Intentar de Nuevo",
+    "statusUpdated": "Estado Actualizado",
+    "statusUpdateSuccess": "El estado del intercambio ha sido actualizado correctamente.",
+    "noDevices": "No se han enviado intercambios",
+    "noDevicesDesc": "Todavía no has enviado ningún dispositivo para intercambio.",
+    "sellNow": "Vender Ahora",
+    "continueToSell": "Continuar al Proceso de Venta",
+    "review": "Revisar",
+    "reviewAndSubmit": "Revisar y Enviar",
+    "reviewDescription": "Revisa los detalles de tu intercambio antes de enviarlos",
+    "deviceSummary": "Resumen del Dispositivo",
+    "brand": "Marca",
+    "selectBrand": "Seleccionar Marca",
+    "phoneType": "Tipo de Teléfono",
+    "selectPhoneType": "Seleccionar Tipo de Teléfono",
+    "phoneSeries": "Serie del Teléfono",
+    "selectPhoneSeries": "Seleccionar Serie del Teléfono",
+    "phoneModel": "Modelo del Teléfono",
+    "selectPhoneModel": "Seleccionar Modelo del Teléfono",
+    "selectStorage": "Seleccionar Almacenamiento",
+    "phoneColor": "Color",
+    "enterPhoneColor": "Ingresar Color del Teléfono",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "model": "Modelo",
+    "storage": "Almacenamiento",
+    "importantNote": "Nota Importante",
+    "estimateDisclaimer": "Esto es solo una estimación. El valor final puede cambiar después de la inspección de tu dispositivo.",
+    "additionalDetails": "Detalles Adicionales",
+    "describeAnyIssues": "Describe cualquier problema o característica especial de tu dispositivo",
+    "status": {
+      "pending": "Pendiente",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "pendingDesc": "Tu intercambio está en revisión",
+      "approvedDesc": "Tu intercambio ha sido aprobado",
+      "rejectedDesc": "Tu intercambio ha sido rechazado",
+      "completedDesc": "Tu intercambio está completo",
+      "cancelledDesc": "Tu intercambio ha sido cancelado"
+    },
+    "condition": {
+      "perfect": "Perfecto",
+      "good": "Bueno",
+      "fair": "Regular",
+      "damaged": "Dañado",
+      "perfectDescription": "Como nuevo, sin rayaduras ni signos de uso",
+      "goodDescription": "Rayaduras menores, totalmente funcional",
+      "fairDescription": "Rayaduras visibles, puede tener pequeñas abolladuras, totalmente funcional",
+      "damagedDescription": "Pantalla agrietada o daños significativos, pero aún funciona"
+    },
+    "admin": {
+      "title": "Gestión de Intercambios",
+      "subtitle": "Gestiona y procesa las solicitudes de intercambio de los clientes",
+      "allTradeIns": "Todos los Intercambios",
+      "pendingTradeIns": "Pendientes",
+      "approvedTradeIns": "Aprobados",
+      "rejectedTradeIns": "Rechazados",
+      "completedTradeIns": "Completados",
+      "cancelledTradeIns": "Cancelados",
+      "search": "Buscar intercambios",
+      "noResults": "No se encontraron intercambios",
+      "device": "Dispositivo",
+      "customer": "Cliente",
+      "submitDate": "Enviado",
+      "value": "Valor",
+      "status": "Estado",
+      "actions": "Acciones",
+      "viewDetails": "Ver Detalles",
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "complete": "Completar",
+      "cancelAction": "Cancelar",
+      "approveTradeIn": "Aprobar Intercambio",
+      "rejectTradeIn": "Rechazar Intercambio",
+      "completeTradeIn": "Completar Intercambio",
+      "cancelTradeIn": "Cancelar Intercambio",
+      "approveConfirmation": "¿Estás seguro de que deseas aprobar este intercambio?",
+      "rejectConfirmation": "¿Estás seguro de que deseas rechazar este intercambio?",
+      "completeConfirmation": "¿Estás seguro de que deseas marcar este intercambio como completado?",
+      "cancelConfirmation": "¿Estás seguro de que deseas cancelar este intercambio?",
+      "offerValue": "Valor Ofrecido",
+      "adminNotes": "Notas del Administrador",
+      "adminNotesPlaceholder": "Añade notas sobre este intercambio...",
+      "saveNotes": "Guardar Notas",
+      "confirm": "Confirmar",
+      "cancelBtn": "Cancelar",
+      "tradeInDetails": "Detalles del Intercambio",
+      "deviceImages": "Imágenes del Dispositivo",
+      "noImages": "No se han subido imágenes",
+      "customerInformation": "Información del Cliente",
+      "statusHistory": "Historial de Estado",
+      "statusChanged": "Estado cambiado a",
+      "by": "por",
+      "on": "el",
+      "at": "a las"
+    }
+  }
+}

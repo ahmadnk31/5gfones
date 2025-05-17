@@ -1,28 +1,37 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { data: transactionsData, error: transactionsError } = await supabase
-    .from('transactions')
-    .select('amount, type, category, created_at')
-    .eq('status', 'completed')
-    .eq('user_uid', user.id)
-    .order('created_at', { ascending: true });
+    .from("transactions")
+    .select("amount, type, category, created_at")
+    .eq("status", "completed")
+    .eq("user_uid", user.id)
+    .order("created_at", { ascending: true });
 
   if (transactionsError) {
-    console.error('Error fetching transactions:', transactionsError);
-    return NextResponse.json({ error: 'Failed to fetch transactions' }, { status: 500 });
+    console.error("Error fetching transactions:", transactionsError);
+    return NextResponse.json(
+      { error: "Failed to fetch transactions" },
+      { status: 500 }
+    );
   }
 
   if (!transactionsData) {
-    return NextResponse.json({ error: 'No transactions found' }, { status: 404 });
+    return NextResponse.json(
+      { error: "No transactions found" },
+      { status: 404 }
+    );
   }
 
   const profitMargin = calculateProfitMarginSeries(transactionsData);
@@ -30,31 +39,37 @@ export async function GET(request: Request) {
   return NextResponse.json({ profitMargin });
 }
 
+// Helper function to calculate profit margin over time
 function calculateProfitMarginSeries(transactions: any[]) {
-  const dailyData: { [key: string]: { selling: number; expense: number } } = {};
+  const transactionsByDate: Record<
+    string,
+    { income: number; expense: number }
+  > = {};
 
-  transactions.forEach(transaction => {
-    const date = transaction.created_at.split('T')[0];
-    if (!dailyData[date]) {
-      dailyData[date] = { selling: 0, expense: 0 };
+  // Group transactions by date and type
+  transactions.forEach((tx) => {
+    const date = new Date(tx.created_at).toISOString().split("T")[0];
+
+    if (!transactionsByDate[date]) {
+      transactionsByDate[date] = { income: 0, expense: 0 };
     }
 
-    if (transaction.category === 'selling') {
-      dailyData[date].selling += transaction.amount;
-    } else if (transaction.type === 'expense') {
-      dailyData[date].expense += transaction.amount;
+    if (tx.type === "income") {
+      transactionsByDate[date].income += tx.amount || 0;
+    } else if (tx.type === "expense") {
+      transactionsByDate[date].expense += tx.amount || 0;
     }
   });
 
-  const profitMarginSeries = Object.entries(dailyData).map(([date, data]) => {
-    const { selling, expense } = data;
-    const profit = selling - expense;
-    const margin = selling > 0 ? (profit / selling) * 100 : 0;
-    return {
-      date,
-      margin: parseFloat(margin.toFixed(2))
-    };
-  });
-
-  return profitMarginSeries;
+  // Calculate profit margin for each day
+  return Object.entries(transactionsByDate)
+    .map(([date, { income, expense }]) => {
+      // Avoid division by zero
+      const margin = income > 0 ? ((income - expense) / income) * 100 : 0;
+      return {
+        date,
+        margin: Math.round(margin * 100) / 100, // Round to 2 decimal places
+      };
+    })
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }

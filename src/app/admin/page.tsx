@@ -1,343 +1,378 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardDescription,
-  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartTooltipContent,
-  ChartTooltip,
-  ChartContainer,
-  ChartConfig,
-} from "@/components/ui/chart";
-import { Loader2Icon, TrendingUp } from "lucide-react";
-import {
-  Pie,
-  PieChart,
-  CartesianGrid,
-  XAxis,
-  Bar,
-  BarChart,
-  Line,
-  LineChart,
-} from "recharts";
+  ArrowDownIcon,
+  ArrowUpIcon,
+  DollarSign,
+  Package,
+  ShoppingBag,
+  Users,
+  Wrench,
+} from "lucide-react";
+import Link from "next/link";
 
-export default function Page() {
-  const [totalRevenue, setTotalRevenue] = useState(0);
-  const [totalExpenses, setTotalExpenses] = useState(0);
-  const [totalProfit, setTotalProfit] = useState(0);
-  const [cashFlow, setCashFlow] = useState<{ date: string; amount: unknown }[]>([]);
-  const [revenueByCategory, setRevenueByCategory] = useState({});
-  const [expensesByCategory, setExpensesByCategory] = useState({});
-  const [profitMargin, setProfitMargin] = useState([]);
+export default function AdminDashboard() {
+  const supabase = createClient();
+
+  // State to store dashboard data
+  const [dashboardData, setDashboardData] = useState({
+    totalOrders: 0,
+    totalProducts: 0,
+    totalCustomers: 0,
+    totalRevenue: 0,
+    pendingRepairs: 0,
+    recentOrders: [],
+    recentRepairs: [],
+  });
+
   const [loading, setLoading] = useState(true);
 
+  // Fetch dashboard data
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const [
-          revenueRes,
-          expensesRes,
-          profitRes,
-          cashFlowRes,
-          revenueByCategoryRes,
-          expensesByCategoryRes,
-          profitMarginRes
-        ] = await Promise.all([
-          fetch('/api/admin/revenue/total'),
-          fetch('/api/admin/expenses/total'),
-          fetch('/api/admin/profit/total'),
-          fetch('/api/admin/cashflow'),
-          fetch('/api/admin/revenue/category'),
-          fetch('/api/admin/expenses/category'),
-          fetch('/api/admin/profit/margin')
-        ]);
+        setLoading(true);
 
-        const revenue = await revenueRes.json();
-        const expenses = await expensesRes.json();
-        const profit = await profitRes.json();
-        const cashFlowData = await cashFlowRes.json();
-        const revenueByCategoryData = await revenueByCategoryRes.json();
-        const expensesByCategoryData = await expensesByCategoryRes.json();
-        const profitMarginData = await profitMarginRes.json();
+        // Get order stats
+        const { count: orderCount } = await supabase
+          .from("orders")
+          .select("*", { count: "exact", head: true });
 
-        setTotalRevenue(revenue.totalRevenue);
-        setTotalExpenses(expenses.totalExpenses);
-        setTotalProfit(profit.totalProfit);
-        setCashFlow(Object.entries(cashFlowData.cashFlow).map(([date, amount]) => ({ date, amount })));
-        setRevenueByCategory(revenueByCategoryData.revenueByCategory);
-        setExpensesByCategory(expensesByCategoryData.expensesByCategory);
-        setProfitMargin(profitMarginData.profitMargin);
+        // Get product stats
+        const { count: productCount } = await supabase
+          .from("products")
+          .select("*", { count: "exact", head: true });
+
+        // Get customer stats
+        const { count: customerCount } = await supabase
+          .from("customers")
+          .select("*", { count: "exact", head: true });
+
+        // Get revenue stats
+        const { data: revenueData } = await supabase
+          .from("orders")
+          .select("total_amount")
+          .eq("status", "completed");
+
+        const totalRevenue =
+          revenueData?.reduce(
+            (sum, order) => sum + parseFloat(order.total_amount),
+            0
+          ) || 0;
+
+        // Get repair stats
+        const { count: pendingRepairsCount } = await supabase
+          .from("appointments")
+          .select("*", { count: "exact", head: true })
+          .not("status_id", "eq", 5); // Assuming status 5 is "completed"
+
+        // Get recent orders
+        const { data: recentOrders } = await supabase
+          .from("orders")
+          .select(
+            `
+            id,
+            total_amount,
+            status,
+            created_at,
+            customer:customer_id(name, email)
+          `
+          )
+          .order("created_at", { ascending: false })
+          .limit(5);
+
+        // Get recent repairs
+        const { data: recentRepairs } = await supabase
+          .from("appointments")
+          .select(
+            `
+            id,
+            appointment_date,
+            created_at,
+            device_model:device_model_id(name),
+            status:status_id(name, color),
+            customer:customer_id(name, email)
+          `
+          )
+          .order("appointment_date", { ascending: false })
+          .limit(5);
+
+        setDashboardData({
+          totalOrders: orderCount || 0,
+          totalProducts: productCount || 0,
+          totalCustomers: customerCount || 0,
+          totalRevenue,
+          pendingRepairs: pendingRepairsCount || 0,
+          recentOrders: recentOrders || [],
+          recentRepairs: recentRepairs || [],
+        });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching dashboard data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchDashboardData();
+  }, [supabase]);
 
-  if (loading) {
-    return (
-      <div className="h-[80vh] flex items-center justify-center">
-        <Loader2Icon className="mx-auto h-12 w-12 animate-spin" />
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(amount);
+  };
+
+  // Format date
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  return (
+    <div className='space-y-6'>
+      <div className='flex flex-col gap-4'>
+        <h1 className='text-3xl font-bold'>Dashboard</h1>
+        <p className='text-gray-500'>
+          Welcome to the FinOpenPOS admin dashboard.
+        </p>
       </div>
-    );
-  }
 
-  return (
-    <div className="grid flex-1 items-start gap-4">
-      <div className="grid auto-rows-max items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Expenses
-            </CardTitle>
-            <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${totalExpenses.toFixed(2)}</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Profit (selling)</CardTitle>
-            <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${totalProfit.toFixed(2)}</div>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">
-              Revenue by Category
-            </CardTitle>
-            <PieChartIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <PiechartcustomChart data={revenueByCategory} className="aspect-auto" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">
-              Expenses by Category
-            </CardTitle>
-            <PieChartIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <PiechartcustomChart data={expensesByCategory} className="aspect-auto" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Profit Margin (selling)</CardTitle>
-            <BarChartIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <BarchartChart data={profitMargin} className="aspect-auto" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Cash Flow</CardTitle>
-            <DollarSignIcon className="w-4 h-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <LinechartChart data={cashFlow} className="aspect-auto" />
-          </CardContent>
-        </Card>
-      </div>
+      {loading ? (
+        <div className='flex justify-center py-8'>
+          <div className='h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent'></div>
+        </div>
+      ) : (
+        <>
+          {/* Summary Cards */}
+          <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardTitle className='text-sm font-medium'>
+                  Total Revenue
+                </CardTitle>
+                <DollarSign className='h-4 w-4 text-muted-foreground' />
+              </CardHeader>
+              <CardContent>
+                <div className='text-2xl font-bold'>
+                  {formatCurrency(dashboardData.totalRevenue)}
+                </div>
+                <p className='text-xs text-muted-foreground'>
+                  From all completed orders
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardTitle className='text-sm font-medium'>Orders</CardTitle>
+                <ShoppingBag className='h-4 w-4 text-muted-foreground' />
+              </CardHeader>
+              <CardContent>
+                <div className='text-2xl font-bold'>
+                  {dashboardData.totalOrders}
+                </div>
+                <p className='text-xs text-muted-foreground'>Total orders</p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardTitle className='text-sm font-medium'>Products</CardTitle>
+                <Package className='h-4 w-4 text-muted-foreground' />
+              </CardHeader>
+              <CardContent>
+                <div className='text-2xl font-bold'>
+                  {dashboardData.totalProducts}
+                </div>
+                <p className='text-xs text-muted-foreground'>
+                  Products in inventory
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                <CardTitle className='text-sm font-medium'>Repairs</CardTitle>
+                <Wrench className='h-4 w-4 text-muted-foreground' />
+              </CardHeader>
+              <CardContent>
+                <div className='text-2xl font-bold'>
+                  {dashboardData.pendingRepairs}
+                </div>
+                <p className='text-xs text-muted-foreground'>
+                  Pending repair appointments
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className='grid gap-4 md:grid-cols-2'>
+            {/* Recent Orders */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Orders</CardTitle>
+                <CardDescription>
+                  Latest orders placed in the system
+                </CardDescription>
+              </CardHeader>
+              <CardContent className='px-0'>
+                <div className='space-y-8'>
+                  {dashboardData.recentOrders.length > 0 ? (
+                    <div className='overflow-x-auto'>
+                      <table className='w-full text-sm'>
+                        <thead>
+                          <tr className='border-b'>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              Order
+                            </th>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              Customer
+                            </th>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              Date
+                            </th>
+                            <th className='px-6 py-3 text-right font-medium'>
+                              Amount
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className='divide-y'>
+                          {dashboardData.recentOrders.map((order: any) => (
+                            <tr key={order.id} className='hover:bg-gray-50'>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                <Link
+                                  href={`/admin/orders/${order.id}`}
+                                  className='text-blue-600 hover:underline'
+                                >
+                                  #{order.id}
+                                </Link>
+                              </td>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                {order.customer?.name || "Guest"}
+                              </td>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                {formatDate(order.created_at)}
+                              </td>
+                              <td className='px-6 py-4 text-right whitespace-nowrap font-medium'>
+                                {formatCurrency(parseFloat(order.total_amount))}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className='text-center py-6 text-gray-500'>
+                      No recent orders
+                    </div>
+                  )}
+                </div>
+                <div className='mt-4 flex justify-center'>
+                  <Link
+                    href='/admin/orders'
+                    className='text-blue-600 hover:underline text-sm'
+                  >
+                    View all orders
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Repairs */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Repairs</CardTitle>
+                <CardDescription>
+                  Latest repair appointments scheduled
+                </CardDescription>
+              </CardHeader>
+              <CardContent className='px-0'>
+                <div className='space-y-8'>
+                  {dashboardData.recentRepairs.length > 0 ? (
+                    <div className='overflow-x-auto'>
+                      <table className='w-full text-sm'>
+                        <thead>
+                          <tr className='border-b'>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              ID
+                            </th>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              Device
+                            </th>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              Date
+                            </th>
+                            <th className='px-6 py-3 text-left font-medium'>
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className='divide-y'>
+                          {dashboardData.recentRepairs.map((repair: any) => (
+                            <tr key={repair.id} className='hover:bg-gray-50'>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                <Link
+                                  href={`/admin/appointments?id=${repair.id}`}
+                                  className='text-blue-600 hover:underline'
+                                >
+                                  #{repair.id}
+                                </Link>
+                              </td>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                {repair.device_model?.name || "Unknown Device"}
+                              </td>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                {formatDate(repair.appointment_date)}
+                              </td>
+                              <td className='px-6 py-4 whitespace-nowrap'>
+                                <span
+                                  className='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium'
+                                  style={{
+                                    backgroundColor: `${repair.status?.color}20`,
+                                    color: repair.status?.color,
+                                  }}
+                                >
+                                  {repair.status?.name || "Unknown Status"}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className='text-center py-6 text-gray-500'>
+                      No recent repair appointments
+                    </div>
+                  )}
+                </div>
+                <div className='mt-4 flex justify-center'>
+                  <Link
+                    href='/admin/appointments'
+                    className='text-blue-600 hover:underline text-sm'
+                  >
+                    View all repair appointments
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </>
+      )}
     </div>
   );
 }
-
-function BarChartIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" x2="12" y1="20" y2="10" />
-      <line x1="18" x2="18" y1="20" y2="4" />
-      <line x1="6" x2="6" y1="20" y2="16" />
-    </svg>
-  );
-}
-
-function BarchartChart({ data, ...props }: { data: any[] } & React.HTMLAttributes<HTMLDivElement>) {
-  const chartConfig = {
-    margin: {
-      label: "Margin",
-      color: "hsl(var(--chart-1))",
-    },
-  } satisfies ChartConfig;
-  return (
-    <div {...props}>
-      <ChartContainer config={chartConfig}>
-        <BarChart accessibilityLayer data={data}>
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="date"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => new Date(value).toLocaleDateString()}
-          />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent indicator="dashed" />}
-          />
-          <Bar dataKey="margin" fill="var(--color-margin)" radius={4} />
-        </BarChart>
-      </ChartContainer>
-    </div>
-  );
-}
-
-function DollarSignIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="12" x2="12" y1="2" y2="22" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-    </svg>
-  );
-}
-
-function LinechartChart({ data, ...props }: { data: any[] } & React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div {...props}>
-      <ChartContainer
-        config={{
-          amount: {
-            label: "Amount",
-            color: "hsl(var(--chart-1))",
-          },
-        }}
-      >
-        <LineChart
-          accessibilityLayer
-          data={data}
-          margin={{
-            left: 12,
-            right: 12,
-          }}
-        >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="date"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            tickFormatter={(value) => new Date(value).toLocaleDateString()}
-          />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Line
-            dataKey="amount"
-            type="monotone"
-            stroke="var(--color-amount)"
-            strokeWidth={2}
-            dot={false}
-          />
-        </LineChart>
-      </ChartContainer>
-    </div>
-  );
-}
-
-function PieChartIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-      <path d="M22 12A10 10 0 0 0 12 2v10z" />
-    </svg>
-  );
-}
-
-function PiechartcustomChart({ data, ...props }: { data: Record<string, number> } & React.HTMLAttributes<HTMLDivElement>) {
-  const chartData = Object.entries(data).map(([category, value]) => ({
-    category,
-    value,
-    fill: `var(--color-${category})`,
-  }));
-
-  const chartConfig = Object.fromEntries(
-    Object.keys(data).map((category, index) => [
-      category,
-      {
-        label: category,
-        color: `hsl(var(--chart-${index + 1}))`,
-      },
-    ])
-  ) as ChartConfig;
-
-  return (
-    <div {...props}>
-      <ChartContainer config={chartConfig}>
-        <PieChart>
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Pie
-            data={chartData}
-            dataKey="value"
-            nameKey="category"
-            outerRadius={80}
-          />
-        </PieChart>
-      </ChartContainer>
-    </div>
-  );
-}
-

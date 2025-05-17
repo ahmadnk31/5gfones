@@ -1,0 +1,741 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from "react";
+import { createClient } from "@/lib/supabase/client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Search,
+  PlusCircle,
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Package,
+  Truck,
+  Check,
+  X,
+  FileText,
+  Calendar,
+  User,
+  ShoppingCart,
+  Clock,
+  Banknote,
+  Loader2,
+} from "lucide-react";
+import { format, parseISO } from "date-fns";
+
+interface Order {
+  id: number;
+  customer_name: string;
+  customer_id: number;
+  total_amount: number;
+  status: string;
+  created_at: string;
+  payment_method?: string;
+  phone?: string;
+  items_count: number;
+}
+
+interface OrderDetailsItem {
+  product_name: string;
+  variant_name?: string;
+  quantity: number;
+  price: number;
+}
+
+interface OrderDetails {
+  id: number;
+  customer_name: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  items: OrderDetailsItem[];
+  total_amount: number;
+  tax_amount?: number;
+  shipping_amount?: number;
+  status: string;
+  payment_method?: string;
+  created_at: string;
+  notes?: string;
+}
+
+export default function OrdersAdminPage() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
+  const [isNewOrderDialogOpen, setIsNewOrderDialogOpen] = useState(false);
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("all");
+  
+  const supabase = createClient();
+
+  // Fetch orders
+  useEffect(() => {
+    async function fetchOrders() {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from("orders")
+          .select(`
+            id, 
+            customer_id, 
+            total_amount, 
+            status, 
+            created_at,
+            payment_method,
+            customers (name, phone)
+          `)
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        // Get item counts
+        const ordersWithItemCounts = await Promise.all(
+          data.map(async (order) => {
+            const { count } = await supabase
+              .from("order_items")
+              .select("*", { count: "exact", head: true })
+              .eq("order_id", order.id);
+
+            return {
+              id: order.id,
+              customer_name: order.customers?.name || "Unknown",
+              customer_id: order.customer_id,
+              total_amount: order.total_amount,
+              status: order.status,
+              created_at: order.created_at,
+              payment_method: order.payment_method,
+              phone: order.customers?.phone,
+              items_count: count || 0,
+            };
+          })
+        );
+
+        setOrders(ordersWithItemCounts);
+        setFilteredOrders(ordersWithItemCounts);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchOrders();
+  }, []);
+
+  // Filter orders based on search term and status
+  useEffect(() => {
+    let filtered = [...orders];
+    
+    // Filter by status
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(order => order.status.toLowerCase() === statusFilter);
+    }
+    
+    // Filter by tab
+    if (selectedTab === "today") {
+      const today = new Date().toISOString().split("T")[0];
+      filtered = filtered.filter(
+        order => order.created_at.startsWith(today)
+      );
+    } else if (selectedTab === "week") {
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      filtered = filtered.filter(
+        order => new Date(order.created_at) >= oneWeekAgo
+      );
+    } else if (selectedTab === "month") {
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+      filtered = filtered.filter(
+        order => new Date(order.created_at) >= oneMonthAgo
+      );
+    }
+    
+    // Filter by search term
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        order => 
+          order.id.toString().includes(term) ||
+          order.customer_name.toLowerCase().includes(term) ||
+          (order.phone && order.phone.includes(term))
+      );
+    }
+    
+    setFilteredOrders(filtered);
+  }, [orders, statusFilter, searchTerm, selectedTab]);
+
+  // Fetch order details
+  const fetchOrderDetails = async (orderId: number) => {
+    try {
+      // Get order data
+      const { data: orderData, error: orderError } = await supabase
+        .from("orders")
+        .select(`
+          id,
+          total_amount,
+          tax_amount,
+          shipping_amount,
+          status,
+          payment_method,
+          created_at,
+          notes,
+          customers (name, phone, email, address)
+        `)
+        .eq("id", orderId)
+        .single();
+
+      if (orderError) throw orderError;
+
+      // Get order items
+      const { data: itemsData, error: itemsError } = await supabase
+        .from("order_items")
+        .select(`
+          quantity,
+          price,
+          products (name),
+          product_variants (name)
+        `)
+        .eq("order_id", orderId);
+
+      if (itemsError) throw itemsError;
+
+      const items = itemsData.map(item => ({
+        product_name: item.products?.name || "Unknown Product",
+        variant_name: item.product_variants?.name,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+      setOrderDetails({
+        id: orderData.id,
+        customer_name: orderData.customers?.name || "Unknown",
+        phone: orderData.customers?.phone,
+        email: orderData.customers?.email,
+        address: orderData.customers?.address,
+        items,
+        total_amount: orderData.total_amount,
+        tax_amount: orderData.tax_amount,
+        shipping_amount: orderData.shipping_amount,
+        status: orderData.status,
+        payment_method: orderData.payment_method,
+        created_at: orderData.created_at,
+        notes: orderData.notes,
+      });
+
+      setIsViewDialogOpen(true);
+    } catch (error) {
+      console.error("Error fetching order details:", error);
+    }
+  };
+
+  // Update order status
+  const updateOrderStatus = async (orderId: number, newStatus: string) => {
+    setIsUpdatingStatus(true);
+    try {
+      const { error } = await supabase
+        .from("orders")
+        .update({ status: newStatus })
+        .eq("id", orderId);
+
+      if (error) throw error;
+
+      // Update orders in state
+      setOrders(prevOrders => 
+        prevOrders.map(order => 
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+
+      // Update order details if viewing
+      if (orderDetails && orderDetails.id === orderId) {
+        setOrderDetails({ ...orderDetails, status: newStatus });
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(amount);
+  };
+
+  // Get status badge variant
+  const getStatusBadgeVariant = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return "success";
+      case 'processing':
+      case 'shipped':
+        return "warning";
+      case 'pending':
+        return "secondary";
+      case 'cancelled':
+        return "destructive";
+      default:
+        return "outline";
+    }
+  };
+
+  // Get status icon
+  const getStatusIcon = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return <Check className="h-4 w-4" />;
+      case 'processing':
+        return <Clock className="h-4 w-4" />;
+      case 'shipped':
+        return <Truck className="h-4 w-4" />;
+      case 'pending':
+        return <Package className="h-4 w-4" />;
+      case 'cancelled':
+        return <X className="h-4 w-4" />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <CardTitle className="text-2xl">Orders Management</CardTitle>
+              <CardDescription>
+                View and manage customer orders
+              </CardDescription>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  placeholder="Search orders..."
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              
+              <Button onClick={() => setIsNewOrderDialogOpen(true)}>
+                <PlusCircle className="h-4 w-4 mr-1" />
+                New Order
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <Tabs 
+                value={selectedTab} 
+                onValueChange={setSelectedTab}
+                className="w-full sm:w-auto"
+              >
+                <TabsList>
+                  <TabsTrigger value="all">All Time</TabsTrigger>
+                  <TabsTrigger value="today">Today</TabsTrigger>
+                  <TabsTrigger value="week">This Week</TabsTrigger>
+                  <TabsTrigger value="month">This Month</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Select 
+                  value={statusFilter} 
+                  onValueChange={setStatusFilter}
+                >
+                  <SelectTrigger className="w-full sm:w-40">
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="processing">Processing</SelectItem>
+                    <SelectItem value="shipped">Shipped</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+              </div>
+            ) : filteredOrders.length === 0 ? (
+              <div className="text-center py-12">
+                <ShoppingCart className="mx-auto h-12 w-12 text-gray-300" />
+                <h3 className="mt-4 text-lg font-medium">No orders found</h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Try adjusting your search or filters
+                </p>
+              </div>
+            ) : (
+              <div className="rounded-md border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order ID</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Items</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredOrders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell>
+                          <div className="font-medium">#{order.id}</div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="font-medium">{order.customer_name}</div>
+                          {order.phone && (
+                            <div className="text-sm text-gray-500">{order.phone}</div>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-col">
+                            <span className="text-sm">
+                              {format(parseISO(order.created_at), "MMM d, yyyy")}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {format(parseISO(order.created_at), "h:mm a")}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="text-xs">
+                            {order.items_count} {order.items_count === 1 ? "item" : "items"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="font-medium">
+                            {formatCurrency(order.total_amount)}
+                          </div>
+                          {order.payment_method && (
+                            <div className="text-xs text-gray-500">
+                              {order.payment_method}
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Select
+                            defaultValue={order.status.toLowerCase()}
+                            onValueChange={(value) => updateOrderStatus(order.id, value)}
+                            disabled={isUpdatingStatus}
+                          >
+                            <SelectTrigger className="h-8 w-32">
+                              <SelectValue>
+                                <Badge 
+                                  variant={getStatusBadgeVariant(order.status) as any} 
+                                  className="flex items-center gap-1 w-full"
+                                >
+                                  {getStatusIcon(order.status)}
+                                  <span>{order.status}</span>
+                                </Badge>
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="processing">Processing</SelectItem>
+                              <SelectItem value="shipped">Shipped</SelectItem>
+                              <SelectItem value="completed">Completed</SelectItem>
+                              <SelectItem value="cancelled">Cancelled</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => fetchOrderDetails(order.id)}>
+                                <Eye className="h-4 w-4 mr-2" />
+                                View Details
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Edit className="h-4 w-4 mr-2" />
+                                Edit Order
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <FileText className="h-4 w-4 mr-2" />
+                                Print Invoice
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                className={order.status.toLowerCase() === "cancelled" ? "text-green-600" : "text-red-600"}
+                                onClick={() => 
+                                  order.status.toLowerCase() === "cancelled" 
+                                    ? updateOrderStatus(order.id, "pending") 
+                                    : updateOrderStatus(order.id, "cancelled")
+                                }
+                              >
+                                {order.status.toLowerCase() === "cancelled" ? (
+                                  <>
+                                    <Check className="h-4 w-4 mr-2" />
+                                    Restore Order
+                                  </>
+                                ) : (
+                                  <>
+                                    <X className="h-4 w-4 mr-2" />
+                                    Cancel Order
+                                  </>
+                                )}
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* View Order Details Dialog */}
+      <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>Order Details</DialogTitle>
+            <DialogDescription>
+              Complete information about order #{orderDetails?.id}
+            </DialogDescription>
+          </DialogHeader>
+
+          {orderDetails && (
+            <div className="grid gap-6 py-4">
+              <div className="flex flex-col md:flex-row justify-between gap-6">
+                {/* Order Info */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm text-gray-500">Order Date:</span>
+                    <span className="font-medium">
+                      {format(parseISO(orderDetails.created_at), "MMM d, yyyy 'at' h:mm a")}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Badge 
+                      variant={getStatusBadgeVariant(orderDetails.status) as any} 
+                      className="flex items-center gap-1"
+                    >
+                      {getStatusIcon(orderDetails.status)}
+                      <span>{orderDetails.status}</span>
+                    </Badge>
+                  </div>
+                  {orderDetails.payment_method && (
+                    <div className="flex items-center gap-2">
+                      <Banknote className="h-4 w-4 text-gray-500" />
+                      <span className="text-sm text-gray-500">Payment Method:</span>
+                      <span>{orderDetails.payment_method}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Customer Info */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <User className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm text-gray-500">Customer:</span>
+                    <span className="font-medium">{orderDetails.customer_name}</span>
+                  </div>
+                  {orderDetails.phone && (
+                    <div className="text-sm">
+                      <span className="text-gray-500">Phone:</span> {orderDetails.phone}
+                    </div>
+                  )}
+                  {orderDetails.email && (
+                    <div className="text-sm">
+                      <span className="text-gray-500">Email:</span> {orderDetails.email}
+                    </div>
+                  )}
+                  {orderDetails.address && (
+                    <div className="text-sm">
+                      <span className="text-gray-500">Address:</span> {orderDetails.address}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Order Items */}
+              <div className="border rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
+                      <TableHead className="text-right">Quantity</TableHead>
+                      <TableHead className="text-right">Price</TableHead>
+                      <TableHead className="text-right">Total</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {orderDetails.items.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <div>{item.product_name}</div>
+                          {item.variant_name && (
+                            <div className="text-xs text-gray-500">
+                              Variant: {item.variant_name}
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right">{item.quantity}</TableCell>
+                        <TableCell className="text-right">{formatCurrency(item.price)}</TableCell>
+                        <TableCell className="text-right">
+                          {formatCurrency(item.price * item.quantity)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Order Summary */}
+              <div className="border rounded-lg p-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Subtotal:</span>
+                    <span>
+                      {formatCurrency(
+                        orderDetails.items.reduce(
+                          (sum, item) => sum + item.price * item.quantity,
+                          0
+                        )
+                      )}
+                    </span>
+                  </div>
+                  {orderDetails.tax_amount && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Tax:</span>
+                      <span>{formatCurrency(orderDetails.tax_amount)}</span>
+                    </div>
+                  )}
+                  {orderDetails.shipping_amount && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Shipping:</span>
+                      <span>{formatCurrency(orderDetails.shipping_amount)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-lg font-medium pt-2 border-t">
+                    <span>Total:</span>
+                    <span>{formatCurrency(orderDetails.total_amount)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {orderDetails.notes && (
+                <div className="border rounded-lg p-4">
+                  <div className="text-sm text-gray-500 mb-1">Notes:</div>
+                  <div>{orderDetails.notes}</div>
+                </div>
+              )}
+            </div>
+          )}
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setIsViewDialogOpen(false)}>
+              Close
+            </Button>
+            <Button>
+              <FileText className="h-4 w-4 mr-2" />
+              Print Invoice
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* New Order Dialog - simplified for demo */}
+      <Dialog open={isNewOrderDialogOpen} onOpenChange={setIsNewOrderDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Create New Order</DialogTitle>
+            <DialogDescription>
+              Add a new customer order to the system
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="py-4 text-center">
+            <p>Order creation functionality would be implemented here.</p>
+            <p className="text-gray-500 mt-2">
+              This would include customer selection, product selection, quantities, etc.
+            </p>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsNewOrderDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setIsNewOrderDialogOpen(false)}>
+              Create Order
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

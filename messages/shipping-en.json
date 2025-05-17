@@ -1,0 +1,25 @@
+{
+  "shipping": {
+    "title": "Delivery Options",
+    "addressTitle": "Shipping Address",
+    "continue": "Continue",
+    "processing": "Processing...",
+    "pickup": {
+      "title": "Customer Pickup",
+      "description": "Customer will pick up the device after repair"
+    },
+    "in_store": {
+      "title": "In-Store",
+      "description": "Device will remain in the store for customer pickup"
+    },
+    "shipping": {
+      "title": "Ship to Customer",
+      "description": "We'll ship the device back to the customer after repair"
+    }
+  },
+  "delivery": {
+    "method": "Delivery Method",
+    "address": "Shipping Address",
+    "cost": "Shipping Cost"
+  }
+}

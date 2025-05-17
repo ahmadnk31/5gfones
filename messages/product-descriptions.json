@@ -1,0 +1,24 @@
+{
+  "en": {
+    "products": {
+      "fields": {
+        "description": "Description",
+        "shortDescription": "Short Description",
+        "descriptionPlaceholder": "Enter detailed product description...",
+        "shortDescriptionPlaceholder": "Enter a brief summary of the product...",
+        "translations": "Translations"
+      }
+    }
+  },
+  "es": {
+    "products": {
+      "fields": {
+        "description": "Descripción",
+        "shortDescription": "Descripción Corta",
+        "descriptionPlaceholder": "Ingrese una descripción detallada del producto...",
+        "shortDescriptionPlaceholder": "Ingrese un breve resumen del producto...",
+        "translations": "Traducciones"
+      }
+    }
+  }
+}

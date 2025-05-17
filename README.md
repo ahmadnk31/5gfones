@@ -14,6 +14,11 @@ This particular iteration embraces the spirit of open-source development, making
 - **Order Management**: Create and manage orders
 - **Point of Sale (POS)**: Quick and easy sales processing
 - **User Authentication**: Secure login system
+- **Refurbished Products**: Full management of refurbished inventory with variant support
+  - Product variants (color, storage capacity, etc.)
+  - Variant-specific pricing and stock
+  - Multiple images per variant
+  - Easy customer selection on product pages
 
 ## Tech Stack
 

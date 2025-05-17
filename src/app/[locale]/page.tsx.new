@@ -1,0 +1,477 @@
+import { createClient } from "@/lib/supabase/server";
+import { getTranslations } from "next-intl/server";
+import ProductCard from "@/components/product-card";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Carousel, Card } from "@/components/ui/apple-card-carousel";
+import { IconArrowRight } from "@tabler/icons-react";
+
+export default async function Home() {
+  const t = await getTranslations();
+  const supabase = createClient();
+
+  // Fetch featured products
+  const { data: featuredProducts } = await supabase
+    .from("products")
+    .select(
+      `
+      id, 
+      name, 
+      base_price,
+      image_url,
+      in_stock,
+      brands (name),
+      (select count(*) from product_variants where product_id = products.id) as variant_count
+    `
+    )
+    .order("created_at", { ascending: false })
+    .limit(8);
+  
+  // Fetch trending products (using in_stock as a proxy for popularity)
+  const { data: trendingProducts } = await supabase
+    .from("products")
+    .select(
+      `
+      id,
+      name,
+      base_price as price,
+      image_url,
+      in_stock as stock,
+      brands (name),
+      (select count(*) from product_variants where product_id = products.id) as has_variants
+    `
+    )
+    .order("in_stock", { ascending: false })
+    .limit(6);
+
+  // Fetch featured categories
+  const { data: categories } = await supabase
+    .from("categories")
+    .select("id, name, image_url")
+    .is("parent_id", null)
+    .limit(6);
+    
+  // Fetch latest mobile devices (for "Latest Devices" carousel)
+  const { data: latestDevices } = await supabase
+    .from("products")
+    .select(`
+      id,
+      name,
+      description,
+      base_price,
+      image_url,
+      in_stock,
+      brands (id, name, image_url)
+    `)
+    .eq("is_repair_part", false)
+    .order("created_at", { ascending: false })
+    .limit(4);
+  
+  // Fetch smart gadgets (for "Smart Gadgets" carousel)
+  const { data: smartGadgets } = await supabase
+    .from("products")
+    .select(`
+      id,
+      name,
+      description,
+      base_price,
+      image_url,
+      in_stock,
+      categories (id, name),
+      brands (id, name)
+    `)
+    .eq("is_repair_part", false)
+    .order("created_at", { ascending: false })
+    .limit(4);
+    
+  // Fetch repair services (for "Premium Services" carousel)
+  const { data: repairServices } = await supabase
+    .from("products")
+    .select(`
+      id,
+      name,
+      description,
+      base_price,
+      image_url
+    `)
+    .eq("is_repair_part", true)
+    .order("in_stock", { ascending: false })
+    .limit(4);
+
+  return (
+    <div>
+      {/* Hero Section */}
+      <section className='bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 md:py-24'>
+        <div className='container mx-auto px-4 max-w-6xl'>
+          <div className='max-w-3xl'>
+            <h1 className='text-3xl md:text-5xl font-bold mb-4'>
+              {t("app.tagline")}
+            </h1>
+            <p className='text-lg md:text-xl mb-6 opacity-90'>
+              Shop for high-quality phone accessories, repair parts, and more.
+            </p>
+            <Link href='/en/products'>
+              <Button size='lg' variant='secondary'>
+                {t("navigation.products")}
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+      
+      {/* Featured Services Carousel Section */}
+      <section className='py-12 md:py-24'>
+        <div className='container mx-auto px-4 max-w-7xl'>
+          <h2 className='text-2xl md:text-4xl font-bold mb-8 text-center'>
+            {t("app.carousel.title")}
+          </h2>
+          <Carousel
+            items={[
+              <Card
+                key="1"
+                card={{
+                  src: "/images/phone-screen-repair.png",
+                  title: t("app.carousel.phoneRepair.title"),
+                  category: t("app.carousel.phoneRepair.category"),
+                  content: (
+                    <div className="space-y-4">
+                      <p className="text-lg text-gray-700">
+                        {t("app.carousel.phoneRepair.description")}
+                      </p>
+                      <Link href="/repairs">
+                        <Button className="flex items-center gap-2">
+                          Schedule a Repair
+                          <IconArrowRight size={16} />
+                        </Button>
+                      </Link>
+                    </div>
+                  ),
+                }}
+                index={0}
+              />,
+              <Card
+                key="2"
+                card={{
+                  src: "/images/battery-replacement.png",
+                  title: t("app.carousel.batteryReplacement.title"),
+                  category: t("app.carousel.batteryReplacement.category"),
+                  content: (
+                    <div className="space-y-4">
+                      <p className="text-lg text-gray-700">
+                        {t("app.carousel.batteryReplacement.description")}
+                      </p>
+                      <Link href="/repair">
+                        <Button className="flex items-center gap-2">
+                          Book Battery Service
+                          <IconArrowRight size={16} />
+                        </Button>
+                      </Link>
+                    </div>
+                  ),
+                }}
+                index={1}
+              />,
+              <Card
+                key="3"
+                card={{
+                  src: "/images/sell-old-phone.png",
+                  title: t("app.carousel.tradeIn.title"),
+                  category: t("app.carousel.tradeIn.category"),
+                  content: (
+                    <div className="space-y-4">
+                      <p className="text-lg text-gray-700">
+                        {t("app.carousel.tradeIn.description")}
+                      </p>
+                      <Link href="/sell-phone">
+                        <Button className="flex items-center gap-2">
+                          Sell Your Phone
+                          <IconArrowRight size={16} />
+                        </Button>
+                      </Link>
+                    </div>
+                  ),
+                }}
+                index={2}
+              />,
+              <Card
+                key="4"
+                card={{
+                  src: "/accessories.jpg",
+                  title: t("app.carousel.accessories.title"),
+                  category: t("app.carousel.accessories.category"),
+                  content: (
+                    <div className="space-y-4">
+                      <p className="text-lg text-gray-700">
+                        {t("app.carousel.accessories.description")}
+                      </p>
+                      <Link href="/products">
+                        <Button className="flex items-center gap-2">
+                          Shop Accessories
+                          <IconArrowRight size={16} />
+                        </Button>
+                      </Link>
+                    </div>
+                  ),
+                }}
+                index={3}
+              />,
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* Latest Devices Carousel Section */}
+      {latestDevices && latestDevices.length > 0 && (
+        <section className='py-12 md:py-20 bg-gray-50'>
+          <div className='container mx-auto px-4 max-w-7xl'>
+            <h2 className='text-2xl md:text-4xl font-bold mb-8 text-center'>
+              {t("app.latestDevices.title")}
+            </h2>
+            <Carousel
+              items={latestDevices.map((device, index) => (
+                <Card
+                  key={`device-${device.id}`}
+                  card={{
+                    src: device.image_url || "/placeholder.svg",
+                    title: device.name,
+                    category: device.brands?.name || t("app.latestDevices.iphone.category"),
+                    content: (
+                      <div className="space-y-4">
+                        <p className="text-lg text-gray-700">
+                          {device.description || 
+                            (index === 0 ? t("app.latestDevices.iphone.description") :
+                             index === 1 ? t("app.latestDevices.samsung.description") :
+                             index === 2 ? t("app.latestDevices.pixel.description") :
+                             t("app.latestDevices.xiaomi.description"))}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl font-bold">${device.base_price}</span>
+                          <Link href={`/products/${device.id}`}>
+                            <Button className="flex items-center gap-2">
+                              View Details
+                              <IconArrowRight size={16} />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    ),
+                  }}
+                  index={index}
+                />
+              ))}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Smart Gadgets Carousel Section */}
+      {smartGadgets && smartGadgets.length > 0 && (
+        <section className='py-12 md:py-20'>
+          <div className='container mx-auto px-4 max-w-7xl'>
+            <h2 className='text-2xl md:text-4xl font-bold mb-8 text-center'>
+              {t("app.gadgets.title")}
+            </h2>
+            <Carousel
+              items={smartGadgets.map((gadget, index) => (
+                <Card
+                  key={`gadget-${gadget.id}`}
+                  card={{
+                    src: gadget.image_url || "/placeholder.svg",
+                    title: gadget.name,
+                    category: gadget.categories?.name || 
+                      (index === 0 ? t("app.gadgets.smartwatch.category") :
+                       index === 1 ? t("app.gadgets.earbuds.category") :
+                       index === 2 ? t("app.gadgets.tablets.category") :
+                       t("app.gadgets.laptops.category")),
+                    content: (
+                      <div className="space-y-4">
+                        <p className="text-lg text-gray-700">
+                          {gadget.description || 
+                            (index === 0 ? t("app.gadgets.smartwatch.description") :
+                             index === 1 ? t("app.gadgets.earbuds.description") :
+                             index === 2 ? t("app.gadgets.tablets.description") :
+                             t("app.gadgets.laptops.description"))}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl font-bold">${gadget.base_price}</span>
+                          <Link href={`/products/${gadget.id}`}>
+                            <Button className="flex items-center gap-2">
+                              View Details
+                              <IconArrowRight size={16} />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    ),
+                  }}
+                  index={index}
+                />
+              ))}
+            />
+          </div>
+        </section>
+      )}
+
+      {/* Premium Services Carousel Section */}
+      {repairServices && repairServices.length > 0 && (
+        <section className='py-12 md:py-20 bg-gray-50'>
+          <div className='container mx-auto px-4 max-w-7xl'>
+            <h2 className='text-2xl md:text-4xl font-bold mb-8 text-center'>
+              {t("app.services.title")}
+            </h2>
+            <Carousel
+              items={repairServices.map((service, index) => (
+                <Card
+                  key={`service-${service.id}`}
+                  card={{
+                    src: service.image_url || "/placeholder.svg",
+                    title: service.name,
+                    category: index === 0 ? t("app.services.insurance.category") :
+                              index === 1 ? t("app.services.dataRecovery.category") :
+                              index === 2 ? t("app.services.customization.category") :
+                              t("app.services.training.category"),
+                    content: (
+                      <div className="space-y-4">
+                        <p className="text-lg text-gray-700">
+                          {service.description || 
+                            (index === 0 ? t("app.services.insurance.description") :
+                             index === 1 ? t("app.services.dataRecovery.description") :
+                             index === 2 ? t("app.services.customization.description") :
+                             t("app.services.training.description"))}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl font-bold">${service.base_price}</span>
+                          <Link href={`/services/${service.id}`}>
+                            <Button className="flex items-center gap-2">
+                              Learn More
+                              <IconArrowRight size={16} />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    ),
+                  }}
+                  index={index}
+                />
+              ))}
+            />
+          </div>
+        </section>
+      )}
+      
+      {/* Featured Categories */}
+      {categories && categories.length > 0 && (
+        <section className='py-12'>
+          <div className='container mx-auto px-4 max-w-6xl'>
+            <h2 className='text-2xl md:text-3xl font-bold mb-8 text-center'>
+              Featured Categories
+            </h2>
+            <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4'>
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/en/categories/${category.id}`}
+                  className='flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow'
+                >
+                  <div className='w-16 h-16 relative mb-3'>
+                    <Image
+                      src={category.image_url || "/placeholder.svg"}
+                      alt={category.name}
+                      fill
+                      sizes='64px'
+                      className='object-contain'
+                    />
+                  </div>
+                  <h3 className='font-medium text-sm text-center'>
+                    {category.name}
+                  </h3>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Products */}
+      {featuredProducts && featuredProducts.length > 0 && (
+        <section className='py-12'>
+          <div className='container mx-auto px-4 max-w-6xl'>
+            <div className='flex justify-between items-center mb-8'>
+              <h2 className='text-2xl md:text-3xl font-bold'>New Arrivals</h2>
+              <Link
+                href='/en/products'
+                className='text-blue-600 hover:underline'
+              >
+                View All
+              </Link>
+            </div>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+              {featuredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.base_price}
+                  imageUrl={product.image_url || "/placeholder.svg"}
+                  inStock={product.in_stock}
+                  hasVariants={product.variant_count > 0}
+                  brandName={product.brands?.name}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Trending Products */}
+      {trendingProducts && trendingProducts.length > 0 && (
+        <section className='py-12 bg-gray-50'>
+          <div className='container mx-auto px-4 max-w-6xl'>
+            <div className='flex justify-between items-center mb-8'>
+              <h2 className='text-2xl md:text-3xl font-bold'>
+                Top Selling Products
+              </h2>
+              <Link
+                href='/en/products'
+                className='text-blue-600 hover:underline'
+              >
+                View All
+              </Link>
+            </div>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6'>
+              {trendingProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  imageUrl={product.image_url || "/placeholder.svg"}
+                  inStock={product.stock}
+                  hasVariants={Boolean(product.has_variants)}
+                  brandName={product.brands?.name}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA Banner */}
+      <section className='py-12 bg-blue-600 text-white'>
+        <div className='container mx-auto px-4 max-w-6xl text-center'>
+          <h2 className='text-2xl md:text-3xl font-bold mb-4'>
+            Need device repair?
+          </h2>
+          <p className='text-lg mb-6 max-w-2xl mx-auto'>
+            We offer professional repair services for phones, tablets, and
+            computers. Fast turnaround and quality service guaranteed.
+          </p>
+          <Button size='lg' variant='secondary'>
+            Schedule a Repair
+          </Button>
+        </div>
+      </section>
+    </div>
+  );
+}

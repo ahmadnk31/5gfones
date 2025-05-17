@@ -1,0 +1,367 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RealtimeChat } from "@/components/realtime-chat";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ChatMessage } from "@/hooks/use-realtime-chat";
+import { createClient } from "@/lib/supabase/client";
+import { chatService } from "@/lib/chat-service";
+import { Loader2 } from "lucide-react";
+import { CustomerInfo } from "@/components/customer-info";
+import { useTranslations } from "next-intl";
+
+export default function AdminSupportPage() {
+  const t = useTranslations("customerSupport");
+  const [username, setUsername] = useState<string>("Admin Support");
+  const [activeChats, setActiveChats] = useState<string[]>([
+    "customer-support",
+  ]);
+  const [currentActiveTab, setCurrentActiveTab] =
+    useState<string>("customer-support");
+  const [chatMessages, setChatMessages] = useState<
+    Record<string, ChatMessage[]>
+  >({
+    "customer-support": [],
+  });
+  const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
+  const [loading, setLoading] = useState<boolean>(true);
+  const [currentCustomer, setCurrentCustomer] = useState<string>("");
+  const [showCustomerInfo, setShowCustomerInfo] = useState<boolean>(true);
+
+  // Load admin user details and active chats
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      const supabase = createClient();
+
+      try {
+        // Get current user
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+          // Get profile from profiles table
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("full_name, role")
+            .eq("id", user.id)
+            .single();
+
+          // Verify admin role
+          if (profile?.role !== "admin") {
+            // Redirect to home if not admin
+            window.location.href = "/";
+            return;
+          }
+
+          const adminUsername = profile?.full_name
+            ? `${profile.full_name} (Support)`
+            : `Admin (${user.email?.split("@")[0] || "Support"})`;
+
+          setUsername(adminUsername);
+
+          // Load all chat rooms
+          const { data: rooms } = await supabase
+            .from("chat_rooms")
+            .select("name")
+            .order("updated_at", { ascending: false });
+
+          if (rooms && rooms.length > 0) {
+            const roomNames = rooms.map((room) => room.name);
+            setActiveChats(roomNames);
+
+            // Initialize messages for each room
+            const messagesPromises = roomNames.map(async (roomName) => {
+              const messages = await chatService.getMessages(roomName);
+              return [roomName, messages];
+            });
+
+            // Get unread counts for each room
+            const unreadPromises = roomNames.map(async (roomName) => {
+              const count = await chatService.getUnreadCount(roomName, true);
+              return [roomName, count];
+            });
+
+            // Wait for all promises to resolve
+            const messagesEntries = await Promise.all(messagesPromises);
+            const unreadEntries = await Promise.all(unreadPromises);
+
+            // Update state with loaded data
+            setChatMessages(Object.fromEntries(messagesEntries));
+            setUnreadCounts(Object.fromEntries(unreadEntries));
+            // Set initial customer
+            const initialMessages =
+              messagesEntries.find(
+                ([name]) => name === currentActiveTab
+              )?.[1] || [];
+            const customerMessage = initialMessages.find(
+              (msg: ChatMessage) =>
+                msg.user.name !== adminUsername &&
+                msg.user.name !== "AI Assistant"
+            );
+
+            if (customerMessage) {
+              setCurrentCustomer(customerMessage.user.name);
+            }
+          }
+
+          // Register admin as online using the determined username
+          const channel = supabase.channel("online-admins");
+          channel.subscribe(async (status) => {
+            if (status === "SUBSCRIBED") {
+              await channel.track({
+                user: adminUsername,
+                isAdmin: true,
+                online_at: new Date().toISOString(),
+              });
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Error loading admin data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [currentActiveTab]);
+
+  // Handle messages for different chat rooms
+  const handleChatMessage =
+    (roomName: string) => async (messages: ChatMessage[]) => {
+      // Store messages in state
+      setChatMessages((prev) => ({
+        ...prev,
+        [roomName]: messages,
+      }));
+
+      // Get the latest message
+      const latestMessage = messages[messages.length - 1];
+
+      // If we have a new message
+      if (latestMessage) {
+        try {
+          // Persist message to database if it's from the admin
+          if (latestMessage.user.name === username) {
+            await chatService.saveMessage(latestMessage, roomName, false);
+          }
+          // If message is from a customer, update current customer info
+          else if (latestMessage.user.name !== "AI Assistant") {
+            setCurrentCustomer(latestMessage.user.name);
+          }
+
+          // Mark messages as read by admin if this is the current active tab
+          if (currentActiveTab === roomName) {
+            await chatService.markMessagesAsRead(roomName, true);
+
+            // Reset unread count for this room
+            setUnreadCounts((prev) => ({
+              ...prev,
+              [roomName]: 0,
+            }));
+          }
+          // Otherwise, if the message is not from the admin, increment unread count
+          else if (latestMessage.user.name !== username) {
+            setUnreadCounts((prev) => ({
+              ...prev,
+              [roomName]: (prev[roomName] || 0) + 1,
+            }));
+          }
+        } catch (error) {
+          console.error("Error handling chat message:", error);
+        }
+      }
+    };
+
+  // Handle tab change
+  const handleTabChange = async (tabValue: string) => {
+    setCurrentActiveTab(tabValue);
+
+    try {
+      // Mark messages as read when changing to a tab
+      await chatService.markMessagesAsRead(tabValue, true);
+
+      // Reset unread count for this room
+      setUnreadCounts((prev) => ({
+        ...prev,
+        [tabValue]: 0,
+      }));
+
+      // Find the customer for this chat room
+      const messages = chatMessages[tabValue] || [];
+      const customerMessage = messages.find(
+        (msg) => msg.user.name !== username && msg.user.name !== "AI Assistant"
+      );
+
+      if (customerMessage) {
+        setCurrentCustomer(customerMessage.user.name);
+      } else {
+        setCurrentCustomer("");
+      }
+    } catch (error) {
+      console.error("Error marking messages as read:", error);
+    }
+  };
+
+  // Listen for new chat requests and messages
+  useEffect(() => {
+    const supabase = createClient();
+
+    // Subscribe to chat_rooms table for new rooms
+    const roomsSubscription = supabase
+      .channel("db-changes")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "chat_rooms" },
+        async (payload) => {
+          const newRoom = payload.new as { name: string };
+
+          // Add the new room to active chats if not already present
+          if (newRoom && !activeChats.includes(newRoom.name)) {
+            setActiveChats((prev) => [...prev, newRoom.name]);
+
+            // Initialize empty messages for the new room
+            setChatMessages((prev) => ({
+              ...prev,
+              [newRoom.name]: [],
+            }));
+
+            // Set initial unread count
+            const count = await chatService.getUnreadCount(newRoom.name, true);
+            setUnreadCounts((prev) => ({
+              ...prev,
+              [newRoom.name]: count,
+            }));
+          }
+        }
+      )
+      .subscribe();
+
+    // Subscribe to messages for unread counts
+    const messagesSubscription = supabase
+      .channel("db-messages")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "chat_messages" },
+        async (payload: any) => {
+          // Only increment unread count if not from admin and not current tab
+          if (
+            payload.new &&
+            !payload.new.read_by_admin &&
+            payload.new.username !== username
+          ) {
+            // Get the room name
+            const { data: room } = await supabase
+              .from("chat_rooms")
+              .select("name")
+              .eq("id", payload.new.room_id)
+              .single();
+
+            if (room && room.name !== currentActiveTab) {
+              setUnreadCounts((prev) => ({
+                ...prev,
+                [room.name]: (prev[room.name] || 0) + 1,
+              }));
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(roomsSubscription);
+      supabase.removeChannel(messagesSubscription);
+    };
+  }, [activeChats, currentActiveTab, username]);
+  if (loading) {
+    return (
+      <div className='container mx-auto p-6 max-w-6xl flex justify-center items-center h-[600px]'>
+        <div className='flex flex-col items-center gap-4'>
+          <Loader2 className='h-8 w-8 animate-spin text-primary' />
+          <p className='text-lg text-muted-foreground'>{t("loading")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className='container mx-auto p-6 max-w-6xl'>
+      <h1 className='text-3xl font-bold mb-6'>{t("dashboard")}</h1>
+
+      <div className='flex gap-4 h-[700px]'>
+        {/* Active Chats Sidebar */}
+        <div className='w-64 shrink-0 border rounded-md overflow-hidden'>
+          {" "}
+          <div className='p-3 border-b bg-muted/30'>
+            <h2 className='font-medium'>{t("activeChats")}</h2>
+          </div>
+          <div className='overflow-auto h-[calc(700px-3rem)]'>
+            {activeChats.map((chatName) => (
+              <div
+                key={chatName}
+                className={`flex items-center justify-between p-3 cursor-pointer hover:bg-muted/50 ${
+                  currentActiveTab === chatName ? "bg-muted" : ""
+                }`}
+                onClick={() => handleTabChange(chatName)}
+              >
+                <div>
+                  <span className='block'>{chatName}</span>
+                </div>
+                {unreadCounts[chatName] ? (
+                  <Badge variant='destructive' className='ml-2'>
+                    {unreadCounts[chatName]}
+                  </Badge>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Chat Interface */}
+        <div
+          className={`flex-1 border rounded-md overflow-hidden ${
+            showCustomerInfo && currentCustomer
+              ? "max-w-[calc(100%-28rem)]"
+              : ""
+          }`}
+        >
+          <div className='h-full'>
+            <RealtimeChat
+              roomName={currentActiveTab}
+              username={username}
+              messages={chatMessages[currentActiveTab] || []}
+              onMessage={handleChatMessage(currentActiveTab)}
+              showTypingIndicator={true}
+            />
+          </div>
+        </div>
+        {/* Customer Info Sidebar */}{" "}
+        {currentCustomer && (
+          <>
+            <div className='ml-4 flex items-center'>
+              <Button
+                variant='outline'
+                onClick={() => setShowCustomerInfo(!showCustomerInfo)}
+                className='text-sm'
+              >
+                {showCustomerInfo ? t("hide") : t("show")}
+              </Button>
+            </div>
+            {showCustomerInfo && (
+              <div className='w-80 shrink-0 border rounded-md overflow-hidden'>
+                <CustomerInfo
+                  username={currentCustomer}
+                  roomName={currentActiveTab}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

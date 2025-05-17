@@ -1,0 +1,707 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  CalendarIcon,
+  PlusIcon,
+  SearchIcon,
+  Loader2,
+  ClipboardList,
+  Printer,
+  Phone,
+  Smartphone,
+  MoreHorizontal,
+  Edit,
+  X,
+} from "lucide-react";
+import { format, parseISO, isToday, isYesterday } from "date-fns";
+
+interface AppointmentData {
+  id: number;
+  customer_name: string;
+  device_name: string;
+  problem_description: string;
+  appointment_date: string;
+  estimated_completion_date: string | null;
+  status_name: string;
+  status_color: string;
+  phone: string;
+  notes?: string;
+}
+
+interface StatusOption {
+  id: number;
+  name: string;
+  color: string;
+}
+
+export default function AppointmentsAdminPage() {
+  const [appointments, setAppointments] = useState<AppointmentData[]>([]);
+  const [filteredAppointments, setFilteredAppointments] = useState<AppointmentData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedTab, setSelectedTab] = useState("all");
+  const [statusOptions, setStatusOptions] = useState<StatusOption[]>([]);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<AppointmentData | null>(null);
+  
+  // Form for new appointment
+  const [newAppointmentForm, setNewAppointmentForm] = useState({
+    customer_name: "",
+    phone: "",
+    device_name: "",
+    problem_description: "",
+    appointment_date: new Date().toISOString().split('T')[0],
+    appointment_time: "10:00",
+    notes: "",
+    status_id: "1"
+  });
+
+  const supabase = createClient();
+
+  // Fetch appointments
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      try {
+        // Fetch status options first
+        const { data: statusData } = await supabase
+          .from("repair_status")
+          .select("id, name, color");
+        
+        if (statusData) {
+          setStatusOptions(statusData);
+        }
+        
+        // Fetch appointments with joined data
+        const { data, error } = await supabase
+          .from("repair_appointments")
+          .select(`
+            id, 
+            problem_description,
+            appointment_date,
+            estimated_completion_date,
+            notes,
+            customers!inner(name, phone),
+            devices!inner(name, brands!inner(name)),
+            repair_status!inner(name, color)
+          `)
+          .order("appointment_date", { ascending: false });
+        
+        if (error) throw error;
+
+        if (data) {
+          const formattedAppointments = data.map(item => ({
+            id: item.id,
+            customer_name: item.customers.name,
+            phone: item.customers.phone,
+            device_name: `${item.devices.brands.name} ${item.devices.name}`,
+            problem_description: item.problem_description,
+            appointment_date: item.appointment_date,
+            estimated_completion_date: item.estimated_completion_date,
+            status_name: item.repair_status.name,
+            status_color: item.repair_status.color,
+            notes: item.notes
+          }));
+          
+          setAppointments(formattedAppointments);
+          setFilteredAppointments(formattedAppointments);
+        }
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchData();
+  }, []);
+  
+  // Filter appointments based on search and status
+  useEffect(() => {
+    let filtered = [...appointments];
+    
+    // Filter by tab
+    if (selectedTab === "today") {
+      filtered = filtered.filter(app => 
+        isToday(parseISO(app.appointment_date))
+      );
+    } else if (selectedTab === "upcoming") {
+      filtered = filtered.filter(app => 
+        parseISO(app.appointment_date) > new Date() && 
+        !isToday(parseISO(app.appointment_date))
+      );
+    } else if (selectedTab === "past") {
+      filtered = filtered.filter(app => 
+        parseISO(app.appointment_date) < new Date() && 
+        !isToday(parseISO(app.appointment_date))
+      );
+    }
+    
+    // Filter by status
+    if (selectedStatus !== "all") {
+      filtered = filtered.filter(app => 
+        app.status_name.toLowerCase() === selectedStatus.toLowerCase()
+      );
+    }
+    
+    // Filter by search term
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(app => 
+        app.customer_name.toLowerCase().includes(query) ||
+        app.device_name.toLowerCase().includes(query) ||
+        app.problem_description.toLowerCase().includes(query) ||
+        app.phone.toLowerCase().includes(query)
+      );
+    }
+    
+    setFilteredAppointments(filtered);
+  }, [appointments, searchQuery, selectedStatus, selectedTab]);
+  
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    const date = parseISO(dateString);
+    
+    if (isToday(date)) {
+      return `Today, ${format(date, "h:mm a")}`;
+    } else if (isYesterday(date)) {
+      return `Yesterday, ${format(date, "h:mm a")}`;
+    } else {
+      return format(date, "MMM d, yyyy 'at' h:mm a");
+    }
+  };
+  
+  // Update appointment status
+  const updateAppointmentStatus = async (appointmentId: number, newStatusId: string) => {
+    try {
+      const { error } = await supabase
+        .from("repair_appointments")
+        .update({ status_id: newStatusId })
+        .eq("id", appointmentId);
+      
+      if (error) throw error;
+      
+      // Update in the UI
+      const selectedStatus = statusOptions.find(s => s.id === parseInt(newStatusId));
+      if (selectedStatus) {
+        setAppointments(prev => 
+          prev.map(app => 
+            app.id === appointmentId 
+              ? { 
+                  ...app, 
+                  status_name: selectedStatus.name,
+                  status_color: selectedStatus.color
+                } 
+              : app
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+  
+  // Handle creating a new appointment
+  const handleCreateAppointment = async () => {
+    try {
+      // First create or find customer
+      const { data: customerData, error: customerError } = await supabase
+        .from("customers")
+        .select("id")
+        .eq("phone", newAppointmentForm.phone)
+        .single();
+      
+      let customerId;
+      
+      if (customerError || !customerData) {
+        // Customer doesn't exist, create new one
+        const { data: newCustomer, error: newCustomerError } = await supabase
+          .from("customers")
+          .insert({
+            name: newAppointmentForm.customer_name,
+            phone: newAppointmentForm.phone
+          })
+          .select("id")
+          .single();
+        
+        if (newCustomerError || !newCustomer) {
+          throw new Error("Failed to create customer");
+        }
+        
+        customerId = newCustomer.id;
+      } else {
+        customerId = customerData.id;
+      }
+      
+      // Create the appointment
+      const appointmentDateTime = `${newAppointmentForm.appointment_date}T${newAppointmentForm.appointment_time}:00`;
+      
+      const { data: appointmentData, error: appointmentError } = await supabase
+        .from("repair_appointments")
+        .insert({
+          customer_id: customerId,
+          device_id: 1, // Simplified for demo
+          problem_description: newAppointmentForm.problem_description,
+          appointment_date: appointmentDateTime,
+          status_id: parseInt(newAppointmentForm.status_id),
+          notes: newAppointmentForm.notes
+        })
+        .select();
+        
+      if (appointmentError || !appointmentData) {
+        throw new Error("Failed to create appointment");
+      }
+      
+      // Refresh appointments list
+      const { data: refreshData } = await supabase
+        .from("repair_appointments")
+        .select(`
+          id, 
+          problem_description,
+          appointment_date,
+          estimated_completion_date,
+          notes,
+          customers!inner(name, phone),
+          devices!inner(name, brands!inner(name)),
+          repair_status!inner(name, color)
+        `)
+        .eq("id", appointmentData[0].id)
+        .single();
+      
+      if (refreshData) {
+        const newAppointment = {
+          id: refreshData.id,
+          customer_name: refreshData.customers.name,
+          phone: refreshData.customers.phone,
+          device_name: `${refreshData.devices.brands.name} ${refreshData.devices.name}`,
+          problem_description: refreshData.problem_description,
+          appointment_date: refreshData.appointment_date,
+          estimated_completion_date: refreshData.estimated_completion_date,
+          status_name: refreshData.repair_status.name,
+          status_color: refreshData.repair_status.color,
+          notes: refreshData.notes
+        };
+        
+        setAppointments(prev => [newAppointment, ...prev]);
+      }
+      
+      // Reset form and close dialog
+      setNewAppointmentForm({
+        customer_name: "",
+        phone: "",
+        device_name: "",
+        problem_description: "",
+        appointment_date: new Date().toISOString().split('T')[0],
+        appointment_time: "10:00",
+        notes: "",
+        status_id: "1"
+      });
+      
+      setIsNewDialogOpen(false);
+      
+    } catch (error) {
+      console.error("Error creating appointment:", error);
+    }
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <CardTitle className="text-2xl">Repair Appointments</CardTitle>
+              <CardDescription>
+                Manage repair appointments and track progress
+              </CardDescription>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+              <div className="relative w-full sm:w-64">
+                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <Input
+                  placeholder="Search appointments..."
+                  className="pl-8"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              
+              <Button onClick={() => setIsNewDialogOpen(true)}>
+                <PlusIcon className="h-4 w-4 mr-1" />
+                New Appointment
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <Tabs 
+                value={selectedTab} 
+                onValueChange={setSelectedTab}
+                className="w-full sm:w-auto"
+              >
+                <TabsList>
+                  <TabsTrigger value="all">All</TabsTrigger>
+                  <TabsTrigger value="today">Today</TabsTrigger>
+                  <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+                  <TabsTrigger value="past">Past</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Select 
+                  value={selectedStatus} 
+                  onValueChange={setSelectedStatus}
+                >
+                  <SelectTrigger className="w-full sm:w-40">
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    {statusOptions.map((status) => (
+                      <SelectItem key={status.id} value={status.name.toLowerCase()}>
+                        <div className="flex items-center">
+                          <div
+                            className="w-3 h-3 rounded-full mr-2"
+                            style={{ backgroundColor: status.color }}
+                          />
+                          {status.name}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+              </div>
+            ) : filteredAppointments.length === 0 ? (
+              <div className="text-center py-12">
+                <ClipboardList className="mx-auto h-12 w-12 text-gray-300" />
+                <h3 className="mt-4 text-lg font-medium">No appointments found</h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  Try adjusting your search or filters
+                </p>
+              </div>
+            ) : (
+              <div className="rounded-md border overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Device</TableHead>
+                      <TableHead>Issue</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredAppointments.map((appointment) => (
+                      <TableRow key={appointment.id}>
+                        <TableCell>
+                          <div className="font-medium">{appointment.customer_name}</div>
+                          <div className="text-sm text-gray-500 flex items-center">
+                            <Phone className="h-3 w-3 mr-1" />
+                            {appointment.phone}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center">
+                            <Smartphone className="h-4 w-4 mr-2 text-gray-400" />
+                            <span>{appointment.device_name}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="max-w-xs truncate">
+                            {appointment.problem_description}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Select
+                            defaultValue={statusOptions.find(
+                              status => status.name === appointment.status_name
+                            )?.id.toString()}
+                            onValueChange={(value) => updateAppointmentStatus(appointment.id, value)}
+                          >
+                            <SelectTrigger className="w-32">
+                              <SelectValue>
+                                <div className="flex items-center gap-2">
+                                  <div
+                                    className="w-2 h-2 rounded-full"
+                                    style={{ backgroundColor: appointment.status_color }}
+                                  ></div>
+                                  <span>{appointment.status_name}</span>
+                                </div>
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {statusOptions.map((status) => (
+                                <SelectItem key={status.id} value={status.id.toString()}>
+                                  <div className="flex items-center gap-2">
+                                    <div
+                                      className="w-2 h-2 rounded-full"
+                                      style={{ backgroundColor: status.color }}
+                                    ></div>
+                                    <span>{status.name}</span>
+                                  </div>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-col">
+                            <span className="text-sm">{formatDate(appointment.appointment_date)}</span>
+                            {appointment.estimated_completion_date && (
+                              <span className="text-xs text-gray-500">
+                                Est. completion: {format(parseISO(appointment.estimated_completion_date), "MMM d")}
+                              </span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setSelectedAppointment(appointment);
+                                  setIsEditDialogOpen(true);
+                                }}
+                              >
+                                <Edit className="h-4 w-4 mr-2" />
+                                Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem>
+                                <Printer className="h-4 w-4 mr-2" />
+                                Print Receipt
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-red-600">
+                                <X className="h-4 w-4 mr-2" />
+                                Cancel
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* New Appointment Dialog */}
+      <Dialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Create New Appointment</DialogTitle>
+            <DialogDescription>
+              Schedule a new repair appointment for a customer
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="customer-name">Customer Name</Label>
+                <Input
+                  id="customer-name"
+                  value={newAppointmentForm.customer_name}
+                  onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, customer_name: e.target.value })}
+                  placeholder="Enter customer name"
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  id="phone"
+                  value={newAppointmentForm.phone}
+                  onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, phone: e.target.value })}
+                  placeholder="Enter phone number"
+                />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="device-name">Device</Label>
+                <Input
+                  id="device-name"
+                  value={newAppointmentForm.device_name}
+                  onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, device_name: e.target.value })}
+                  placeholder="Enter device name"
+                />
+              </div>
+              <div>
+                <Label htmlFor="status">Status</Label>
+                <Select
+                  value={newAppointmentForm.status_id}
+                  onValueChange={(value) => setNewAppointmentForm({ ...newAppointmentForm, status_id: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statusOptions.map((status) => (
+                      <SelectItem key={status.id} value={status.id.toString()}>
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-2 h-2 rounded-full"
+                            style={{ backgroundColor: status.color }}
+                          />
+                          {status.name}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="appointment-date">Appointment Date</Label>
+                <Input
+                  id="appointment-date"
+                  type="date"
+                  value={newAppointmentForm.appointment_date}
+                  onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, appointment_date: e.target.value })}
+                />
+              </div>
+              <div>
+                <Label htmlFor="appointment-time">Time</Label>
+                <Input
+                  id="appointment-time"
+                  type="time"
+                  value={newAppointmentForm.appointment_time}
+                  onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, appointment_time: e.target.value })}
+                />
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="problem">Problem Description</Label>
+              <Textarea
+                id="problem"
+                value={newAppointmentForm.problem_description}
+                onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, problem_description: e.target.value })}
+                placeholder="Describe the issue with the device"
+                rows={3}
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="notes">Additional Notes</Label>
+              <Textarea
+                id="notes"
+                value={newAppointmentForm.notes}
+                onChange={(e) => setNewAppointmentForm({ ...newAppointmentForm, notes: e.target.value })}
+                placeholder="Any special instructions or notes"
+                rows={2}
+              />
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsNewDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleCreateAppointment}
+              disabled={!newAppointmentForm.customer_name || !newAppointmentForm.phone || !newAppointmentForm.problem_description}
+            >
+              Create Appointment
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Edit Appointment Dialog - simplified for this implementation */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit Appointment</DialogTitle>
+            <DialogDescription>
+              Update appointment details
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedAppointment && (
+            <div className="py-4">
+              <p className="text-lg font-medium">{selectedAppointment.customer_name}</p>
+              <p className="text-gray-500 mb-4">{selectedAppointment.device_name}</p>
+              <p>Status: {selectedAppointment.status_name}</p>
+              <p>Appointment: {formatDate(selectedAppointment.appointment_date)}</p>
+            </div>
+          )}
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Close</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

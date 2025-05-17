@@ -1,27 +1,34 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { data: revenueData, error: revenueError } = await supabase
-    .from('transactions')
-    .select('amount')
-    .eq('type', 'income')
-    .eq('user_uid', user.id)
-    .eq('status', 'completed');
+  // Get all income transactions
+  const { data, error } = await supabase
+    .from("transactions")
+    .select("amount")
+    .eq("user_uid", user.id)
+    .eq("type", "income")
+    .eq("status", "completed");
 
-  if (revenueError) {
-    console.error('Error fetching total revenue:', revenueError);
-    return NextResponse.json({ error: 'Failed to fetch total revenue' }, { status: 500 });
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const totalRevenue = revenueData?.reduce((sum, order) => sum + order.amount, 0) || 0;
+  // Calculate total revenue
+  const totalRevenue = data.reduce(
+    (sum, transaction) => sum + (transaction.amount || 0),
+    0
+  );
 
   return NextResponse.json({ totalRevenue });
 }

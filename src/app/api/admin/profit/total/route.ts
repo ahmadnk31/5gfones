@@ -1,36 +1,55 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const { data: transactionsData, error: transactionsError } = await supabase
-    .from('transactions')
-    .select('amount, type, category, created_at')
-    .eq('status', 'completed')
-    .eq('user_uid', user.id)
-    .order('created_at', { ascending: true });
-
-  if (transactionsError) {
-    console.error('Error fetching transactions:', transactionsError);
-    return NextResponse.json({ error: 'Failed to fetch transactions' }, { status: 500 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const sellingTransactions = transactionsData?.filter(transaction => transaction.category === 'selling');
-  const expenseTransactions = transactionsData?.filter(transaction => transaction.type === 'expense');
+  // Get all income transactions
+  const { data: incomeData, error: incomeError } = await supabase
+    .from("transactions")
+    .select("amount")
+    .eq("user_uid", user.id)
+    .eq("type", "income")
+    .eq("status", "completed");
 
-  if (!sellingTransactions || !expenseTransactions) {
-    return NextResponse.json({ error: 'Failed to calculate profit margin' }, { status: 500 });
+  if (incomeError) {
+    return NextResponse.json({ error: incomeError.message }, { status: 500 });
   }
 
-  const totalSelling = sellingTransactions?.reduce((sum, transaction) => sum + transaction.amount, 0) || 0;
-  const totalExpenses = expenseTransactions?.reduce((sum, transaction) => sum + transaction.amount, 0) || 0;
+  // Get all expense transactions
+  const { data: expenseData, error: expenseError } = await supabase
+    .from("transactions")
+    .select("amount")
+    .eq("user_uid", user.id)
+    .eq("type", "expense")
+    .eq("status", "completed");
 
-  const totalProfit = totalSelling - totalExpenses;
+  if (expenseError) {
+    return NextResponse.json({ error: expenseError.message }, { status: 500 });
+  }
+
+  // Calculate total revenue
+  const totalIncome = incomeData.reduce(
+    (sum, transaction) => sum + (transaction.amount || 0),
+    0
+  );
+
+  // Calculate total expenses
+  const totalExpenses = expenseData.reduce(
+    (sum, transaction) => sum + (transaction.amount || 0),
+    0
+  );
+
+  // Calculate total profit
+  const totalProfit = totalIncome - totalExpenses;
 
   return NextResponse.json({ totalProfit });
 }
