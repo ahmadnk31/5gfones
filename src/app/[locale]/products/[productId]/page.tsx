@@ -52,12 +52,29 @@ export default async function ProductPage({
     .eq('category_id', product.category_id)
     .neq('id', productId)
     .limit(4);
-    
-  // Fetch product images (including variant images)
+      // Fetch product images (including variant images)
   const { data: variantImages } = await supabase
     .from('variant_images')
     .select('*')
     .eq('product_id', productId);
+  
+  // Fetch category discount if product has a category_id
+  let categoryDiscount = 0;
+  if (product.category_id) {
+    const { data: discountData } = await supabase
+      .from('category_discounts')
+      .select('discount_percentage')
+      .eq('category_id', product.category_id)
+      .eq('is_active', true)
+      .lte('start_date', new Date().toISOString())
+      .or(`end_date.gt.${new Date().toISOString()},end_date.is.null`)
+      .order('discount_percentage', { ascending: false })
+      .limit(1);
+    
+    if (discountData && discountData.length > 0) {
+      categoryDiscount = discountData[0].discount_percentage;
+    }
+  }
   
   return (
     <ProductDetail 
@@ -65,6 +82,7 @@ export default async function ProductPage({
       variants={variants || []} 
       relatedProducts={relatedProducts || []}
       variantImages={variantImages || []}
+      categoryDiscount={categoryDiscount}
     />
   );
 }

@@ -21,7 +21,11 @@ interface SearchResult {
   similarity?: number;
 }
 
-const SearchBarModal = () => {
+interface SearchBarModalProps {
+  iconOnly?: boolean;
+}
+
+const SearchBarModal = ({ iconOnly = false }: SearchBarModalProps) => {
   const t = useTranslations("search");
   const router = useRouter();
 
@@ -231,19 +235,28 @@ const SearchBarModal = () => {
         </div>
       ) : null}
     </div>
-  );
-  // Fullscreen search dialog for all devices
+  );  // Fullscreen search dialog for all devices
   return (
     <div className='w-full'>
       <Dialog open={isOpen} onOpenChange={handleDialogChange}>
         <DialogTrigger asChild>
-          <Button
-            variant='outline'
-            className='relative w-full pl-10 justify-start text-left text-muted-foreground font-normal border border-gray-300 rounded-md h-10 hover:bg-gray-50 transition-colors duration-200'
-          >
-            <Search className='absolute left-3 h-5 w-5 text-gray-400' />
-            <span className='truncate'>{t("placeholder")}</span>
-          </Button>
+          {iconOnly ? (
+            <Button
+              variant='ghost'
+              size='icon'
+              className='text-gray-700 hover:bg-gray-100'
+            >
+              <Search className='h-5 w-5' />
+            </Button>
+          ) : (
+            <Button
+              variant='outline'
+              className='relative w-full pl-10 justify-start text-left text-muted-foreground font-normal border border-gray-300 rounded-md h-10 hover:bg-gray-50 transition-colors duration-200'
+            >
+              <Search className='absolute left-3 h-5 w-5 text-gray-400' />
+              <span className='truncate'>{t("placeholder")}</span>
+            </Button>
+          )}
         </DialogTrigger>
         <DialogContent className='max-w-4xl p-0 max-h-[90vh] overflow-hidden'>
           <div className='p-3 border-b sticky top-0 bg-white z-10'>

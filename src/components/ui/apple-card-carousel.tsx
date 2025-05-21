@@ -289,9 +289,13 @@ export const BlurImage = ({
       height={height}
       loading="lazy"
       decoding="async"
-      blurDataURL={typeof src === "string" ? src : undefined}
+      // Removing blurDataURL prop that's causing the warning
       alt={alt ? alt : "Background of a beautiful view"}
-      {...rest}
+      // Convert boolean fill prop to string if present
+      {...Object.entries(rest).reduce((acc, [key, value]) => {
+        acc[key] = typeof value === 'boolean' ? String(value) : value;
+        return acc;
+      }, {} as Record<string, any>)}
     />
   );
 };

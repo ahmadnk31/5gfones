@@ -96,6 +96,9 @@ type ProductVariant = {
   variant_value: string;
   price_adjustment: string;
   stock: string;
+  discount_percentage?: string;
+  discount_start_date?: string;
+  discount_end_date?: string;
   images: string[]; // Array of image URLs for this variant
 };
 
@@ -108,6 +111,9 @@ type ProductFormData = {
   image_url: string;
   base_price: string;
   in_stock: string;
+  discount_percentage?: string;
+  discount_start_date?: string;
+  discount_end_date?: string;
   has_variations: boolean;
   variants: ProductVariant[];
 };
@@ -140,17 +146,19 @@ export default function AccessoriesPage() {
     image_url: "",
     base_price: "",
     in_stock: "0",
+    discount_percentage: "",
+    discount_start_date: "",
+    discount_end_date: "",
     has_variations: false,
     variants: [],
   });
-
   // Options for dropdowns
   const [categoryOptions, setCategoryOptions] = useState<CategoryOption[]>([]);
   const [brandOptions, setBrandOptions] = useState<BrandOption[]>([]);
   const [deviceModelOptions, setDeviceModelOptions] = useState<
     DeviceModelOption[]
   >([]);
-
+  
   // Form state
   const [newProduct, setNewProduct] = useState<ProductFormData>({
     name: "",
@@ -161,6 +169,9 @@ export default function AccessoriesPage() {
     image_url: "",
     base_price: "",
     in_stock: "0",
+    discount_percentage: "",
+    discount_start_date: "",
+    discount_end_date: "",
     has_variations: false,
     variants: [],
   });
@@ -394,9 +405,7 @@ export default function AccessoriesPage() {
           
           variant.images = imagesData?.map(img => img.image_url) || [];
         }
-      }
-
-      // Format the data for the form
+      }      // Format the data for the form
       setEditProduct({
         name: product.name,
         description: product.description || "",
@@ -407,14 +416,19 @@ export default function AccessoriesPage() {
         image_url: product.image_url || "",
         base_price: product.base_price.toString() || "",
         in_stock: product.in_stock.toString() || "0",
+        discount_percentage: product.discount_percentage ? product.discount_percentage.toString() : "",
+        discount_start_date: product.discount_start_date || "",
+        discount_end_date: product.discount_end_date || "",
         has_variations: variants && variants.length > 0,
         variants:
           variantsWithImages?.map((variant) => ({
-            id: variant.id,
-            variant_name: variant.variant_name,
+            id: variant.id,          variant_name: variant.variant_name,
             variant_value: variant.variant_value,
             price_adjustment: variant.price_adjustment.toString(),
             stock: variant.stock.toString(),
+            discount_percentage: variant.discount_percentage ? variant.discount_percentage.toString() : "",
+            discount_start_date: variant.discount_start_date || "",
+            discount_end_date: variant.discount_end_date || "",
             images: variant.images || [],
           })) || [],
       });
@@ -441,9 +455,7 @@ export default function AccessoriesPage() {
 
       if (!userId) {
         throw new Error("User not authenticated");
-      }
-
-      // Update product details
+      }      // Update product details
       const productData = {
         name: editProduct.name,
         description: editProduct.description || null,
@@ -456,6 +468,9 @@ export default function AccessoriesPage() {
         base_price: parseFloat(editProduct.base_price),
         in_stock: parseInt(editProduct.in_stock),
         has_variations: editProduct.has_variations,
+        discount_percentage: editProduct.discount_percentage ? parseFloat(editProduct.discount_percentage) : null,
+        discount_start_date: editProduct.discount_start_date || null,
+        discount_end_date: editProduct.discount_end_date || null,
         user_uid: userId,
       };
 
@@ -479,13 +494,15 @@ export default function AccessoriesPage() {
         for (const variant of editProduct.variants) {
           // Insert variant
           const { data: newVariant, error: insertVariantError } = await supabase
-            .from("product_variants")
-            .insert({
+            .from("product_variants")            .insert({
               product_id: editProductId,
               variant_name: variant.variant_name,
               variant_value: variant.variant_value,
               price_adjustment: parseFloat(variant.price_adjustment),
               stock: parseInt(variant.stock),
+              discount_percentage: variant.discount_percentage ? parseFloat(variant.discount_percentage) : null,
+              discount_start_date: variant.discount_start_date || null,
+              discount_end_date: variant.discount_end_date || null,
               user_uid: userId,
             })
             .select();
@@ -561,6 +578,9 @@ export default function AccessoriesPage() {
           variant_value: "",
           price_adjustment: "0",
           stock: "0",
+          discount_percentage: "",
+          discount_start_date: "",
+          discount_end_date: "",
           images: [],
         },
       ],
@@ -685,7 +705,6 @@ export default function AccessoriesPage() {
       setGeneratingDescription(false);
     }
   };
-
   // Handle adding a variant to the form
   const handleAddVariant = () => {
     setNewProduct({
@@ -697,6 +716,9 @@ export default function AccessoriesPage() {
           variant_value: "",
           price_adjustment: "0",
           stock: "0",
+          discount_percentage: "",
+          discount_start_date: "",
+          discount_end_date: "",
           images: [],
         },
       ],
@@ -772,9 +794,7 @@ export default function AccessoriesPage() {
 
       if (!userId) {
         throw new Error("User not authenticated");
-      }
-
-      const productData = {
+      }      const productData = {
         name: newProduct.name,
         description: newProduct.description || null,
         category_id: parseInt(newProduct.category_id),
@@ -787,6 +807,9 @@ export default function AccessoriesPage() {
         in_stock: parseInt(newProduct.in_stock),
         has_variations: newProduct.has_variations,
         is_repair_part: false,
+        discount_percentage: newProduct.discount_percentage ? parseFloat(newProduct.discount_percentage) : null,
+        discount_start_date: newProduct.discount_start_date || null,
+        discount_end_date: newProduct.discount_end_date || null,
         user_uid: userId,
       };
 
@@ -811,13 +834,15 @@ export default function AccessoriesPage() {
         for (const variant of newProduct.variants) {
           // Insert the variant first
           const { data: variantData, error: variantError } = await supabase
-            .from("product_variants")
-            .insert({
+            .from("product_variants")            .insert({
               product_id: productId,
               variant_name: variant.variant_name,
               variant_value: variant.variant_value,
               price_adjustment: parseFloat(variant.price_adjustment),
               stock: parseInt(variant.stock),
+              discount_percentage: variant.discount_percentage ? parseFloat(variant.discount_percentage) : null,
+              discount_start_date: variant.discount_start_date || null,
+              discount_end_date: variant.discount_end_date || null,
               user_uid: userId,
             })
             .select();
@@ -842,9 +867,7 @@ export default function AccessoriesPage() {
         }
       }
 
-      setIsAddDialogOpen(false);
-
-      // Reset form
+      setIsAddDialogOpen(false);      // Reset form
       setNewProduct({
         name: "",
         description: "",
@@ -854,6 +877,9 @@ export default function AccessoriesPage() {
         image_url: "",
         base_price: "",
         in_stock: "0",
+        discount_percentage: "",
+        discount_start_date: "",
+        discount_end_date: "",
         has_variations: false,
         variants: [],
       });
@@ -998,9 +1024,7 @@ export default function AccessoriesPage() {
                             </SelectContent>
                           </Select>
                         </div>
-                      </div>
-
-                      <div className='grid grid-cols-2 gap-4'>
+                      </div>                      <div className='grid grid-cols-2 gap-4'>
                         <div>
                           <Label htmlFor='base-price'>Base Price</Label>
                           <div className='relative mt-1'>
@@ -1042,6 +1066,74 @@ export default function AccessoriesPage() {
                             }
                             required
                           />
+                        </div>
+                      </div>
+                        <div className='grid grid-cols-2 gap-4'>
+                        <div>
+                          <Label htmlFor='discount-percentage'>Discount Percentage</Label>
+                          <div className='relative mt-1'>
+                            <span className='absolute inset-y-0 right-3 flex items-center text-muted-foreground'>
+                              %
+                            </span>
+                            <Input
+                              id='discount-percentage'
+                              type='number'
+                              step='0.1'
+                              min='0'
+                              max='100'
+                              className='pr-8'
+                              placeholder='10'
+                              value={newProduct.discount_percentage || ''}
+                              onChange={(e) =>
+                                setNewProduct({
+                                  ...newProduct,
+                                  discount_percentage: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <p className='text-xs text-muted-foreground mt-1'>
+                            Leave empty for no discount
+                          </p>
+                        </div>
+                        <div>
+                          <Label htmlFor='discount-start-date'>Discount Start Date</Label>
+                          <Input
+                            id='discount-start-date'
+                            type='date'
+                            className='mt-1'
+                            value={newProduct.discount_start_date || ''}
+                            onChange={(e) =>
+                              setNewProduct({
+                                ...newProduct,
+                                discount_start_date: e.target.value,
+                              })
+                            }
+                          />
+                          <p className='text-xs text-muted-foreground mt-1'>
+                            Optional, defaults to immediate start
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className='grid grid-cols-1 gap-4'>
+                        <div>
+                          <Label htmlFor='discount-end-date'>Discount End Date</Label>
+                          <Input
+                            id='discount-end-date'
+                            type='date'
+                            className='mt-1'
+                            value={newProduct.discount_end_date || ''}
+                            onChange={(e) =>
+                              setNewProduct({
+                                ...newProduct,
+                                discount_end_date: e.target.value,
+                              })
+                            }
+                          />
+                          <p className='text-xs text-muted-foreground mt-1'>
+                            Optional, leave empty for no end date
+                          </p>
                         </div>
                       </div>
 
@@ -1241,9 +1333,7 @@ export default function AccessoriesPage() {
                                 required
                               />
                             </div>
-                          </div>
-
-                          <div className='grid md:grid-cols-2 gap-4'>
+                          </div>                          <div className='grid md:grid-cols-2 gap-4'>
                             <div>
                               <Label
                                 htmlFor={`price-adjustment-${variantIndex}`}
@@ -1293,6 +1383,88 @@ export default function AccessoriesPage() {
                                 required
                               />
                             </div>
+                          </div>
+
+                          <div className='grid md:grid-cols-2 gap-4'>
+                            <div>
+                              <Label
+                                htmlFor={`discount-percentage-${variantIndex}`}
+                              >
+                                Discount Percentage
+                              </Label>
+                              <div className='relative mt-1'>
+                                <span className='absolute inset-y-0 right-3 flex items-center text-muted-foreground'>
+                                  %
+                                </span>
+                                <Input
+                                  id={`discount-percentage-${variantIndex}`}
+                                  type='number'
+                                  step='0.1'
+                                  min='0'
+                                  max='100'
+                                  className='pr-8'
+                                  placeholder='10'
+                                  value={variant.discount_percentage || ''}
+                                  onChange={(e) =>
+                                    handleVariantChange(
+                                      variantIndex,
+                                      "discount_percentage",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              </div>
+                              <p className='text-xs text-muted-foreground mt-1'>
+                                Optional, leave empty for no discount
+                              </p>
+                            </div>
+                            <div>
+                              <Label
+                                htmlFor={`discount-start-date-${variantIndex}`}
+                              >
+                                Discount Start Date
+                              </Label>
+                              <Input
+                                id={`discount-start-date-${variantIndex}`}
+                                type='date'
+                                className='mt-1'
+                                value={variant.discount_start_date || ''}
+                                onChange={(e) =>
+                                  handleVariantChange(
+                                    variantIndex,
+                                    "discount_start_date",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <p className='text-xs text-muted-foreground mt-1'>
+                                Optional, defaults to immediate start
+                              </p>
+                            </div>
+                          </div>
+
+                          <div>
+                            <Label
+                              htmlFor={`discount-end-date-${variantIndex}`}
+                            >
+                              Discount End Date
+                            </Label>
+                            <Input
+                              id={`discount-end-date-${variantIndex}`}
+                              type='date'
+                              className='mt-1'
+                              value={variant.discount_end_date || ''}
+                              onChange={(e) =>
+                                handleVariantChange(
+                                  variantIndex,
+                                  "discount_end_date",
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <p className='text-xs text-muted-foreground mt-1'>
+                              Optional, leave empty for no end date
+                            </p>
                           </div>
 
                           <div>
@@ -1633,9 +1805,7 @@ export default function AccessoriesPage() {
                           </SelectContent>
                         </Select>
                       </div>
-                    </div>
-
-                    <div className='grid grid-cols-2 gap-4'>
+                    </div>                    <div className='grid grid-cols-2 gap-4'>
                       <div>
                         <Label htmlFor='edit-base-price'>Base Price</Label>
                         <div className='relative mt-1'>
@@ -1677,6 +1847,74 @@ export default function AccessoriesPage() {
                           }
                           required
                         />
+                      </div>
+                    </div>
+                      <div className='grid grid-cols-2 gap-4'>
+                      <div>
+                        <Label htmlFor='edit-discount-percentage'>Discount Percentage</Label>
+                        <div className='relative mt-1'>
+                          <span className='absolute inset-y-0 right-3 flex items-center text-muted-foreground'>
+                            %
+                          </span>
+                          <Input
+                            id='edit-discount-percentage'
+                            type='number'
+                            step='0.1'
+                            min='0'
+                            max='100'
+                            className='pr-8'
+                            placeholder='10'
+                            value={editProduct.discount_percentage || ''}
+                            onChange={(e) =>
+                              setEditProduct({
+                                ...editProduct,
+                                discount_percentage: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        <p className='text-xs text-muted-foreground mt-1'>
+                          Leave empty for no discount
+                        </p>
+                      </div>
+                      <div>
+                        <Label htmlFor='edit-discount-start-date'>Discount Start Date</Label>
+                        <Input
+                          id='edit-discount-start-date'
+                          type='date'
+                          className='mt-1'
+                          value={editProduct.discount_start_date || ''}
+                          onChange={(e) =>
+                            setEditProduct({
+                              ...editProduct,
+                              discount_start_date: e.target.value,
+                            })
+                          }
+                        />
+                        <p className='text-xs text-muted-foreground mt-1'>
+                          Optional, defaults to immediate start
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className='grid grid-cols-1 gap-4'>
+                      <div>
+                        <Label htmlFor='edit-discount-end-date'>Discount End Date</Label>
+                        <Input
+                          id='edit-discount-end-date'
+                          type='date'
+                          className='mt-1'
+                          value={editProduct.discount_end_date || ''}
+                          onChange={(e) =>
+                            setEditProduct({
+                              ...editProduct,
+                              discount_end_date: e.target.value,
+                            })
+                          }
+                        />
+                        <p className='text-xs text-muted-foreground mt-1'>
+                          Optional, leave empty for no end date
+                        </p>
                       </div>
                     </div>
 
@@ -1884,9 +2122,7 @@ export default function AccessoriesPage() {
                               required
                             />
                           </div>
-                        </div>
-
-                        <div className='grid md:grid-cols-2 gap-4'>
+                        </div>                        <div className='grid md:grid-cols-2 gap-4'>
                           <div>
                             <Label
                               htmlFor={`edit-price-adjustment-${variantIndex}`}
@@ -1936,6 +2172,88 @@ export default function AccessoriesPage() {
                               required
                             />
                           </div>
+                        </div>
+
+                        <div className='grid md:grid-cols-2 gap-4'>
+                          <div>
+                            <Label
+                              htmlFor={`edit-discount-percentage-${variantIndex}`}
+                            >
+                              Discount Percentage
+                            </Label>
+                            <div className='relative mt-1'>
+                              <span className='absolute inset-y-0 right-3 flex items-center text-muted-foreground'>
+                                %
+                              </span>
+                              <Input
+                                id={`edit-discount-percentage-${variantIndex}`}
+                                type='number'
+                                step='0.1'
+                                min='0'
+                                max='100'
+                                className='pr-8'
+                                placeholder='10'
+                                value={variant.discount_percentage || ''}
+                                onChange={(e) =>
+                                  handleEditVariantChange(
+                                    variantIndex,
+                                    "discount_percentage",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                            <p className='text-xs text-muted-foreground mt-1'>
+                              Optional, leave empty for no discount
+                            </p>
+                          </div>
+                          <div>
+                            <Label
+                              htmlFor={`edit-discount-start-date-${variantIndex}`}
+                            >
+                              Discount Start Date
+                            </Label>
+                            <Input
+                              id={`edit-discount-start-date-${variantIndex}`}
+                              type='date'
+                              className='mt-1'
+                              value={variant.discount_start_date || ''}
+                              onChange={(e) =>
+                                handleEditVariantChange(
+                                  variantIndex,
+                                  "discount_start_date",
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <p className='text-xs text-muted-foreground mt-1'>
+                              Optional, defaults to immediate start
+                            </p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label
+                            htmlFor={`edit-discount-end-date-${variantIndex}`}
+                          >
+                            Discount End Date
+                          </Label>
+                          <Input
+                            id={`edit-discount-end-date-${variantIndex}`}
+                            type='date'
+                            className='mt-1'
+                            value={variant.discount_end_date || ''}
+                            onChange={(e) =>
+                              handleEditVariantChange(
+                                variantIndex,
+                                "discount_end_date",
+                                e.target.value
+                              )
+                            }
+                          />
+                          <p className='text-xs text-muted-foreground mt-1'>
+                            Optional, leave empty for no end date
+                          </p>
                         </div>
 
                         <div>

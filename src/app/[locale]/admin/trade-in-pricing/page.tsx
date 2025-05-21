@@ -458,7 +458,7 @@ export default function AdminTradePricingPage() {
   };
 
   return (
-    <AdminLayout>
+    
       <div className="container py-8">
         <h1 className="text-3xl font-bold mb-6">Trade-in Price Prediction</h1>
         
@@ -1037,6 +1037,6 @@ export default function AdminTradePricingPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </AdminLayout>
+    
   );
 }

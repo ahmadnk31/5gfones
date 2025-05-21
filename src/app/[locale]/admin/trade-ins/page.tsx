@@ -6,11 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+  CardContent
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -29,7 +25,7 @@ import {
   DollarSign,
   Loader2,
 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+
 import {
   Dialog,
   DialogContent,
@@ -54,6 +50,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
+import { formatCurrency } from "@/lib/utils";
 
 type TradeIn = {
   id: number;
@@ -104,7 +102,6 @@ type AuditLog = {
 
 export default function AdminTradeInsPage() {
   const t = useTranslations("admin.tradeIns");
-  const { toast } = useToast();
   const [tradeIns, setTradeIns] = useState<TradeIn[]>([]);
   const [filteredTradeIns, setFilteredTradeIns] = useState<TradeIn[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -151,13 +148,10 @@ export default function AdminTradeInsPage() {
 
       if (error) throw error;
 
-      setTradeIns(data as TradeIn[]);
-    } catch (error) {
+      setTradeIns(data as TradeIn[]);    } catch (error) {
       console.error("Error loading trade-ins:", error);
-      toast({
-        title: t("errorLoading"),
+      toast.error(t("errorLoading"), {
         description: t("tryAgainLater"),
-        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -227,13 +221,7 @@ export default function AdminTradeInsPage() {
     return new Date(dateString).toLocaleDateString();
   };
 
-  const formatCurrency = (value: number | null) => {
-    if (value === null) return "-";
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(value);
-  };
+  
 
   const loadAuditLogs = async (tradeInId: number) => {
     const supabase = createClient();
@@ -305,13 +293,10 @@ export default function AdminTradeInsPage() {
           status_from: selectedTradeIn.status,
           status_to: newStatus,
           notes: adminNotes,
-        });
-
-      if (auditError) throw auditError;
+        });      if (auditError) throw auditError;
 
       // 3. Refresh data
-      toast({
-        title: t("statusUpdated"),
+      toast.success(t("statusUpdated"), {
         description: t("tradeInStatusUpdated"),
       });
 
@@ -359,13 +344,10 @@ export default function AdminTradeInsPage() {
       await loadAuditLogs(selectedTradeIn.id);
 
       // Close dialog
-      setShowUpdateDialog(false);
-    } catch (error) {
+      setShowUpdateDialog(false);    } catch (error) {
       console.error("Error updating trade-in:", error);
-      toast({
-        title: t("updateError"),
+      toast.error(t("updateError"), {
         description: t("tryAgainLater"),
-        variant: "destructive",
       });
     } finally {
       setIsUpdating(false);

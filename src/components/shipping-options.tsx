@@ -25,6 +25,14 @@ const DeliveryOption = ({
   checked,
   onChange,
 }: DeliveryOptionProps) => {
+  // Create a handler for card clicks
+  const handleCardClick = () => {
+    // Only call onChange if the value is different
+    if (!checked) {
+      onChange(value);
+    }
+  };
+  
   return (
     <Card
       className={cn(
@@ -33,7 +41,7 @@ const DeliveryOption = ({
           ? "border-primary bg-primary/5"
           : "border-gray-200 hover:bg-gray-50"
       )}
-      onClick={() => onChange(value)}
+      onClick={handleCardClick}
     >
       {checked && (
         <div className='absolute top-2 right-2 h-5 w-5 bg-primary rounded-full flex items-center justify-center'>
@@ -74,35 +82,38 @@ export function ShippingOptions({
 }: ShippingOptionsProps) {
   const t = useTranslations("shipping");
 
+  // Use this handler to prevent unnecessary rerenders and state updates
+  const handleOptionChange = (newValue: string) => {
+    // Only trigger parent onChange if value is actually changing
+    if (newValue !== value) {
+      onChange(newValue);
+    }
+  };
+
   return (
     <RadioGroup
       value={value}
-      onValueChange={onChange}
+      onValueChange={handleOptionChange}
       className='grid gap-4 mt-4'
-    >
-      <DeliveryOption
+    ><DeliveryOption
         value='pickup'
         icon={<User className='h-5 w-5' />}
         title={t("shipping.pickup.title")}
         description={t(
           "shipping.pickup.description"
         )}
-        checked={value === "pickup"}
-        onChange={onChange}
-      />
-
-      <DeliveryOption
+        checked={value === 'pickup'}
+        onChange={handleOptionChange}
+      />      <DeliveryOption
         value='in_store'
         icon={<Store className='h-5 w-5' />}
         title={t("shipping.in_store.title")}
         description={t(
           "shipping.in_store.description"
         )}
-        checked={value === "in_store"}
-        onChange={onChange}
-      />
-
-      <DeliveryOption
+        checked={value === 'in_store'}
+        onChange={handleOptionChange}
+      />      <DeliveryOption
         value='shipping'
         icon={<Truck className='h-5 w-5' />}
         title={t("shipping.shipping.title")}
@@ -110,8 +121,8 @@ export function ShippingOptions({
           "shipping.shipping.description"
         )}
         price={`$${shippingCost.toFixed(2)}`}
-        checked={value === "shipping"}
-        onChange={onChange}
+        checked={value === 'shipping'}
+        onChange={handleOptionChange}
       />
     </RadioGroup>
   );

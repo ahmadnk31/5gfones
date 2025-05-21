@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/select";
 import { SlidersHorizontal, FilterX } from "lucide-react";
 import { FilterPanel } from "@/components/search/filter-panel";
+import { withCategoryDiscounts } from "@/lib/category-discount-helper";
+import ProductsWithDiscounts from "./products-with-discounts";
 
 interface Product {
   id: string | number;
@@ -23,7 +25,7 @@ interface Product {
   image_url: string | null;
   in_stock: boolean;
   brand_id: number;
-  category_id?: number;
+  category_id?: number; // Make it optional to match existing code
   brands: { id: number, name: string } | null;
   variant_count: number;
   product_variants: {
@@ -32,6 +34,7 @@ interface Product {
     price_adjustment: number;
     image_url: string | null;
   }[];
+  categoryDiscount?: number; // Add category discount field
 }
 
 interface Category {
@@ -394,10 +397,8 @@ export default function ProductsGrid({
         </div>
 
         {/* Products grid */}
-        <div className='flex-1'>
-          {/* Results count and sort */}          <div className='flex flex-col sm:flex-row justify-between items-center mb-6'>
-            {" "}
-            <p className='text-gray-600 mb-2 sm:mb-0'>
+        <div className='flex-1'>          {/* Results count and sort */}          <div className='flex flex-col sm:flex-row justify-between items-center mb-6'>
+            <p className="text-sm">
               {t("products.pagination.showing")} {products.length} {t("products.pagination.of")}{" "}
               {totalProducts} {t("products.pagination.products")}
               {isPending && (
@@ -423,40 +424,10 @@ export default function ProductsGrid({
                 </SelectContent>
               </Select>
             </div>
-          </div>{" "}
-          {/* Products */}
+          </div>{" "}          {/* Products */}
           {products.length > 0 ? (
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-              {products.map((product) => {                // Debug logging to see the variant details
-                console.log(
-                  `Product ${product.id} - ${product.name} - variant_count:`,
-                  product.variant_count,
-                  "product_variants:",
-                  product.product_variants,
-                  "brand:",
-                  product.brands
-                );
-
-                // Determine if product has variants
-                const hasVariants = product.variant_count > 0;
-                
-                // Try to get brand name from the product - ensure proper null checks
-                const brandName = product.brands && typeof product.brands === 'object' ? product.brands.name : undefined;
-
-                return (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    price={product.base_price}
-                    imageUrl={product.image_url || "/placeholder.svg"}
-                    inStock={product.in_stock}
-                    hasVariants={hasVariants}
-                    brandName={brandName}
-                  />
-                );
-              })}
-            </div>
+            <ProductsWithDiscounts products={products} t={t} />
+          
           ) : (
             <div className='text-center py-16 bg-gray-50 rounded-lg'>
               <p className='text-xl font-medium mb-2'>
@@ -529,8 +500,7 @@ export default function ProductsGrid({
                 </Button>
               </div>
             </div>
-          )}
-        </div>
+          )}        </div>
       </div>
     </div>
   );

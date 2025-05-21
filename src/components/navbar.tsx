@@ -28,6 +28,7 @@ const NavBar = () => {
   const supabase = createClient();
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [userRole,setUserRole]=useState<string>("user");
   const [cartCount, setCartCount] = useState(0); // Get the current locale for links
   const locale = useTranslations("common")("locale") || "en";
 
@@ -36,6 +37,18 @@ const NavBar = () => {
     const checkUser = async () => {
       const { data } = await supabase.auth.getSession();
       setUser(data?.session?.user || null);
+      if (data?.session?.user) {
+        const { data: profileData, error } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", data.session.user.id)
+          .single();
+        if (error) {
+          console.error("Error fetching user role:", error);
+        } else {
+          setUserRole(profileData?.role || "user");
+        }
+      }
     };
 
     checkUser();
@@ -86,10 +99,9 @@ const NavBar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
   return (
     <nav className='bg-white shadow-md sticky top-0 z-50'>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
         <div className='flex justify-between h-16'>
           {/* Logo and brand name */}{" "}
           <div className='flex items-center'>
@@ -104,7 +116,7 @@ const NavBar = () => {
                 height={32}
                 className='h-8 w-auto'
               />
-              <span className='ml-2 text-xl font-bold text-gray-900'>
+              <span className='ml-2 text-lg sm:text-xl font-bold text-gray-900 truncate max-w-[100px] sm:max-w-full'>
                 5GPhones
               </span>
             </Link>
@@ -390,7 +402,38 @@ const NavBar = () => {
                         className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                       >
                         {t("account")}
-                      </Link>                      <Link
+                      </Link>
+                      
+                      {/* Admin links for staff members */}
+                      {userRole==='admin' && (
+                        <>
+                          <Link
+                            href={`/${locale}/admin`}
+                            className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          >
+                            Admin Dashboard
+                          </Link>
+                          <Link
+                            href={`/${locale}/admin/settings`}
+                            className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          >
+                            Payment Settings
+                          </Link>                          <Link
+                            href={`/${locale}/admin/test-payment`}
+                            className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          >
+                            Test Payment
+                          </Link>
+                          <Link
+                            href={`/${locale}/admin/refund-requests`}
+                            className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          >
+                            Refund Requests
+                          </Link>
+                        </>
+                      )}
+                      
+                      <Link
                         href={`/${locale}/orders`}
                         className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                       >
@@ -422,11 +465,11 @@ const NavBar = () => {
                 </Link>
               )}
             </div>
-          </div>{" "}
-          {/* Mobile Menu Button */}
-          <div className='flex items-center md:hidden'>
-            <Link href={`/${locale}/cart`} className='relative mr-4'>
-              <ShoppingCart className='h-6 w-6 text-gray-700' />
+          </div>{" "}          {/* Mobile Menu Button */}
+          <div className='flex items-center md:hidden gap-2'>
+            <SearchBarModal iconOnly={true} />
+            <Link href={`/${locale}/cart`} className='relative mr-1'>
+              <ShoppingCart className='h-5 w-5 text-gray-700' />
               {cartCount > 0 && (
                 <Badge
                   variant='destructive'
@@ -444,9 +487,9 @@ const NavBar = () => {
               onClick={toggleMenu}
             >
               {isOpen ? (
-                <X className='block h-6 w-6' aria-hidden='true' />
+                <X className='block h-5 w-5' aria-hidden='true' />
               ) : (
-                <Menu className='block h-6 w-6' aria-hidden='true' />
+                <Menu className='block h-5 w-5' aria-hidden='true' />
               )}
             </button>
           </div>
@@ -559,6 +602,47 @@ const NavBar = () => {
                 </Link>
               </div>
             </div>
+            
+            {/* Admin Section for Mobile (only shown to admins) */}
+            {user?.user_metadata?.is_admin && (
+              <div className='space-y-1'>
+                <div className='flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'>
+                  <Link href={`/${locale}/admin`}>Admin</Link>
+                  <button
+                    className='p-1 focus:outline-none'
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const submenu = document.getElementById("admin-submenu-mobile");
+                      if (submenu) {
+                        submenu.classList.toggle("hidden");
+                      }
+                    }}
+                  >
+                    <ChevronDown className='h-4 w-4' />
+                  </button>
+                </div>
+
+                <div id='admin-submenu-mobile' className='pl-6 hidden space-y-1'>
+                  <Link
+                    href={`/${locale}/admin/settings`}
+                    className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
+                  >
+                    Payment Settings
+                  </Link>                  <Link
+                    href={`/${locale}/admin/test-payment`}
+                    className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
+                  >
+                    Test Payment
+                  </Link>
+                  <Link
+                    href={`/${locale}/admin/refund-requests`}
+                    className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
+                  >
+                    Refund Requests
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Search */}
@@ -614,7 +698,7 @@ const NavBar = () => {
                 >
                   {t("account")}
                 </Link>                <Link
-                  href={`/${locale}/orders`}
+                  href={`/${locale}/account/orders`}
                   className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
                 >
                   {t("myOrders")}

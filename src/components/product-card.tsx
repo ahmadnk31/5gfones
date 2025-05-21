@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "@/lib/cart-provider";
 import { usePathname } from "next/navigation";
+import { calculateDiscountedPrice, hasDiscount, getEffectiveDiscountPercentage } from "@/lib/discount";
 
 interface ProductCardProps {
   id: string | number;
@@ -18,6 +19,8 @@ interface ProductCardProps {
   inStock: boolean;
   hasVariants?: boolean;
   brandName?: string | undefined;
+  productDiscount?: number; // Product specific discount percentage
+  categoryDiscount?: number; // Category specific discount percentage
 }
 
 // Cart item type
@@ -38,21 +41,39 @@ const ProductCard = ({
   inStock,
   hasVariants = false,
   brandName,
+  productDiscount = 0,
+  categoryDiscount = 0,
 }: ProductCardProps) => {
   const t = useTranslations("product");
-  const { addItem } = useCart();  const handleAddToCart = (e: React.MouseEvent) => {
+  const { addItem } = useCart();
+  
+  // Calculate if there's any discount (product or category)
+  const hasAnyDiscount = hasDiscount(productDiscount, categoryDiscount);
+  
+  // Get the higher discount percentage
+  const effectiveDiscount = getEffectiveDiscountPercentage(productDiscount, categoryDiscount);
+  
+  // Calculate the discounted price
+  const finalPrice = hasAnyDiscount 
+    ? calculateDiscountedPrice(price, productDiscount, categoryDiscount)
+    : price;
+  
+  // Determine if the effective discount is from the category
+  const isDiscountFromCategory = categoryDiscount > 0 && categoryDiscount >= productDiscount;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();  // Stop event from bubbling up to the Link
 
     // If product has variants, don't add directly to cart - redirect to product detail
     if (hasVariants) return;
 
-    // Add product to cart
+    // Add product to cart with the discounted price
     addItem({
       id: Date.now(), // Unique ID for the cart item
       product_id: typeof id === "string" ? parseInt(id, 10) : id,
       name,
-      price,
+      price: finalPrice,
       image_url: imageUrl || undefined,
       quantity: 1,
     });
@@ -73,11 +94,21 @@ const ProductCard = ({
     } catch (error) {
       console.error("Error showing toast notification", error);
     }
-  };  // Format price as currency
+  };
+
+  // Format price as currency
   const formattedPrice = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "EUR",
-  }).format(price);
+  }).format(finalPrice);
+  
+  // Format original price for display when discounted
+  const formattedOriginalPrice = hasAnyDiscount 
+    ? new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+      }).format(price)
+    : "";
 
   // Get the current locale from the URL
   const pathname = usePathname();

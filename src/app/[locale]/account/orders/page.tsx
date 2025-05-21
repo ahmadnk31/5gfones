@@ -56,14 +56,19 @@ interface Order {
   created_at: string;
   updated_at?: string;
   status: "processing" | "shipped" | "delivered" | "cancelled";
-  payment_status: "paid" | "pending" | "failed";
+  payment_status: "paid" | "pending" | "failed" | "refunded" | "partially_refunded";
   payment_method?: "card" | "cash" | string;
   payment_id?: string;
+  user_uid?: string;
   total: number;
   subtotal?: number;
   shipping_cost?: number;
   tax?: number;
   discount?: number;
+  refund_amount?: number;
+  refund_date?: string;
+  refund_reason?: string;
+  refund_status?: "pending" | "approved" | "rejected";
   order_items: OrderItem[];
   shipping_address?: {
     id: string;
@@ -93,9 +98,7 @@ export default function OrdersPage() {
         const {
           data: { user },
         } = await supabase.auth.getUser();
-        if (!user) return;
-
-        // Get user orders
+        if (!user) return;        // Get user orders
         const { data, error } = await supabase
           .from("orders")
           .select(
@@ -105,6 +108,7 @@ export default function OrdersPage() {
             status,
             total,
             payment_status,
+            refund_status,
             order_items (
               id,
               quantity,
@@ -145,7 +149,6 @@ export default function OrdersPage() {
         return "bg-gray-100 text-gray-800 hover:bg-gray-200";
     }
   };
-
   // Function to get payment status badge color
   const getPaymentStatusColor = (status: Order["payment_status"]) => {
     switch (status) {
@@ -155,6 +158,10 @@ export default function OrdersPage() {
         return "bg-yellow-100 text-yellow-800 hover:bg-yellow-200";
       case "failed":
         return "bg-red-100 text-red-800 hover:bg-red-200";
+      case "refunded":
+        return "bg-purple-100 text-purple-800 hover:bg-purple-200";
+      case "partially_refunded":
+        return "bg-blue-100 text-blue-800 hover:bg-blue-200";
       default:
         return "bg-gray-100 text-gray-800 hover:bg-gray-200";
     }

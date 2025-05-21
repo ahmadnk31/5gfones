@@ -1,0 +1,66 @@
+{
+  "admin": {
+    "settings": {
+      "title": "Admin Settings",
+      "description": "Configure your store settings and payment options",
+      "tabs": {
+        "payment": "Payment",
+        "refunds": "Refunds"
+      },
+      "payment": {
+        "title": "Payment Settings",
+        "description": "Configure payment providers and options",
+        "testMode": "Test Mode",
+        "testModeDescription": "When enabled, payments will be processed in test mode",
+        "publicKey": "Stripe Public Key",
+        "secretKey": "Stripe Secret Key",
+        "webhookSecret": "Stripe Webhook Secret",
+        "currency": "Currency",
+        "selectCurrency": "Select currency",
+        "enableStripeCheckout": "Enable Stripe Checkout",
+        "enableStripeCheckoutDesc": "Redirect customers to Stripe hosted checkout page",
+        "enableStripeElements": "Enable Stripe Elements",
+        "enableStripeElementsDesc": "Collect payment information directly on your site",
+        "allowRefunds": "Allow Refunds",
+        "allowRefundsDesc": "Process refunds from the admin dashboard",
+        "autoCapture": "Auto-capture Payments",
+        "autoCaptureDesc": "Automatically capture payments when created",
+        "secretKeyWarning": "For security, use environment variables instead of storing keys in database",
+        "securityWarningTitle": "Security Warning",
+        "securityWarningMessage": "API keys should be stored in environment variables rather than in the database. This form is for testing purposes only.",
+        "securityWarningConfirm": "I understand"
+      },
+      "refunds": {
+        "title": "Refund Management",
+        "description": "Process refunds and view payment history",
+        "orderId": "Order ID",
+        "date": "Date",
+        "customer": "Customer",
+        "amount": "Amount",
+        "status": "Status",
+        "actions": "Actions",
+        "refundButton": "Refund",
+        "noOrders": "No orders eligible for refund",
+        "refundOrder": "Refund Order",
+        "refundDescription": "Process a full or partial refund for this order",
+        "refundAmount": "Refund Amount",
+        "maxRefund": "Maximum refund amount: {amount}",
+        "reason": "Reason for Refund",
+        "selectReason": "Select a reason",
+        "reasons": {
+          "requestedByCustomer": "Requested by customer",
+          "duplicate": "Duplicate charge",
+          "fraudulent": "Fraudulent order",
+          "orderChange": "Order changed or canceled",
+          "productUnavailable": "Product unavailable"
+        },
+        "processing": "Processing...",
+        "confirmRefund": "Confirm Refund"
+      },
+      "saving": "Saving...",
+      "saveChanges": "Save Changes"
+    },
+    "loading": "Loading..."
+  },
+  "cancel": "Cancel"
+}

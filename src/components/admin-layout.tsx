@@ -20,6 +20,7 @@ import {
   CalculatorIcon,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { FrameIcon } from "@radix-ui/react-icons";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -46,14 +47,15 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } fixed inset-y-0 z-40 flex w-64 flex-col bg-background border-r border-border transition-transform md:translate-x-0`}
-      >
-        <div className='flex h-14 items-center border-b px-4'>
+      >        <div className='flex h-14 items-center border-b px-4'>
           <Link href='/admin' className='flex items-center gap-2 font-semibold'>
             <PhoneIcon className='h-6 w-6' />
-            <span className='text-lg'>PhoneShop POS</span>
+            <span className='text-lg'>
+              5GPhones  
+            </span>
           </Link>
         </div>
-        <div className='flex flex-1 flex-col gap-1 p-3'>
+        <div className='flex flex-1 flex-col gap-1 p-3 overflow-y-auto'>
           <Link
             href='/admin'
             className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent ${
@@ -132,8 +134,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           >
             <WrenchIcon className='h-4 w-4' />
             Repair Parts
-          </Link>
-          <Link
+          </Link>          <Link
             href='/admin/refurbished'
             className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent ${
               isActive("/admin/refurbished")
@@ -143,6 +144,27 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
           >
             <SmartphoneIcon className='h-4 w-4' />
             Refurbished Products
+          </Link>          <Link
+            href='/admin/category-discounts'
+            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent ${
+              isActive("/admin/category-discounts")
+                ? "bg-accent text-accent-foreground"
+                : ""
+            }`}
+          >
+            <TagIcon className='h-4 w-4' />
+            Category Discounts
+          </Link>
+          <Link
+            href='/admin/product-discounts'
+            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent ${
+              isActive("/admin/product-discounts")
+                ? "bg-accent text-accent-foreground"
+                : ""
+            }`}
+          >
+            <TagIcon className='h-4 w-4' />
+            Product Discounts
           </Link>
           {/* Repair Management */}
           <div className='my-2 px-2.5 text-xs font-medium tracking-wide text-muted-foreground'>
@@ -192,6 +214,15 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             <CalculatorIcon className='h-4 w-4' />
             Trade-in Pricing
           </Link>
+
+          <Link href="/admin/time-slots" className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent ${isActive("/admin/time-slots") ? "bg-accent text-accent-foreground" : ""}`}>
+            <CalendarIcon className='h-4 w-4' />
+            Time Slots
+          </Link>
+          <Link href="/admin/banners" className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all hover:bg-accent ${isActive("/admin/repair-services") ? "bg-accent text-accent-foreground" : ""}`}>
+            <FrameIcon className='h-4 w-4' />
+            Banners
+          </Link>
           {/* Customer Management */}
           <div className='my-2 px-2.5 text-xs font-medium tracking-wide text-muted-foreground'>
             Customer Management
@@ -227,7 +258,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <div
-        className={`flex flex-1 flex-col ${isSidebarOpen ? "md:ml-64" : ""}`}
+        className={`flex flex-1 overflow-y-auto flex-col ${isSidebarOpen ? "md:ml-64" : ""}`}
       >
         <header className='sticky top-0 z-30 flex h-14 items-center border-b bg-background px-4'>
           <div className='flex items-center gap-2 md:hidden'>
@@ -236,7 +267,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               className='flex items-center gap-2 font-semibold'
             >
               <PhoneIcon className='h-6 w-6' />
-              <span>PhoneShop POS</span>
+              <span>
+                5GPhones
+              </span>
             </Link>
           </div>
           <div className='ml-auto flex items-center gap-2'>

@@ -31,6 +31,7 @@ export function StripeAddressElement({
   onChange,
   defaultValues,
 }: StripeAddressElementProps) {
+  // Simplified address change handler that doesn't keep internal state
   const handleAddressChange = (event: StripeAddressElementChangeEvent) => {
     if (event.complete) {
       const { name, address } = event.value;
@@ -48,8 +49,6 @@ export function StripeAddressElement({
           fields: {
             phone: "never",
           },
-          // Removed validation for phone since we're not collecting phone
-          // The error was caused by specifying validation.phone without setting fields.phone to always
         }}
         onChange={handleAddressChange}
       />

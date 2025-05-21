@@ -35,7 +35,29 @@ import {
   User,
   Phone,
   Mail,
+  RefreshCw,
+  AlertTriangle,
+  ChevronsUpDown,
 } from "lucide-react";
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
 import { formatCurrency } from "@/lib/utils";
 import { format } from "date-fns";
 
@@ -59,14 +81,19 @@ interface Order {
   created_at: string;
   updated_at?: string;
   status: "processing" | "shipped" | "delivered" | "cancelled";
-  payment_status: "paid" | "pending" | "failed";
+  payment_status: "paid" | "pending" | "failed" | "refunded" | "partially_refunded";
   payment_method?: "card" | "cash" | string;
   payment_id?: string;
+  user_uid?: string;
   total: number;
   subtotal?: number;
   shipping_cost?: number;
   tax?: number;
   discount?: number;
+  refund_amount?: number;
+  refund_date?: string;
+  refund_reason?: string;
+  refund_status?: "pending" | "approved" | "rejected";
   order_items: OrderItem[];
   shipping_address?: {
     id: string;
@@ -98,14 +125,13 @@ export default function OrderDetailsPage() {
         const {
           data: { user },
         } = await supabase.auth.getUser();
-        if (!user) return;
-
-        // Get order details
+        if (!user) return;        // Get order details
         const { data, error } = await supabase
           .from("orders")
           .select(
             `
             *,
+            user_uid,
             order_items (
               id,
               quantity,
@@ -160,7 +186,6 @@ export default function OrderDetailsPage() {
         return "bg-gray-100 text-gray-800 hover:bg-gray-200";
     }
   };
-
   // Function to get payment status badge color
   const getPaymentStatusColor = (status: Order["payment_status"]) => {
     switch (status) {
@@ -170,6 +195,10 @@ export default function OrderDetailsPage() {
         return "bg-yellow-100 text-yellow-800 hover:bg-yellow-200";
       case "failed":
         return "bg-red-100 text-red-800 hover:bg-red-200";
+      case "refunded":
+        return "bg-purple-100 text-purple-800 hover:bg-purple-200";
+      case "partially_refunded":
+        return "bg-blue-100 text-blue-800 hover:bg-blue-200";
       default:
         return "bg-gray-100 text-gray-800 hover:bg-gray-200";
     }
@@ -492,8 +521,7 @@ export default function OrderDetailsPage() {
                   >
                     {order.payment_status}
                   </Badge>
-                </div>
-                {order.payment_id && (
+                </div>                {order.payment_id && (
                   <div className='flex justify-between'>
                     <span className='text-muted-foreground'>
                       {t("transactionId")}
@@ -501,6 +529,57 @@ export default function OrderDetailsPage() {
                     <span className='truncate max-w-[150px]'>
                       {order.payment_id}
                     </span>
+                  </div>
+                )}
+                
+                {/* Show refund information if order is refunded */}
+                {(order.payment_status === "refunded" || order.payment_status === "partially_refunded") && order.refund_amount && (
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className='flex justify-between font-medium'>
+                      <span>{t("refundAmount") || "Refund Amount"}</span>
+                      <span>{formatCurrency(order.refund_amount)}</span>
+                    </div>
+                    {order.refund_date && (
+                      <div className='flex justify-between text-sm mt-1'>
+                        <span className='text-muted-foreground'>{t("refundDate") || "Refund Date"}</span>
+                        <span>{format(new Date(order.refund_date), "PPP")}</span>
+                      </div>
+                    )}
+                    {order.refund_reason && (
+                      <div className='flex justify-between text-sm mt-1'>
+                        <span className='text-muted-foreground'>{t("refundReason") || "Reason"}</span>
+                        <span>{order.refund_reason}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+                
+                {/* Show refund request button if order is eligible */}
+                {order.payment_status === "paid" && 
+                 order.status === "delivered" && (              <div className="mt-4 pt-4 border-t border-gray-200">
+                    {order.refund_status === "pending" ? (
+                      <div className="w-full rounded-md bg-yellow-50 p-3 text-center">
+                        <p className="text-sm font-medium text-yellow-800">
+                          <AlertTriangle className="h-4 w-4 inline mr-1" />
+                          {t("refundRequestPending") || "Your refund request is pending review"}
+                        </p>
+                        <p className="text-xs text-yellow-700 mt-1">
+                          {t("refundRequestPendingDescription") || "We'll notify you once your request has been processed."}
+                        </p>
+                      </div>
+                    ) : order.refund_status === "rejected" ? (
+                      <div className="w-full rounded-md bg-red-50 p-3 text-center mb-2">
+                        <p className="text-sm font-medium text-red-800">
+                          <AlertTriangle className="h-4 w-4 inline mr-1" />
+                          {t("refundRequestRejected") || "Your refund request was declined"}
+                        </p>
+                        <p className="text-xs text-red-700 mt-1">
+                          {t("refundRequestRejectedDescription") || "Please contact customer support for more information."}
+                        </p>
+                      </div>
+                    ) : (
+                      <RefundRequestButton order={order} />
+                    )}
                   </div>
                 )}
               </div>
@@ -538,5 +617,193 @@ export default function OrderDetailsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Refund Request Button Component
+function RefundRequestButton({ order }: { order: Order }) {
+  const t = useTranslations("orders");
+  const supabase = createClient();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reason, setReason] = useState("");
+  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  
+  // Determine if order is eligible for refund
+  // Only delivered orders within 14 days can be eligible
+  const isEligibleForRefund = () => {
+    if (order.status !== "delivered" || order.payment_status !== "paid") {
+      return false;
+    }
+    
+    // Check if order was delivered within the last 14 days
+    const orderDate = new Date(order.created_at);
+    const now = new Date();
+    const daysSinceOrder = Math.floor((now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24));
+    return daysSinceOrder <= 14; // Only allow refunds within 14 days
+  };
+    // Submit refund request
+  const handleSubmitRefundRequest = async () => {
+    if (!reason) {
+      setError("Please select a reason for your refund request");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setError(null);
+    
+    try {
+      // Submit refund request via API
+      const response = await fetch("/api/refund-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: order.id,
+          reason,
+          additionalInfo,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit refund request");
+      }
+      
+      setIsDialogOpen(false);
+      toast.success("Your refund request has been submitted successfully", {
+        description: "Our team will review your request and get back to you shortly.",
+      });
+      
+      // Refresh the page to show the updated status
+      setTimeout(() => window.location.reload(), 1500);
+      
+    } catch (error: any) {
+      console.error("Error submitting refund request:", error);
+      setError(error.message || "Failed to submit refund request. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  // If not eligible, show disabled button with explanation
+  if (!isEligibleForRefund()) {
+    return (
+      <div className="w-full">
+        <Button 
+          disabled 
+          variant="outline" 
+          className="w-full"
+          title="Only delivered orders within 14 days are eligible for refund"
+        >
+          <RefreshCw className="h-4 w-4 mr-2" />
+          {t("requestRefund") || "Request Refund"}
+        </Button>
+        <p className="text-xs text-muted-foreground mt-2">
+          <AlertTriangle className="h-3 w-3 inline mr-1" />
+          {t("refundEligibilityNote") || "Only delivered orders within 14 days are eligible for refund"}
+        </p>
+      </div>
+    );
+  }
+  
+  return (
+    <>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline" className="w-full">
+            <RefreshCw className="h-4 w-4 mr-2" />
+            {t("requestRefund") || "Request Refund"}
+          </Button>
+        </DialogTrigger>
+        
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{t("refundRequestTitle") || "Request a Refund"}</DialogTitle>
+            <DialogDescription>
+              {t("refundRequestDescription") || "Please provide details about why you're requesting a refund for this order."}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="refund-reason">{t("refundReason") || "Reason for refund"}</Label>
+              <Select value={reason} onValueChange={setReason}>
+                <SelectTrigger id="refund-reason">
+                  <SelectValue placeholder={t("selectRefundReason") || "Select a reason"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="damaged">
+                    {t("refundReasonDamaged") || "Item arrived damaged"}
+                  </SelectItem>
+                  <SelectItem value="defective">
+                    {t("refundReasonDefective") || "Item is defective"}
+                  </SelectItem>
+                  <SelectItem value="not_as_described">
+                    {t("refundReasonNotAsDescribed") || "Item not as described"}
+                  </SelectItem>
+                  <SelectItem value="wrong_item">
+                    {t("refundReasonWrongItem") || "Received wrong item"}
+                  </SelectItem>
+                  <SelectItem value="no_longer_wanted">
+                    {t("refundReasonNoLongerWanted") || "No longer wanted/needed"}
+                  </SelectItem>
+                  <SelectItem value="other">
+                    {t("refundReasonOther") || "Other reason"}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="additional-info">
+                {t("additionalInformation") || "Additional Information"}
+              </Label>
+              <Textarea
+                id="additional-info"
+                placeholder={t("additionalInfoPlaceholder") || "Please provide more details about your refund request..."}
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                rows={4}
+              />
+            </div>
+            
+            {error && (
+              <div className="p-3 text-sm bg-red-50 text-red-600 rounded-md">
+                {error}
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => setIsDialogOpen(false)}
+              disabled={isSubmitting}
+            >
+              {t("cancel") || "Cancel"}
+            </Button>
+            <Button 
+              type="submit" 
+              onClick={handleSubmitRefundRequest}
+              disabled={isSubmitting || !reason}
+            >
+              {isSubmitting ? (
+                <>
+                  <ChevronsUpDown className="h-4 w-4 mr-2 animate-spin" />
+                  {t("submitting") || "Submitting..."}
+                </>
+              ) : (
+                t("submitRequest") || "Submit Request"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

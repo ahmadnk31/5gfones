@@ -36,6 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import RepairStepper from "@/components/repair-stepper";
 
 type DeviceBrand = {
   id: number;
@@ -363,43 +364,19 @@ export default function SellPhonePage() {
   const goToPreviousStep = () => {
     setStep((prev) => Math.max(1, prev - 1));
   };
-
   return (
     <div className='container mx-auto py-8 max-w-3xl'>
       <h1 className='text-3xl font-bold mb-6'>{t("title")}</h1>
 
-      <div className='mb-8'>
-        <div className='flex items-center justify-between mb-2'>
-          {[1, 2, 3].map((stepNumber) => (
-            <div
-              key={stepNumber}
-              className={cn(
-                "flex-1 h-2 rounded-full transition-all duration-300",
-                stepNumber === 1 ? "rounded-l-full" : "",
-                stepNumber === 3 ? "rounded-r-full" : "",
-                step >= stepNumber ? "bg-primary" : "bg-muted"
-              )}
-            />
-          ))}
-        </div>
-        <div className='flex justify-between text-sm'>
-          <span
-            className={step >= 1 ? "text-primary" : "text-muted-foreground"}
-          >
-            {t("deviceDetails")}
-          </span>
-          <span
-            className={step >= 2 ? "text-primary" : "text-muted-foreground"}
-          >
-            {t("deviceCondition")}
-          </span>
-          <span
-            className={step >= 3 ? "text-primary" : "text-muted-foreground"}
-          >
-            {t("review")}
-          </span>
-        </div>
-      </div>
+      <RepairStepper 
+        currentStep={step} 
+        steps={[
+          { label: t("deviceDetails") },
+          { label: t("deviceCondition") },
+          { label: t("review") }
+        ]}
+        variant="connected"
+      />
 
       {/* Step 1: Select Device */}
       {step === 1 && (

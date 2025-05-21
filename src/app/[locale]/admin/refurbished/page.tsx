@@ -58,10 +58,11 @@ import {
 } from "lucide-react";
 import { ImageUploader } from "@/components/ui/image-uploader";
 import Image from "next/image";
-import { useToast } from "@/components/ui/use-toast";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { toast } from "sonner";
 
 interface Brand {
   id: number;
@@ -185,7 +186,7 @@ export default function RefurbishedProductsPage() {
     useState<RefurbishedProduct | null>(null);
 
   const supabase = createClient();
-  const { toast } = useToast();
+  
 
   // Fetch products data and lookup tables
   const fetchData = useCallback(async () => {
@@ -258,11 +259,7 @@ export default function RefurbishedProductsPage() {
       setDeviceModels(modelsData || []);
     } catch (error) {
       console.error("Error fetching data:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load refurbished products data",
-        variant: "destructive",
-      });
+      toast.error("Failed to load data");
     } finally {
       setLoading(false);
     }
@@ -362,11 +359,7 @@ export default function RefurbishedProductsPage() {
         );
       } catch (error) {
         console.error("Error fetching variants:", error);
-        toast({
-          title: "Error",
-          description: "Failed to load product variants",
-          variant: "destructive",
-        });
+        toast.error("Failed to load variants");
       }
     }
 
@@ -434,11 +427,7 @@ export default function RefurbishedProductsPage() {
   const handleSaveProduct = async () => {
     // Basic validation
     if (!productName.trim() || refurbishedPrice <= 0 || originalPrice <= 0) {
-      toast({
-        title: "Validation Error",
-        description: "Please fill in all required fields",
-        variant: "destructive",
-      });
+      toast.error("Please fill in all required fields");
       return;
     }
 
@@ -627,23 +616,15 @@ export default function RefurbishedProductsPage() {
       // Refresh products list
       fetchData();
 
-      toast({
-        title: isEditing ? "Product Updated" : "Product Added",
-        description: `Successfully ${
-          isEditing ? "updated" : "added"
-        } refurbished product`,
-      });
+      toast.success(`Product ${isEditing ? "updated" : "created"} successfully`);
 
       // Reset form and close dialog
       resetForm();
       setIsDialogOpen(false);
     } catch (error: any) {
       console.error("Error saving product:", error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to save product",
-        variant: "destructive",
-      });
+      toast.error(
+        error.message || "Failed to save product. Please try again.")
     } finally {
       setSubmitting(false);
     }
@@ -664,17 +645,11 @@ export default function RefurbishedProductsPage() {
       // Refresh products list
       fetchData();
 
-      toast({
-        title: "Product Deleted",
-        description: "Refurbished product has been deleted",
-      });
+      toast.success("Product deleted successfully");
     } catch (error: any) {
       console.error("Error deleting product:", error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete product",
-        variant: "destructive",
-      });
+      toast.error(
+        error.message || "Failed to delete product. Please try again.")
     } finally {
       setIsDeleteDialogOpen(false);
       setProductToDelete(null);
@@ -980,7 +955,7 @@ export default function RefurbishedProductsPage() {
                       <SelectValue placeholder='Select brand' />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=''>None</SelectItem>
+                      <SelectItem value='none'>None</SelectItem>
                       {brands.map((brand) => (
                         <SelectItem key={brand.id} value={brand.id.toString()}>
                           {brand.name}
@@ -1001,7 +976,7 @@ export default function RefurbishedProductsPage() {
                       <SelectValue placeholder='Select category' />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=''>None</SelectItem>
+                      <SelectItem value='none'>None</SelectItem>
                       {categories.map((category) => (
                         <SelectItem
                           key={category.id}
@@ -1025,7 +1000,7 @@ export default function RefurbishedProductsPage() {
                       <SelectValue placeholder='Select compatible model' />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=''>None</SelectItem>
+                      <SelectItem value='none'>None</SelectItem>
                       {deviceModels.map((model) => (
                         <SelectItem key={model.id} value={model.id.toString()}>
                           {model.name}

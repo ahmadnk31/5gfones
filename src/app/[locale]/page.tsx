@@ -1,11 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
-
 import ProductCard from "@/components/product-card";
-
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Carousel, Card } from "@/components/ui/apple-card-carousel";
-
+import BannerCarousel from "@/components/banner-carousel";
 import { formatCurrency } from "@/lib/utils";
 import { IconArrowRight } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
@@ -347,7 +345,12 @@ console.log("phoneTradeIns:", phoneTradeIns);
     .limit(4);
     console.log("repairParts:", repairServicesPremium);
   return (
-    <div>
+    <main>
+      {/* Hero Banner Carousel */}
+      <section className="container mx-auto px-4 py-4">
+        <BannerCarousel targetPage="home" />
+      </section>
+
       {/* Hero Section */}
       <section className='bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 md:py-24'>
         <div className='container mx-auto px-4 max-w-6xl'>
@@ -759,8 +762,8 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     <Image
                       src={service.image_url || "/images/repair-service.png"}
                       alt={service.name}
-                      width={24}
-                      height={24}
+                      width={44}
+                      height={44}
                       className='text-blue-600'
                     />
                   </div>
@@ -768,9 +771,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     <h3 className='text-xl font-semibold mb-2'>
                       {service.name}
                     </h3>
-                    <p className='text-gray-600 mb-4'>
-                      {service.description}
-                    </p>
+                  
                     <div className='flex items-center text-sm text-gray-500 mb-4'>
                       <span className='flex items-center mr-4'>
                         <svg
@@ -807,11 +808,10 @@ console.log("phoneTradeIns:", phoneTradeIns);
                         {t("app.services.warranty")}
                       </span>
                     </div>
-                    <div className='flex justify-between items-center'>
-                      <span className='text-lg font-bold text-blue-600'>
+                    <div className='flex justify-between items-center'>                      <span className='text-lg font-bold text-blue-600'>
                         {formatCurrency(service.base_price)}
                       </span>
-                      <Link href={`/repair/${service.id}`}>
+                      <Link href={`/repair/schedule?repairPartId=${service.id}`}>
                         <Button
                           variant='outline'
                           className='flex items-center gap-2'
@@ -1335,6 +1335,6 @@ console.log("phoneTradeIns:", phoneTradeIns);
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

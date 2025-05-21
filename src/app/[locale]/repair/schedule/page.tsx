@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { fetchDeviceBrands } from "@/lib/device-utils";
 import { Button } from "@/components/ui/button";
@@ -21,9 +21,11 @@ import {
   ChevronRight,
   HelpCircleIcon,
 } from "lucide-react";
-import { ShippingOptions } from "@/components/shipping-options";
 import { StripeProvider } from "@/components/stripe-provider";
 import { StripeAddressElement } from "@/components/stripe-address-element";
+import {ShippingOptions} from "@/components/shipping-options-new";
+import AppointmentTimeTable from "@/components/appointment-time-table";
+import RepairStepper from "@/components/repair-stepper";
 import {
   format,
   addDays,
@@ -86,6 +88,7 @@ const RepairSchedulePage = () => {
   const router = useRouter();
   const supabase = createClient();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const locale = pathname.split("/")[1];
   const shippingCost = 9.99; // Define shipping cost constant
   // Step state
@@ -133,17 +136,41 @@ const RepairSchedulePage = () => {
     problem: "",
     devicePassword: "",
     serialNumber: "",
-  }); // Fetch device brands on initial load
+  });  // Fetch device brands on initial load
   useEffect(() => {
-    const fetchBrands = async () => {
+    const initializeRepairSchedule = async () => {
       setLoading(true);
       try {
         // Get auth user first
         const { data: userData } = await supabase.auth.getUser();
+        const isAuthenticated = !!userData?.user;
         console.log(
           "Current user authentication status:",
-          userData?.user ? "Authenticated" : "Not authenticated"
+          isAuthenticated ? "Authenticated" : "Not authenticated"
         );
+
+        // Get URL parameters
+        const repairPartId = searchParams.get('repairPartId');
+        const modelId = searchParams.get('modelId');
+
+        // Fetch user profile data if authenticated
+        if (isAuthenticated) {
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userData.user.id)
+            .single();
+          
+          if (!profileError && profileData) {
+            // Pre-fill form data with user profile information
+            setFormData(prev => ({
+              ...prev,
+              name: profileData.full_name || '',
+              email: profileData.email || userData.user.email || '',
+              phone: profileData.phone || ''
+            }));
+          }
+        }
 
         // First try device_brands table (the intended table)
         console.log("Attempting to fetch from device_brands table");
@@ -181,6 +208,12 @@ const RepairSchedulePage = () => {
             }));
 
             setDeviceBrands(mappedBrands);
+            
+            // If we have repair part ID from URL, handle it after brands are loaded
+            if (repairPartId) {
+              await handleRepairPartFromUrl(repairPartId, modelId, mappedBrands);
+            }
+            
             setLoading(false);
             return;
           } else {
@@ -194,43 +227,140 @@ const RepairSchedulePage = () => {
           } brands found`
         );
         setDeviceBrands(deviceBrandsData || []);
+        
+        // If we have repair part ID from URL, handle it after brands are loaded
+        if (repairPartId) {
+          await handleRepairPartFromUrl(repairPartId, modelId, deviceBrandsData || []);
+        }
       } catch (err) {
-        console.error("Error fetching device brands:", err);
+        console.error("Error fetching initial data:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBrands();
+    // Helper function to handle repair part from URL
+    const handleRepairPartFromUrl = async (
+      repairPartId: string, 
+      modelId: string | null, 
+      brands: DeviceBrand[]
+    ) => {
+      try {
+        // First get the repair part details
+        const { data: repairPart, error: repairError } = await supabase
+          .from("products")
+          .select(`
+            id,
+            name,
+            description,
+            base_price,
+            image_url,
+            compatible_with_model_id
+          `)
+          .eq("id", repairPartId)
+          .single();
 
-    // Also generate available dates (next 14 days)
-    const dates = Array.from({ length: 14 }, (_, i) =>
-      addDays(new Date(), i + 1)
-    );
-    setAvailableDates(dates);
+        if (repairError || !repairPart) {
+          console.error("Error fetching repair part:", repairError);
+          return;
+        }
 
-    // Sample time slots
-    const times = [
-      "09:00",
-      "09:30",
-      "10:00",
-      "10:30",
-      "11:00",
-      "11:30",
-      "12:00",
-      "12:30",
-      "13:00",
-      "13:30",
-      "14:00",
-      "14:30",
-      "15:00",
-      "15:30",
-      "16:00",
-      "16:30",
-      "17:00",
-    ];
-    setAvailableTimes(times);
-  }, []);
+        // Use model ID from URL or from the repair part
+        const targetModelId = modelId || repairPart.compatible_with_model_id;
+        
+        if (!targetModelId) {
+          console.error("No model ID available for this repair part");
+          return;
+        }
+
+        // Get model details to navigate through the selection hierarchy
+        const { data: modelData, error: modelError } = await supabase
+          .from("device_models")
+          .select(`
+            id,
+            name,
+            device_series_id,
+            device_series: device_series_id (
+              id,
+              name,
+              device_type_id,
+              device_type: device_type_id (
+                id,
+                name,
+                brand_id
+              )
+            )
+          `)
+          .eq("id", targetModelId)
+          .single();
+
+        if (modelError || !modelData) {
+          console.error("Error fetching model details:", modelError);
+          return;
+        }
+
+        // Set selected values based on the hierarchy
+        const brandId = modelData.device_series?.device_type?.brand_id;
+        const typeId = modelData.device_series?.device_type?.id;
+        const seriesId = modelData.device_series_id;
+        
+        if (!brandId || !typeId || !seriesId) {
+          console.error("Incomplete model hierarchy data");
+          return;
+        }
+
+        // Set brand and fetch next level
+        setSelectedBrand(brandId);
+        
+        // Fetch device types for this brand
+        const { data: types } = await supabase
+          .from("device_types")
+          .select("*")
+          .eq("brand_id", brandId)
+          .order("name");
+        
+        if (types) {
+          setDeviceTypes(types);
+          setSelectedType(typeId);
+          
+          // Fetch series for this type
+          const { data: series } = await supabase
+            .from("device_series")
+            .select("*")
+            .eq("device_type_id", typeId)
+            .order("name");
+          
+          if (series) {
+            setDeviceSeries(series);
+            setSelectedSeries(seriesId);
+            
+            // Fetch models for this series
+            const { data: models } = await supabase
+              .from("device_models")
+              .select("*")
+              .eq("device_series_id", seriesId)
+              .order("name");
+            
+            if (models) {
+              setDeviceModels(models);
+              setSelectedModel(targetModelId);
+              
+              // Pre-select the repair part
+              setSelectedRepairs([parseInt(repairPartId)]);
+              
+              // Jump to the repairs step
+              setCurrentStep(2);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Error handling repair part from URL:", err);
+      }
+    };    initializeRepairSchedule();
+
+    // Note: We no longer need to generate static dates and times here
+    // as they'll be provided by the AppointmentTimeTable component
+  }, [searchParams]);
 
   // When brand is selected, fetch device types
   useEffect(() => {
@@ -375,8 +505,12 @@ const RepairSchedulePage = () => {
     } else {
       setRepairTypes([]);
       setProductVariants({});
-    }
-  }, [selectedModel]);
+    }  }, [selectedModel]);
+
+  // Debug deliveryMethod changes
+  useEffect(() => {
+    console.log("deliveryMethod changed:", deliveryMethod);
+  }, [deliveryMethod]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -408,8 +542,13 @@ const RepairSchedulePage = () => {
       window.scrollTo(0, 0);
     }
   };
-
   const goToPreviousStep = () => {
+    if (currentStep === 5) {
+      // Reset delivery method state when going back from delivery options step
+      console.log("Resetting delivery method when going back from step 5");
+      setDeliveryMethod("pickup");
+      setShippingAddress(null);
+    }
     setCurrentStep((current) => current - 1);
     window.scrollTo(0, 0);
   };
@@ -454,9 +593,7 @@ const RepairSchedulePage = () => {
 
       if (!appointmentDateTime || !selectedModel) {
         throw new Error("Missing required appointment information");
-      }
-
-      // Set delivery method and shipping information
+      }      // Set delivery method and shipping information
       const appointmentData = {
         device_model_id: selectedModel,
         problem_description: formData.problem,
@@ -467,6 +604,10 @@ const RepairSchedulePage = () => {
         customer_id: null, // Would be filled if user is logged in
         user_uid: null, // Will be filled on the server by RLS
         delivery_method: deliveryMethod,
+        // Add customer contact information
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
       };
 
       // Add shipping details if shipping method is selected
@@ -525,10 +666,16 @@ const RepairSchedulePage = () => {
           .from("appointment_items")
           .insert(appointmentItems);
         if (itemsError) throw itemsError;
-      }
+      }      // Redirect to confirmation page
+      // Send confirmation email (handled asynchronously)
+      fetch(`/api/repair/send-confirmation-email?id=${createdAppointment?.id}&locale=${locale}`, {
+        method: 'POST',
+      }).catch(err => {
+        console.error('Error sending confirmation email:', err);
+        // We don't need to show an error to the user here, as the appointment was created successfully
+      });
 
-      // Redirect to confirmation page
-      router.push(`/en/repair/confirmation?id=${createdAppointment?.id}`);
+      router.push(`/${locale}/repair/confirmation?id=${createdAppointment?.id}`);
     } catch (error) {
       console.error("Error scheduling repair:", error);
       toast.error("Error scheduling repair. Please try again.");
@@ -546,158 +693,18 @@ const RepairSchedulePage = () => {
 
   return (
     <div className='container mx-auto px-4 py-12 max-w-4xl'>
-      <h1 className='text-2xl md:text-3xl font-bold mb-6'>{t("schedule")}</h1>
-      {/* Progress Steps */}
-      <div className='mb-8'>
-        <ol className='flex items-center w-full text-sm font-medium text-center text-gray-500 sm:text-base'>
-          <li
-            className={`flex md:w-full items-center ${
-              currentStep >= 1 ? "text-blue-600" : "text-gray-500"
-            }`}
-          >
-            <span
-              className={`flex items-center justify-center w-8 h-8 mr-2 text-sm border rounded-full shrink-0 ${
-                currentStep >= 1
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-500"
-              }`}
-            >
-              1
-            </span>
-            <span className='hidden md:inline-flex'>{t("deviceTypes")}</span>
-            <svg
-              aria-hidden='true'
-              className='w-4 h-4 ml-2 sm:ml-4 md:block hidden'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M13 5l7 7-7 7M5 5l7 7-7 7'
-              ></path>
-            </svg>
-          </li>
-          <li
-            className={`flex md:w-full items-center ${
-              currentStep >= 2 ? "text-blue-600" : "text-gray-500"
-            }`}
-          >
-            <span
-              className={`flex items-center justify-center w-8 h-8 mr-2 text-sm border rounded-full shrink-0 ${
-                currentStep >= 2
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-500"
-              }`}
-            >
-              2
-            </span>
-            <span className='hidden md:inline-flex'>{t("services")}</span>
-            <svg
-              aria-hidden='true'
-              className='w-4 h-4 ml-2 sm:ml-4 md:block hidden'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M13 5l7 7-7 7M5 5l7 7-7 7'
-              ></path>
-            </svg>
-          </li>
-          <li
-            className={`flex md:w-full items-center ${
-              currentStep >= 3 ? "text-blue-600" : "text-gray-500"
-            }`}
-          >
-            <span
-              className={`flex items-center justify-center w-8 h-8 mr-2 text-sm border rounded-full shrink-0 ${
-                currentStep >= 3
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-500"
-              }`}
-            >
-              3
-            </span>
-            <span className='hidden md:inline-flex'>
-              {t("confirmation.dateTime")}
-            </span>
-            <svg
-              aria-hidden='true'
-              className='w-4 h-4 ml-2 sm:ml-4 md:block hidden'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M13 5l7 7-7 7M5 5l7 7-7 7'
-              ></path>
-            </svg>{" "}
-          </li>
-          <li
-            className={`flex md:w-full items-center ${
-              currentStep >= 4 ? "text-blue-600" : "text-gray-500"
-            }`}
-          >
-            <span
-              className={`flex items-center justify-center w-8 h-8 mr-2 text-sm border rounded-full shrink-0 ${
-                currentStep >= 4
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-500"
-              }`}
-            >
-              4
-            </span>
-            <span className='hidden md:inline-flex'>
-              {t("form.contactInfo")}
-            </span>
-            <svg
-              aria-hidden='true'
-              className='w-4 h-4 ml-2 sm:ml-4 md:block hidden'
-              fill='none'
-              stroke='currentColor'
-              viewBox='0 0 24 24'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                d='M13 5l7 7-7 7M5 5l7 7-7 7'
-              ></path>
-            </svg>
-          </li>
-          <li
-            className={`flex items-center ${
-              currentStep >= 5 ? "text-blue-600" : "text-gray-500"
-            }`}
-          >
-            <span
-              className={`flex items-center justify-center w-8 h-8 mr-2 text-sm border rounded-full shrink-0 ${
-                currentStep >= 5
-                  ? "border-blue-600 bg-blue-50"
-                  : "border-gray-500"
-              }`}
-            >
-              5
-            </span>
-            <span className='hidden md:inline-flex'>
-              {t("delivery.method")}
-            </span>
-          </li>{" "}
-        </ol>
-      </div>
+      <h1 className='text-2xl md:text-3xl font-bold mb-6'>{t("schedule")}</h1>      {/* Modern Progress Steps */}
+      <RepairStepper
+        currentStep={currentStep}
+        variant="connected"
+        steps={[
+          { label: t("deviceTypes") },
+          { label: t("services") },
+          { label: t("confirmation.dateTime") },
+          { label: t("form.contactInfo") },
+          { label: t("delivery.method") }
+        ]}
+      />
       <form onSubmit={handleSubmit}>
         <Card className='mb-6'>
           {/* Step 1: Select Device */}
@@ -1115,8 +1122,7 @@ const RepairSchedulePage = () => {
                 </div>
               </CardContent>
             </>
-          )}
-          {/* Step 3: Select Date and Time */}
+          )}          {/* Step 3: Select Date and Time */}
           {currentStep === 3 && (
             <>
               {" "}
@@ -1128,58 +1134,15 @@ const RepairSchedulePage = () => {
               </CardHeader>
               <CardContent>
                 <div className='space-y-6'>
-                  {/* Date Selection */}
-                  <div>
-                    {" "}
-                    <label className='block text-sm font-medium mb-2'>
-                      {t("confirmation.dateTime")}
-                    </label>
-                    <div className='grid grid-cols-3 sm:grid-cols-7 gap-2'>
-                      {availableDates.map((date, index) => (
-                        <div
-                          key={index}
-                          className={`p-2 border rounded-md text-center cursor-pointer ${
-                            selectedDate &&
-                            differenceInDays(date, selectedDate) === 0
-                              ? "border-blue-500 bg-blue-50"
-                              : "border-gray-200 hover:border-blue-300"
-                          }`}
-                          onClick={() => setSelectedDate(date)}
-                        >
-                          <div className='text-xs text-gray-500'>
-                            {format(date, "EEE")}
-                          </div>
-                          <div className='font-medium'>{format(date, "d")}</div>
-                          <div className='text-xs'>{format(date, "MMM")}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Time Selection */}
-                  {selectedDate && (
-                    <div>
-                      {" "}
-                      <label className='block text-sm font-medium mb-2'>
-                        {t("confirmation.dateTime")}
-                      </label>
-                      <div className='grid grid-cols-3 sm:grid-cols-5 gap-2'>
-                        {availableTimes.map((time, index) => (
-                          <div
-                            key={index}
-                            className={`p-2 border rounded-md text-center cursor-pointer ${
-                              selectedTime === time
-                                ? "border-blue-500 bg-blue-50"
-                                : "border-gray-200 hover:border-blue-300"
-                            }`}
-                            onClick={() => setSelectedTime(time)}
-                          >
-                            <div className='font-medium'>{time}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  {/* Using the Dynamic AppointmentTimeTable component */}
+                  <AppointmentTimeTable 
+                    onSelectDateTime={(date, time) => {
+                      setSelectedDate(date);
+                      setSelectedTime(time);
+                    }}
+                    serviceType="repair"
+                    daysToShow={14}
+                  />
                 </div>
               </CardContent>
             </>
@@ -1323,11 +1286,16 @@ const RepairSchedulePage = () => {
                   {t("processStep3Description")}
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className='space-y-6'>
+              <CardContent>                <div className='space-y-6'>
                   <ShippingOptions
                     value={deliveryMethod}
-                    onChange={setDeliveryMethod}
+                    onChange={(value) => {
+                      console.log("Changing delivery method to:", value);
+                      setDeliveryMethod(value);
+                      if (value !== "shipping") {
+                        setShippingAddress(null);
+                      }
+                    }}
                     shippingCost={9.99}
                   />
 
@@ -1338,14 +1306,18 @@ const RepairSchedulePage = () => {
                       </h3>
                       <StripeProvider>
                         <StripeAddressElement onChange={setShippingAddress} />{" "}
-                      </StripeProvider>
-                      <p className='text-xs text-gray-500 mt-2'>
+                      </StripeProvider>                      <p className='text-xs text-gray-500 mt-2'>
                         {" "}
                         {t("delivery.cost")} (${shippingCost.toFixed(2)})
                         {t("processStep3Description")}
                       </p>
                     </div>
                   )}
+                  
+                  {/* Debug display for deliveryMethod */}
+                  <div className='text-xs text-gray-500 mt-2'>
+                    Current Delivery Method: {deliveryMethod || "None"}
+                  </div>
                 </div>{" "}
               </CardContent>
             </>

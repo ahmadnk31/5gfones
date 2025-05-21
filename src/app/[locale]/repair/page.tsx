@@ -29,7 +29,6 @@ export default async function RepairPage({
       `
       id, 
       name, 
-      description,
       base_price,
       image_url
     `
@@ -56,9 +55,7 @@ export default async function RepairPage({
             </h1>
             <p className='text-lg md:text-xl mb-6 opacity-90'>
               {t("heroSubtitle") ||
-                "Fast, reliable repairs for phones, tablets, and computers with quality parts and expert technicians."}
-            </p>
-            <Link href={`/${locale}/repair/schedule`}>
+                "Fast, reliable repairs for phones, tablets, and computers with quality parts and expert technicians."}            </p>            <Link href={`/repair/schedule`}>
               <Button size='lg' variant='secondary'>
                 {t("scheduleButton") || "Schedule a Repair"}
               </Button>
@@ -139,14 +136,15 @@ export default async function RepairPage({
                   key={brand.id}
                   href={`/${locale}/repair/brands/${brand.id}`}
                   className='flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow'
-                >
-                  <div className='w-16 h-16 relative mb-3'>
+                >                  <div className='w-16 h-16 relative mb-3'>
                     <Image
                       src={brand.image_url || "/placeholder.svg"}
                       alt={brand.name}
-                      fill
+                      width={84}
+                      height={84}
                       sizes='64px'
                       className='object-contain'
+                      style={{ width: "auto", height: "auto" }} // Add both width and height auto
                     />
                   </div>
                   <h3 className='font-medium text-sm text-center'>
@@ -176,25 +174,23 @@ export default async function RepairPage({
                 <div
                   key={service.id}
                   className='bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden'
-                >
-                  <div className='h-48 relative flex items-center justify-center'>
+                >                  <div className='h-48 relative flex items-center justify-center'>
                     <Image
                       src={service.image_url || "/placeholder.svg"}
                       alt={service.name}
                       width={500}
-                      height={700}
+                      height={300}
                       sizes='(max-width: 768px) 100vw, 300px'
-                      style={{ maxWidth: "100%" }}
-                      className='object-fill w-auto h-auto'
+                      style={{ 
+                        maxWidth: "100%",
+                        height: "auto" // Add height auto to maintain aspect ratio
+                      }}
+                      className='object-contain w-auto' // Changed from object-fill to object-contain
                     />
-                  </div>
-                  <div className='p-6'>
+                  </div><div className='p-6'>
                     <h3 className='text-xl font-semibold mb-2'>
                       {service.name}
                     </h3>
-                    <p className='text-gray-600 text-sm mb-4 line-clamp-2'>
-                      {service.description}
-                    </p>
                     <div className='flex justify-between items-center'>
                       <span className='text-lg font-bold text-blue-600'>
                         {t("fromPrice", { price: service.base_price }) ||
@@ -209,9 +205,7 @@ export default async function RepairPage({
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className='text-center mt-10'>
+            </div>            <div className='text-center mt-10'>
               <Link href={`/${locale}/repair/services`}>
                 <Button>
                   {t("viewAllServices") || "View All Repair Services"}
@@ -290,9 +284,7 @@ export default async function RepairPage({
           <p className='text-lg mb-8 max-w-2xl mx-auto'>
             {t("ctaDescription") ||
               "Schedule a repair appointment now or contact us to speak with a technician about your device."}
-          </p>
-          <div className='flex flex-col sm:flex-row justify-center gap-4'>
-            <Link href={`/${locale}/repair/schedule`}>
+          </p>          <div className='flex flex-col sm:flex-row justify-center gap-4'>            <Link href={`/${locale}/repair/schedule`}>
               <Button size='lg' variant='secondary'>
                 {t("scheduleRepair")}
               </Button>

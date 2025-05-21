@@ -16,12 +16,14 @@ import {
 } from "@/lib/recommendation";
 import { Link } from "@/i18n/navigation";
 import { formatCurrency } from "@/lib/utils";
+import { calculateDiscountedPrice, getEffectiveDiscountPercentage } from "@/lib/discount";
 
 interface ProductDetailProps {
   product: any;
   variants: any[];
   relatedProducts: any[];
   variantImages: any[];
+  categoryDiscount?: number; // Add category discount prop
 }
 
 const ProductDetail = ({
@@ -29,6 +31,7 @@ const ProductDetail = ({
   variants,
   relatedProducts,
   variantImages,
+  categoryDiscount = 0, // Default to 0 if not provided
 }: ProductDetailProps) => {
   const t = useTranslations("product");
   const locale = useLocale();
@@ -202,16 +205,35 @@ const ProductDetail = ({
     }
   }, [product, variantImages]);
 
-  // Calculate final price based on selected variant
+  // Calculate final price based on selected variant and discounts
   const calculatePrice = () => {
-    if (selectedVariant) {
-      return product.base_price + selectedVariant.price_adjustment;
-    }
-    return product.base_price;
+    const basePrice = selectedVariant
+      ? product.base_price + selectedVariant.price_adjustment
+      : product.base_price;
+
+    // Apply the higher of product or category discount
+    return calculateDiscountedPrice(
+      basePrice,
+      product.discount_percentage || 0,
+      categoryDiscount
+    );
   };
+
+  // Get the effective discount percentage (higher of product or category discount)
+  const effectiveDiscountPercentage = getEffectiveDiscountPercentage(
+    product.discount_percentage || 0,
+    categoryDiscount
+  );
 
   // Format price as currency
   const formattedPrice = formatCurrency(calculatePrice());
+
+  // Original price without discount for comparison display
+  const originalPrice = selectedVariant
+    ? product.base_price + selectedVariant.price_adjustment
+    : product.base_price;
+
+  const formattedOriginalPrice = formatCurrency(originalPrice);
 
   // Check stock status
   const inStock = selectedVariant
@@ -237,26 +259,27 @@ const ProductDetail = ({
       variant_value: selectedVariant?.variant_value,
     });
   };
+
   return (
-    <div className='container mx-auto px-4 py-8 max-w-7xl'>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-8 mb-12'>
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {/* Product Images with Carousel */}
-        <div className='space-y-4'>
+        <div className="space-y-4">
           {/* Main Carousel */}
           <div
-            className='embla relative bg-gray-50 rounded-xl shadow-sm'
+            className="embla relative bg-gray-50 rounded-xl shadow-sm"
             ref={mainCarouselRef}
           >
-            <div className='embla__container'>
+            <div className="embla__container">
               {thumbnails.map((thumb, index) => (
-                <div key={index} className='embla__slide'>
-                  <div className='relative aspect-square w-full'>
+                <div key={index} className="embla__slide">
+                  <div className="relative aspect-square w-full">
                     <Image
                       src={thumb || "/placeholder.svg"}
                       alt={`${product.name} - Image ${index + 1}`}
                       fill
-                      sizes='(max-width: 768px) 100vw, 50vw'
-                      className='object-contain p-4'
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-contain p-4"
                       priority={index === 0}
                     />
                   </div>
@@ -267,8 +290,8 @@ const ProductDetail = ({
               <>
                 <button
                   onClick={scrollPrev}
-                  className='absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg z-10 hover:bg-gray-50 focus:bg-gray-50 transition-all duration-200 border border-gray-100'
-                  aria-label='Previous image'
+                  className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg z-10 hover:bg-gray-50 focus:bg-gray-50 transition-all duration-200 border border-gray-100"
+                  aria-label="Previous image"
                   tabIndex={0}
                   disabled={
                     selectedThumbIndex === 0 &&
@@ -276,24 +299,24 @@ const ProductDetail = ({
                   }
                 >
                   <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2.5'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='text-gray-700'
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-gray-700"
                   >
-                    <path d='M15 18l-6-6 6-6' />
+                    <path d="M15 18l-6-6 6-6" />
                   </svg>
-                  <span className='sr-only'>{t("previousProductImage")}</span>
+                  <span className="sr-only">{t("previousProductImage")}</span>
                 </button>
                 <button
                   onClick={scrollNext}
-                  className='absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg z-10 hover:bg-gray-50 focus:bg-gray-50 transition-all duration-200 border border-gray-100'
-                  aria-label='Next image'
+                  className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg z-10 hover:bg-gray-50 focus:bg-gray-50 transition-all duration-200 border border-gray-100"
+                  aria-label="Next image"
                   tabIndex={0}
                   disabled={
                     selectedThumbIndex === thumbnails.length - 1 &&
@@ -301,27 +324,27 @@ const ProductDetail = ({
                   }
                 >
                   <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2.5'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='text-gray-700'
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-gray-700"
                   >
-                    <path d='M9 18l6-6-6-6' />
+                    <path d="M9 18l6-6-6-6" />
                   </svg>
-                  <span className='sr-only'>{t("nextProductImage")}</span>
+                  <span className="sr-only">{t("nextProductImage")}</span>
                 </button>
               </>
             )}
           </div>
           {/* Thumbnails Carousel */}
           {thumbnails.length > 1 && (
-            <div className='embla embla-thumbs mt-4' ref={thumbCarouselRef}>
-              <div className='embla__container'>
+            <div className="embla embla-thumbs mt-4" ref={thumbCarouselRef}>
+              <div className="embla__container">
                 {thumbnails.map((thumb, index) => {
                   const hasVariant = Object.entries(variantImageMap).some(
                     ([_, imageUrl]) => imageUrl === thumb
@@ -337,7 +360,7 @@ const ProductDetail = ({
                       style={{ flex: "0 0 20%" }}
                     >
                       <button
-                        type='button'
+                        type="button"
                         className={`relative w-full aspect-square rounded-lg border-2 transition-all duration-200 overflow-hidden ${
                           isSelected
                             ? "border-blue-500 ring-2 ring-blue-500 ring-opacity-30 shadow-md transform scale-105"
@@ -350,28 +373,28 @@ const ProductDetail = ({
                           src={thumb || "/placeholder.svg"}
                           alt={`Thumbnail ${index + 1}`}
                           fill
-                          sizes='100px'
+                          sizes="100px"
                           className={`object-cover rounded-md transition-all ${
                             isSelected ? "scale-110" : "scale-100"
                           }`}
                         />
                         {hasVariant && (
                           <div
-                            className='absolute bottom-0 right-0 w-5 h-5 bg-blue-500 flex items-center justify-center rounded-tl-md'
-                            title='This color/variant has a dedicated image'
+                            className="absolute bottom-0 right-0 w-5 h-5 bg-blue-500 flex items-center justify-center rounded-tl-md"
+                            title="This color/variant has a dedicated image"
                           >
                             <svg
-                              width='12'
-                              height='12'
-                              viewBox='0 0 24 24'
-                              fill='none'
-                              stroke='white'
-                              strokeWidth='3'
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="white"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             >
-                              <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
-                              <circle cx='12' cy='12' r='3'></circle>
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                              <circle cx="12" cy="12" r="3"></circle>
                             </svg>
                           </div>
                         )}
@@ -384,19 +407,27 @@ const ProductDetail = ({
           )}
         </div>
         {/* Product Information */}
-        <div className='space-y-6'>
+        <div className="space-y-6">
           {/* Product name */}
-          <h1 className='text-3xl font-semibold text-gray-900'>
+          <h1 className="text-3xl font-semibold text-gray-900">
             {product.name}
           </h1>
           {/* Price */}
           <div>
-            <div className='text-3xl font-bold text-black'>
+            <div className="text-3xl font-bold text-black">
               {formattedPrice}
             </div>
-          </div>{" "}
+            {effectiveDiscountPercentage > 0 && (
+              <div className="text-sm text-gray-500">
+                <span className="line-through">{formattedOriginalPrice}</span>{" "}
+                <span className="text-green-600">
+                  {t("discount", { percentage: effectiveDiscountPercentage })}
+                </span>
+              </div>
+            )}
+          </div>
           {/* Description */}
-          <div className='prose prose-sm text-gray-600 max-w-none'>
+          <div className="prose prose-sm text-gray-600 max-w-none">
             {product.short_description ? (
               typeof product.short_description === "object" ? (
                 <p>
@@ -411,28 +442,28 @@ const ProductDetail = ({
           </div>
           {/* Stock Status */}
           {inStock ? (
-            <div className='flex items-center'>
-              <div className='h-2.5 w-2.5 rounded-full bg-green-500 mr-1.5 animate-pulse'></div>
-              <span className='font-medium text-green-700'>
+            <div className="flex items-center">
+              <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-1.5 animate-pulse"></div>
+              <span className="font-medium text-green-700">
                 {stockAmount > 10
                   ? t("inStock")
                   : `${stockAmount} ${t("leftInStock")}`}
               </span>
             </div>
           ) : (
-            <p className='text-red-600 font-medium'>{t("outOfStock")}</p>
-          )}{" "}
+            <p className="text-red-600 font-medium">{t("outOfStock")}</p>
+          )}
           {/* Display all variants grouped by type */}
           {Object.keys(variantGroups).length > 0 &&
             Object.entries(variantGroups).map(([variantName, values]) => {
               const variantValues = values as any[];
               return (
-                <div key={variantName} className='mt-6'>
-                  <h3 className='text-base font-medium mb-3'>
+                <div key={variantName} className="mt-6">
+                  <h3 className="text-base font-medium mb-3">
                     {t(`variantTypes.${variantName.toLowerCase()}`) ||
                       variantName}
                   </h3>
-                  <div className='flex flex-wrap gap-3'>
+                  <div className="flex flex-wrap gap-3">
                     {variantValues.map((variant) => {
                       const isSelected = selectedVariant?.id === variant.id;
                       const variantImage = variantImages.find(
@@ -460,7 +491,7 @@ const ProductDetail = ({
                         return (
                           <button
                             key={variant.id}
-                            type='button'
+                            type="button"
                             className={`relative h-10 w-10 rounded-full ${
                               isSelected
                                 ? "ring-2 ring-black ring-offset-2"
@@ -487,11 +518,11 @@ const ProductDetail = ({
                                   ) || variant.variant_value
                                 }
                                 fill
-                                sizes='40px'
-                                className='object-cover'
+                                sizes="40px"
+                                className="object-cover"
                               />
                             ) : (
-                              <span className='sr-only'>
+                              <span className="sr-only">
                                 {t(
                                   `variantValues.${variant.variant_value.toLowerCase()}`
                                 ) || variant.variant_value}
@@ -512,7 +543,7 @@ const ProductDetail = ({
                             }`}
                             onClick={() => setSelectedVariant(variant)}
                           >
-                            <span className='text-sm font-medium'>
+                            <span className="text-sm font-medium">
                               {" "}
                               {t(
                                 `variantValues.${variant.variant_value.toLowerCase()}`
@@ -527,54 +558,54 @@ const ProductDetail = ({
               );
             })}
           {/* Quantity & Add to cart */}
-          <div className='mt-8 flex flex-wrap items-center gap-4'>
-            <div className='flex border border-gray-300 rounded-md'>
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="flex border border-gray-300 rounded-md">
               <button
-                className='w-10 h-10 flex items-center justify-center border-r border-gray-300 hover:bg-gray-100 transition-colors'
+                className="w-10 h-10 flex items-center justify-center border-r border-gray-300 hover:bg-gray-100 transition-colors"
                 onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                 disabled={quantity <= 1}
               >
                 <svg
-                  width='12'
-                  height='2'
-                  viewBox='0 0 12 2'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
+                  width="12"
+                  height="2"
+                  viewBox="0 0 12 2"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d='M1 1H11'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
+                    d="M1 1H11"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                   />
                 </svg>
               </button>
               <input
-                type='number'
-                id='quantity'
-                min='1'
+                type="number"
+                id="quantity"
+                min="1"
                 value={quantity}
                 onChange={(e) =>
                   setQuantity(Math.max(1, parseInt(e.target.value) || 1))
                 }
-                className='w-12 h-10 text-center border-0'
+                className="w-12 h-10 text-center border-0"
               />
               <button
-                className='w-10 h-10 flex items-center justify-center border-l border-gray-300 hover:bg-gray-100 transition-colors'
+                className="w-10 h-10 flex items-center justify-center border-l border-gray-300 hover:bg-gray-100 transition-colors"
                 onClick={() => setQuantity(quantity + 1)}
               >
                 <svg
-                  width='12'
-                  height='12'
-                  viewBox='0 0 12 12'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d='M6 1V11M1 6H11'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
+                    d="M6 1V11M1 6H11"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                   />
                 </svg>
               </button>
@@ -583,8 +614,8 @@ const ProductDetail = ({
             <Button
               onClick={handleAddToCart}
               disabled={!inStock || (variants.length > 0 && !selectedVariant)}
-              className='px-12 py-2.5 bg-black hover:bg-gray-800 text-white rounded-md transition-colors flex-grow sm:flex-grow-0'
-              size='lg'
+              className="px-12 py-2.5 bg-black hover:bg-gray-800 text-white rounded-md transition-colors flex-grow sm:flex-grow-0"
+              size="lg"
             >
               {t("addToCart")}
             </Button>
@@ -592,48 +623,17 @@ const ProductDetail = ({
         </div>
       </div>
       {/* Product Tabs */}
-      <div className='mt-16 border-t pt-8'>
-        <Tabs defaultValue='description' className='mb-12'>
-          <TabsList className='border-b w-full bg-transparent'>
+      <div className="mt-16 border-t pt-8">
+        <Tabs defaultValue="description" className="mb-12">
+          <TabsList className="border-b w-full bg-transparent">
             <TabsTrigger
-              value='description'
-              className='rounded-none data-[state=active]:border-b-2 data-[state=active]:border-black pb-3 data-[state=active]:shadow-none bg-transparent text-base font-medium data-[state=active]:text-black text-gray-500'
+              value="description"
+              className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-black pb-3 data-[state=active]:shadow-none bg-transparent text-base font-medium data-[state=active]:text-black text-gray-500"
             >
               {t("description")}
             </TabsTrigger>
             <TabsTrigger
-              value='details'
-              className='rounded-none data-[state=active]:border-b-2 data-[state=active]:border-black pb-3 data-[state=active]:shadow-none bg-transparent text-base font-medium data-[state=active]:text-black text-gray-500'
-            >
-              {t("details")}
-            </TabsTrigger>
-          </TabsList>{" "}
-          <TabsContent value='description' className='pt-6'>
-            <div className='prose max-w-none'>
-              {product.description ? (
-                typeof product.description === "object" ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        product.description[locale] ||
-                        product.description.en ||
-                        "",
-                    }}
-                  />
-                ) : (
-                  <p>{String(product.description)}</p>
-                )
-              ) : (
-                <p>{t("noDescription")}</p>
-              )}
-            </div>
-          </TabsContent>
-          <TabsContent value='details' className='pt-6'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-12'>
-              <div>
-                <h3 className='font-semibold mb-4 text-lg'>
-                  {t("specifications")}
-                </h3>
+              value="details"
                 <table className='w-full border-collapse'>
                   <tbody>
                     {product.brands && (
