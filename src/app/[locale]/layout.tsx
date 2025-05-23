@@ -10,7 +10,7 @@ import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { ClientSupportProvider } from "@/components/support-provider";
 import { CookieConsent } from "@/components/cookie-consent";
-import {WhatsAppButton} from '@/components/whatsapp-chat-bubble';
+import { ChatSupportBubble } from '@/components/chat-support-bubble';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,11 +41,10 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           {" "}
           <Providers>
-            <ClientSupportProvider>
-              <Toaster />
+            <ClientSupportProvider>              <Toaster />
               <NavBar />
               <main className='min-h-screen'>{children}</main>
-              <WhatsAppButton />
+              <ChatSupportBubble />
               <Footer />
               <CookieConsent />
             </ClientSupportProvider>
