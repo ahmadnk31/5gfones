@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "next-intl";
 import { format } from "date-fns";
@@ -123,7 +123,6 @@ type Category = {
 export default function CategoryDiscountsPage() {
   const t = useTranslations();
   const supabase = createClient();
-
   const [discounts, setDiscounts] = useState<CategoryDiscount[]>([]);
   const [filteredDiscounts, setFilteredDiscounts] = useState<CategoryDiscount[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -149,32 +148,7 @@ export default function CategoryDiscountsPage() {
     },
   });
 
-  useEffect(() => {
-    fetchDiscountsAndCategories();
-  }, []);
-
-  useEffect(() => {
-    // Apply filters
-    let results = [...discounts];
-
-    if (searchQuery) {
-      const lowercaseQuery = searchQuery.toLowerCase();
-      results = results.filter(
-        (discount) =>
-          discount.category_name.toLowerCase().includes(lowercaseQuery) ||
-          (discount.description &&
-            discount.description.toLowerCase().includes(lowercaseQuery))
-      );
-    }
-
-    if (showActiveOnly) {
-      results = results.filter((discount) => discount.is_active);
-    }
-
-    setFilteredDiscounts(results);
-  }, [discounts, searchQuery, showActiveOnly]);
-
-  const fetchDiscountsAndCategories = async () => {
+  const fetchDiscountsAndCategories = useCallback(async () => {
     setLoading(true);
     try {
       // Fetch categories
@@ -210,7 +184,32 @@ export default function CategoryDiscountsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    fetchDiscountsAndCategories();
+  }, [fetchDiscountsAndCategories]);
+
+  useEffect(() => {
+    // Apply filters
+    let results = [...discounts];
+
+    if (searchQuery) {
+      const lowercaseQuery = searchQuery.toLowerCase();
+      results = results.filter(
+        (discount) =>
+          discount.category_name.toLowerCase().includes(lowercaseQuery) ||
+          (discount.description &&
+            discount.description.toLowerCase().includes(lowercaseQuery))
+      );
+    }
+
+    if (showActiveOnly) {
+      results = results.filter((discount) => discount.is_active);
+    }
+
+    setFilteredDiscounts(results);
+  }, [discounts, searchQuery, showActiveOnly]);
 
   const handleOpenAddDialog = () => {
     form.reset({

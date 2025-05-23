@@ -379,14 +379,19 @@ const CheckoutPage = () => {
           <p>Loading payment options...</p>
         </div>
       </div>
-    );
-  }
-    // If Stripe Checkout is enabled and Elements is disabled, redirect to Stripe Checkout
+    );  }
+
+  // useEffect must be called at the top level
   useEffect(() => {
     if (paymentSettings.enable_stripe_checkout && !paymentSettings.enable_stripe_elements) {
       router.push('/checkout/stripe');
     }
   }, [paymentSettings, router]);
+
+  // Return early if settings indicate we should use Stripe Checkout
+  if (paymentSettings.enable_stripe_checkout && !paymentSettings.enable_stripe_elements) {
+    return null;
+  }
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">

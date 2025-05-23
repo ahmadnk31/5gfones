@@ -928,6 +928,8 @@
     "title": "Filters",
     "reset": "Reset",
     "apply": "Apply",
+    "inStockOnly": "In Stock Only",
+    "onSale": "On Sale",
     "category": "Category",
     "brand": "Brand",
     "priceRange": "Price Range",

@@ -2,7 +2,7 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig = {
-  ignoreBuildErrors: true,
+  
   images: {
     remotePatterns: [
       {

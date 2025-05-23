@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import { debounce } from "lodash";
 import {
   Accordion,
   AccordionContent,
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { DualRangeSlider } from "@/components/ui/dual-range-slider";
+import { Slider } from "@/components/ui/slider";
 
 interface Category {
   id: number;
@@ -80,11 +81,56 @@ const RefurbishedFilterPanel = ({
   onHasVariationsChange,
   onApplyFilters,
   onResetFilters,
-}: RefurbishedFilterPanelProps) => {
-  const t = useTranslations();
+}: RefurbishedFilterPanelProps) => {  const t = useTranslations();
+  const [localPriceRange, setLocalPriceRange] = useState<number[]>(() => {
+    const initialMin = parseInt(minPrice) || 0;
+    const initialMax = parseInt(maxPrice) || 2000;
+    console.log("Initializing localPriceRange with:", [initialMin, initialMax]);
+    return [initialMin, initialMax];
+  });
+
+  // Debounce filter application to prevent too many updates
+  const debouncedApply = useCallback(
+    debounce(() => {
+      // This could trigger a parent update if needed
+    }, 150),
+    []
+  );
+  // Update local state when props change
+  useEffect(() => {
+    const newMin = parseInt(minPrice) || 0;
+    const newMax = parseInt(maxPrice) || 2000;
+    
+    // Only update if values are different to prevent infinite loops
+    if (localPriceRange[0] !== newMin || localPriceRange[1] !== newMax) {
+      setLocalPriceRange([newMin, newMax]);
+    }
+  }, [minPrice, maxPrice]); // Removed localPriceRange from dependencies
+  // Handle slider value changes
+  const handlePriceRangeChange = (values: number[]) => {
+    console.log("handlePriceRangeChange called with:", values);
+    
+    if (Array.isArray(values) && values.length === 2) {
+      console.log("Price range slider changed to:", values);
+
+      // Ensure values are rounded to multiples of the step (10)
+      const roundedValues = values.map(value => Math.round(value / 10) * 10);
+      console.log("Rounded values:", roundedValues);
+
+      // Update the local state with rounded values
+      setLocalPriceRange(roundedValues);
+
+      // Update parent state immediately
+      onMinPriceChange(roundedValues[0].toString());
+      onMaxPriceChange(roundedValues[1].toString());
+    } else {
+      console.warn("Invalid values received in handlePriceRangeChange:", values);
+    }
+  };
 
   return (
-    <div className='space-y-4 p-4 border rounded-lg bg-background'>      <div className='flex items-center justify-between'>
+    <div className='space-y-4 p-4 border rounded-lg bg-background'>
+      <div className='flex items-center justify-between'>
         <h2 className='text-lg font-medium'>{t("filters.title")}</h2>
         <Button
           variant='ghost'
@@ -253,27 +299,28 @@ const RefurbishedFilterPanel = ({
             {t("filters.priceRange")}
           </AccordionTrigger>
           <AccordionContent>
-            <div className='space-y-6'>
-              <div className="pt-6 pb-2">
-                <DualRangeSlider
-                  defaultValue={[parseInt(minPrice) || 0, parseInt(maxPrice) || 2000]}
+            <div className='space-y-6'>              <div className="pt-6 pb-2">
+                <Slider
+                  key={`slider-${localPriceRange[0]}-${localPriceRange[1]}`}
+                  value={localPriceRange.length === 2 ? localPriceRange : [0, 2000]}
                   min={0}
-                  max={parseInt(maxPrice) || 2000}
+                  max={2000}
                   step={10}
-                  onValueChange={(values) => {
-                    if (Array.isArray(values) && values.length === 2) {
-                      onMinPriceChange(values[0].toString());
-                      onMaxPriceChange(values[1].toString());
-                    }
-                  }}
-                  label={(value) => value !== undefined ? 
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                      maximumFractionDigits: 0,
-                    }).format(value) : ''
-                  }
+                  onValueChange={handlePriceRangeChange}
+                  className="mb-6"
                 />
+                <div className="flex justify-between text-sm text-gray-500 mt-2">
+                  <span>{new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    maximumFractionDigits: 0,
+                  }).format(localPriceRange[0] || 0)}</span>
+                  <span>{new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD", 
+                    maximumFractionDigits: 0,
+                  }).format(localPriceRange[1] || 2000)}</span>
+                </div>
               </div>
               
               <div className='grid grid-cols-2 gap-2'>
@@ -285,9 +332,23 @@ const RefurbishedFilterPanel = ({
                     id='min-price'
                     type='number'
                     placeholder='0'
-                    value={minPrice}
-                    onChange={(e) => onMinPriceChange(e.target.value)}
+                    value={localPriceRange[0]}                    onChange={(e) => {
+                      const value = parseInt(e.target.value) || 0;
+                      console.log("Min price input changed to:", value);
+                      
+                      // Round to the nearest step of 10
+                      const roundedValue = Math.round(value / 10) * 10;
+                      // Ensure min doesn't exceed max
+                      const newMin = Math.min(roundedValue, localPriceRange[1]);
+                      const newRange = [newMin, localPriceRange[1]];
+                      
+                      setLocalPriceRange(newRange);
+                      onMinPriceChange(newMin.toString());
+                      onMaxPriceChange(newRange[1].toString());
+                    }}
                     className='h-8'
+                    min={0}
+                    max={localPriceRange[1]}
                   />
                 </div>
                 <div className='space-y-1'>
@@ -297,10 +358,24 @@ const RefurbishedFilterPanel = ({
                   <Input
                     id='max-price'
                     type='number'
-                    placeholder='1000'
-                    value={maxPrice}
-                    onChange={(e) => onMaxPriceChange(e.target.value)}
+                    placeholder='2000'
+                    value={localPriceRange[1]}                    onChange={(e) => {
+                      const value = parseInt(e.target.value) || 0;
+                      console.log("Max price input changed to:", value);
+                      
+                      // Round to the nearest step of 10
+                      const roundedValue = Math.round(value / 10) * 10;
+                      // Ensure max isn't less than min
+                      const newMax = Math.max(roundedValue, localPriceRange[0]);
+                      const newRange = [localPriceRange[0], newMax];
+                      
+                      setLocalPriceRange(newRange);
+                      onMinPriceChange(newRange[0].toString());
+                      onMaxPriceChange(newMax.toString());
+                    }}
                     className='h-8'
+                    min={localPriceRange[0]}
+                    max={2000}
                   />
                 </div>
               </div>
