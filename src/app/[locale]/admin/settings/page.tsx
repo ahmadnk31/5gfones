@@ -47,7 +47,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { CreditCard, DollarSign, Save, AlertTriangle, ChevronsUpDown } from "lucide-react";
+import { CreditCard, DollarSign, Save, AlertTriangle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface PaymentSettings {
@@ -61,44 +61,66 @@ interface PaymentSettings {
   auto_capture_payments: boolean;
 }
 
+interface Order {
+  id: number;
+  created_at: string;
+  total_amount: string;
+  payment_status: string;
+  payment_id?: string;
+  payment_details?: any;
+  customer?: {
+    name?: string;
+    email?: string;
+  };
+}
+
 export default function SettingsPage() {
   const t = useTranslations("admin");
-  const supabase = createClient();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [paymentSettings, setPaymentSettings] = useState<PaymentSettings>({
-    stripe_public_key: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
-    stripe_secret_key: process.env.STRIPE_SECRET_KEY || '',
-    stripe_webhook_secret: process.env.STRIPE_WEBHOOK_SECRET || '',
+    stripe_public_key: '',
+    stripe_secret_key: '',
+    stripe_webhook_secret: '',
     enable_stripe_checkout: true,
     enable_stripe_elements: true,
     allow_refunds: true,
     payment_currency: 'usd',
     auto_capture_payments: true,
   });
-  const [refundOrders, setRefundOrders] = useState<any[]>([]);
+  const [refundOrders, setRefundOrders] = useState<Order[]>([]);
   const [isTestModeActive, setIsTestModeActive] = useState(true);
   const [showSecretKeyAlert, setShowSecretKeyAlert] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   
   // Fetch settings from DB on component mount
   useEffect(() => {
     const fetchSettings = async () => {
       setLoading(true);
+      setError(null);
+      
+      const supabase = createClient();
+      
       try {
-        const { data, error } = await supabase
+        // Fetch payment settings
+        const { data: settingsData, error: settingsError } = await supabase
           .from('settings')
           .select('*')
           .eq('type', 'payment')
-          .single();
+          .maybeSingle();
         
-        if (data) {
-          setPaymentSettings({
-            ...paymentSettings,
-            ...data.settings,
-          });
+        if (settingsError && settingsError.code !== 'PGRST116') {
+          throw settingsError;
         }
         
-        // Also fetch recent orders that might need refunds
+        if (settingsData?.settings) {
+          setPaymentSettings(prev => ({
+            ...prev,
+            ...settingsData.settings,
+          }));
+        }
+        
+        // Fetch recent orders that might need refunds
         const { data: orders, error: ordersError } = await supabase
           .from('orders')
           .select(`
@@ -114,32 +136,47 @@ export default function SettingsPage() {
           .order('created_at', { ascending: false })
           .limit(50);
           
+        if (ordersError) {
+          throw ordersError;
+        }
+        
         if (orders) {
           setRefundOrders(orders);
         }
         
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching settings:', error);
+        setError(error.message || 'Failed to load settings');
+        toast.error('Failed to load settings');
       } finally {
         setLoading(false);
       }
     };
     
     fetchSettings();
-  }, [supabase]);
+  }, []); // Removed supabase from dependency array
   
   const handleSettingChange = (key: keyof PaymentSettings, value: any) => {
-    setPaymentSettings({
-      ...paymentSettings,
+    setPaymentSettings(prev => ({
+      ...prev,
       [key]: value,
-    });
+    }));
   };
   
   const saveSettings = async () => {
     setSaving(true);
+    setError(null);
+    
+    const supabase = createClient();
+    
     try {
-      // Note: In production you would want to use environment variables 
-      // and a secure way to store API keys, not save them in the database
+      // Validate required fields
+      if (paymentSettings.enable_stripe_checkout || paymentSettings.enable_stripe_elements) {
+        if (!paymentSettings.stripe_public_key || !paymentSettings.stripe_secret_key) {
+          throw new Error('Stripe public and secret keys are required when Stripe is enabled');
+        }
+      }
+      
       const { error } = await supabase
         .from('settings')
         .upsert(
@@ -156,9 +193,10 @@ export default function SettingsPage() {
       }
       
       toast.success("Payment settings saved successfully");
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving settings:', error);
-      toast.error("Failed to save settings");
+      setError(error.message || 'Failed to save settings');
+      toast.error(error.message || "Failed to save settings");
     } finally {
       setSaving(false);
     }
@@ -166,10 +204,18 @@ export default function SettingsPage() {
   
   // Format currency with the settings currency
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: paymentSettings.payment_currency.toUpperCase(),
-    }).format(amount);
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: paymentSettings.payment_currency?.toUpperCase() || 'USD',
+      }).format(amount);
+    } catch (error) {
+      // Fallback to USD if currency code is invalid
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(amount);
+    }
   };
   
   const formatDate = (dateString: string) => {
@@ -184,22 +230,57 @@ export default function SettingsPage() {
     }
   };
   
-  const getPaymentIdFromOrder = (order: any) => {
+  const getPaymentIdFromOrder = (order: Order) => {
     if (order.payment_id) {
       return order.payment_id;
     }
     
     // If no direct payment_id, try to get from payment_details
     if (order.payment_details) {
-      const details = typeof order.payment_details === 'string' 
-        ? JSON.parse(order.payment_details)
-        : order.payment_details;
-        
-      return details.id || details.payment_intent || '';
+      try {
+        const details = typeof order.payment_details === 'string' 
+          ? JSON.parse(order.payment_details)
+          : order.payment_details;
+          
+        return details.id || details.payment_intent || '';
+      } catch (error) {
+        console.error('Error parsing payment details:', error);
+        return '';
+      }
     }
     
     return '';
   };
+
+  if (loading) {
+    return (
+      <div className="container mx-auto py-6">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+            <p className="text-gray-600">Loading settings...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !paymentSettings) {
+    return (
+      <div className="container mx-auto py-6">
+        <div className="text-center">
+          <div className="text-red-600 mb-4">
+            <AlertTriangle className="h-8 w-8 mx-auto mb-2" />
+            <p>Failed to load settings</p>
+            <p className="text-sm text-gray-600">{error}</p>
+          </div>
+          <Button onClick={() => window.location.reload()}>
+            Retry
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-6">
@@ -207,6 +288,15 @@ export default function SettingsPage() {
         <h1 className="text-3xl font-bold">{t('settings.title')}</h1>
         <p className="text-gray-500">{t('settings.description')}</p>
       </div>
+      
+      {error && (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+          <div className="flex items-center">
+            <AlertTriangle className="h-4 w-4 text-red-600 mr-2" />
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        </div>
+      )}
       
       <Tabs defaultValue="payment">
         <TabsList className="mb-4">
@@ -249,7 +339,7 @@ export default function SettingsPage() {
                     <Input
                       id="stripe-public-key"
                       placeholder="pk_test_..."
-                      value={paymentSettings.stripe_public_key}
+                      value={paymentSettings.stripe_public_key || ''}
                       onChange={(e) => handleSettingChange('stripe_public_key', e.target.value)}
                     />
                   </div>
@@ -262,16 +352,17 @@ export default function SettingsPage() {
                         id="stripe-secret-key"
                         type="password"
                         placeholder="sk_test_..."
-                        value={paymentSettings.stripe_secret_key}
+                        value={paymentSettings.stripe_secret_key || ''}
                         onChange={(e) => handleSettingChange('stripe_secret_key', e.target.value)}
                         onClick={() => setShowSecretKeyAlert(true)}
                       />
                       <AlertTriangle 
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-500"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-500 cursor-pointer"
                         title="Secret keys should be stored in environment variables"
+                        onClick={() => setShowSecretKeyAlert(true)}
                       />
                     </div>
-                    <p className="text-xs text-amber-500">
+                    <p className="text-xs text-amber-600">
                       {t('settings.payment.secretKeyWarning')}
                     </p>
                   </div>
@@ -285,13 +376,14 @@ export default function SettingsPage() {
                       id="stripe-webhook-secret"
                       type="password"
                       placeholder="whsec_..."
-                      value={paymentSettings.stripe_webhook_secret}
+                      value={paymentSettings.stripe_webhook_secret || ''}
                       onChange={(e) => handleSettingChange('stripe_webhook_secret', e.target.value)}
                       onClick={() => setShowSecretKeyAlert(true)}
                     />
                     <AlertTriangle 
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-500"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-500 cursor-pointer"
                       title="Webhook secrets should be stored in environment variables"
+                      onClick={() => setShowSecretKeyAlert(true)}
                     />
                   </div>
                 </div>
@@ -381,7 +473,7 @@ export default function SettingsPage() {
               <Button onClick={saveSettings} disabled={saving}>
                 {saving ? (
                   <>
-                    <ChevronsUpDown className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {t('settings.saving')}
                   </>
                 ) : (
@@ -407,80 +499,72 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {loading ? (
-                <div className="py-8 text-center">
-                  <div className="h-12 w-12 mx-auto mb-4 border-t-4 border-primary border-solid rounded-full animate-spin"></div>
-                  <p className="text-gray-600">{t('loading')}</p>
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{t('settings.refunds.orderId')}</TableHead>
+                      <TableHead>{t('settings.refunds.date')}</TableHead>
+                      <TableHead>{t('settings.refunds.customer')}</TableHead>
+                      <TableHead>{t('settings.refunds.amount')}</TableHead>
+                      <TableHead>{t('settings.refunds.status')}</TableHead>
+                      <TableHead className="text-right">{t('settings.refunds.actions')}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {refundOrders.length === 0 ? (
                       <TableRow>
-                        <TableHead>{t('settings.refunds.orderId')}</TableHead>
-                        <TableHead>{t('settings.refunds.date')}</TableHead>
-                        <TableHead>{t('settings.refunds.customer')}</TableHead>
-                        <TableHead>{t('settings.refunds.amount')}</TableHead>
-                        <TableHead>{t('settings.refunds.status')}</TableHead>
-                        <TableHead className="text-right">{t('settings.refunds.actions')}</TableHead>
+                        <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
+                          {t('settings.refunds.noOrders')}
+                        </TableCell>
                       </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {refundOrders.length === 0 ? (
-                        <TableRow>
-                          <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                            {t('settings.refunds.noOrders')}
+                    ) : (
+                      refundOrders.map((order) => (
+                        <TableRow key={order.id}>
+                          <TableCell className="font-medium">#{order.id}</TableCell>
+                          <TableCell>{formatDate(order.created_at)}</TableCell>
+                          <TableCell>
+                            {order.customer?.name || 'Guest'}
+                            {order.customer?.email && (
+                              <div className="text-xs text-gray-500">{order.customer.email}</div>
+                            )}
+                          </TableCell>
+                          <TableCell>{formatCurrency(parseFloat(order.total_amount))}</TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                order.payment_status === 'paid'
+                                  ? 'default'
+                                  : order.payment_status === 'partially_refunded'
+                                  ? 'secondary'
+                                  : 'outline'
+                              }
+                            >
+                              {order.payment_status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <RefundOrderButton 
+                              order={order} 
+                              paymentId={getPaymentIdFromOrder(order)} 
+                              onRefunded={(refundData) => {
+                                setRefundOrders(orders => 
+                                  orders.map(o => o.id === order.id ? {
+                                    ...o,
+                                    payment_status: refundData.status,
+                                  } : o)
+                                );
+                              }}
+                              isAllowed={paymentSettings.allow_refunds}
+                              currency={paymentSettings.payment_currency}
+                            />
                           </TableCell>
                         </TableRow>
-                      ) : (
-                        refundOrders.map((order) => (
-                          <TableRow key={order.id}>
-                            <TableCell className="font-medium">#{order.id}</TableCell>
-                            <TableCell>{formatDate(order.created_at)}</TableCell>
-                            <TableCell>
-                              {order.customer?.name || 'Guest'}
-                              {order.customer?.email && (
-                                <div className="text-xs text-gray-500">{order.customer.email}</div>
-                              )}
-                            </TableCell>
-                            <TableCell>{formatCurrency(parseFloat(order.total_amount))}</TableCell>
-                            <TableCell>
-                              <Badge
-                                variant={
-                                  order.payment_status === 'paid'
-                                    ? 'default'
-                                    : order.payment_status === 'partially_refunded'
-                                    ? 'secondary'
-                                    : 'outline'
-                                }
-                              >
-                                {order.payment_status}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <RefundOrderButton 
-                                order={order} 
-                                paymentId={getPaymentIdFromOrder(order)} 
-                                onRefunded={(refundData) => {
-                                  // Update the order in the list with new status
-                                  setRefundOrders(orders => 
-                                    orders.map(o => o.id === order.id ? {
-                                      ...o,
-                                      payment_status: refundData.status,
-                                      refund_amount: refundData.amount
-                                    } : o)
-                                  );
-                                }}
-                                isAllowed={paymentSettings.allow_refunds}
-                              />
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      }
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -510,14 +594,15 @@ function RefundOrderButton({
   paymentId, 
   onRefunded,
   isAllowed = true,
+  currency = 'usd',
 }: { 
-  order: any; 
+  order: Order; 
   paymentId: string;
   onRefunded: (data: { status: string; amount: number }) => void;
   isAllowed: boolean;
+  currency: string;
 }) {
   const t = useTranslations("admin");
-  const supabase = createClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [refundAmount, setRefundAmount] = useState<number | null>(null);
@@ -526,7 +611,7 @@ function RefundOrderButton({
   
   // Set default refund amount to full order amount
   useEffect(() => {
-    if (order) {
+    if (order?.total_amount) {
       setRefundAmount(parseFloat(order.total_amount));
     }
   }, [order]);
@@ -576,10 +661,17 @@ function RefundOrderButton({
   };
   
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency.toUpperCase(),
+      }).format(amount);
+    } catch (error) {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(amount);
+    }
   };
   
   return (
@@ -608,7 +700,9 @@ function RefundOrderButton({
             <div className="space-y-2">
               <Label htmlFor="refund-amount">{t('settings.refunds.refundAmount')}</Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  {currency === 'jpy' ? '¥' : '$'}
+                </span>
                 <Input
                   id="refund-amount"
                   type="number"
@@ -617,7 +711,13 @@ function RefundOrderButton({
                   onChange={(e) => {
                     const value = parseFloat(e.target.value);
                     const orderTotal = parseFloat(order.total_amount);
-                    setRefundAmount(value > orderTotal ? orderTotal : value);
+                    if (value > orderTotal) {
+                      setRefundAmount(orderTotal);
+                    } else if (value < 0) {
+                      setRefundAmount(0);
+                    } else {
+                      setRefundAmount(value);
+                    }
                   }}
                   min="0.01"
                   max={parseFloat(order.total_amount)}
@@ -646,8 +746,11 @@ function RefundOrderButton({
             </div>
             
             {error && (
-              <div className="p-3 text-sm bg-red-50 text-red-600 rounded-md">
-                {error}
+              <div className="p-3 text-sm bg-red-50 text-red-600 rounded-md border border-red-200">
+                <div className="flex items-center">
+                  <AlertTriangle className="h-4 w-4 mr-2 flex-shrink-0" />
+                  {error}
+                </div>
               </div>
             )}
           </div>
@@ -661,7 +764,7 @@ function RefundOrderButton({
             >
               {isProcessing ? (
                 <>
-                  <ChevronsUpDown className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   {t('settings.refunds.processing')}
                 </>
               ) : (
