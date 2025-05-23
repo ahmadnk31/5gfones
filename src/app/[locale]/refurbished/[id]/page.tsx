@@ -716,8 +716,7 @@ export default function RefurbishedProductDetailPage() {
             <p>
               This refurbished product comes with a {product.warranty_months}
               -month warranty from the date of purchase.
-            </p>
-            <h4>What's Covered:</h4>
+            </p>            <h4>What&apos;s Covered:</h4>
             <ul>
               <li>Manufacturing defects</li>
               <li>Hardware malfunctions not caused by user damage</li>
@@ -726,7 +725,7 @@ export default function RefurbishedProductDetailPage() {
                 warranty period)
               </li>
             </ul>
-            <h4>What's Not Covered:</h4>
+            <h4>What&apos;s Not Covered:</h4>
             <ul>
               <li>Physical damage from drops, spills or accidents</li>
               <li>Water or liquid damage</li>

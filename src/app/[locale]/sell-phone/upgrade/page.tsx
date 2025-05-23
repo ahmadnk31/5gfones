@@ -284,9 +284,8 @@ export default async function UpgradePage({
                 <IconStarFilled size={20} />
                 <IconStarFilled size={20} />
                 <IconStarFilled size={20} />
-              </div>
-              <p className="text-gray-600 italic mb-6">
-                "The upgrade process was incredibly smooth. I traded in my old phone and got a great deal on the newest model. The data transfer was handled professionally and I walked out with everything set up."
+              </div>              <p className="text-gray-600 italic mb-6">
+                &quot;The upgrade process was incredibly smooth. I traded in my old phone and got a great deal on the newest model. The data transfer was handled professionally and I walked out with everything set up.&quot;
               </p>
               <div className="flex items-center">                <div className="w-12 h-12 bg-green-100 rounded-full mr-4 flex items-center justify-center text-green-700 font-bold">
                   SM
@@ -305,9 +304,8 @@ export default async function UpgradePage({
                 <IconStarFilled size={20} />
                 <IconStarFilled size={20} />
                 <IconStarFilled size={20} />
-              </div>
-              <p className="text-gray-600 italic mb-6">
-                "I was shocked by how much they offered for my old Samsung. The credit made a significant dent in the cost of my new Galaxy. The staff was incredibly helpful throughout the process."
+              </div>              <p className="text-gray-600 italic mb-6">
+                &quot;I was shocked by how much they offered for my old Samsung. The credit made a significant dent in the cost of my new Galaxy. The staff was incredibly helpful throughout the process.&quot;
               </p>
               <div className="flex items-center">                <div className="w-12 h-12 bg-green-100 rounded-full mr-4 flex items-center justify-center text-green-700 font-bold">
                   JT
@@ -326,9 +324,8 @@ export default async function UpgradePage({
                 <IconStarFilled size={20} />
                 <IconStarFilled size={20} />
                 <IconStarFilled size={20} />
-              </div>
-              <p className="text-gray-600 italic mb-6">
-                "As someone who was worried about losing photos and contacts during the switch, I was pleasantly surprised by how seamless the process was. Everything was transferred perfectly to my new device."
+              </div>              <p className="text-gray-600 italic mb-6">
+                &quot;As someone who was worried about losing photos and contacts during the switch, I was pleasantly surprised by how seamless the process was. Everything was transferred perfectly to my new device.&quot;
               </p>
               <div className="flex items-center">                <div className="w-12 h-12 bg-green-100 rounded-full mr-4 flex items-center justify-center text-green-700 font-bold">
                   AL

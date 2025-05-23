@@ -160,7 +160,8 @@
       }
     },
     "tradeIn": {
-      "title": "Phone Trade-In Program",    
+      "title": "Phone Trade-In Program",
+      "sellButton": "Sell Your Phone", 
       "description": "Turn your old phone into cash or use it as credit towards a new device",
       "sell": {
         "category": "Sell Your Phone",

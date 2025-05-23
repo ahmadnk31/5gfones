@@ -4,10 +4,9 @@ import { getTranslations } from "next-intl/server";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ error: string }>;
+  searchParams: { error: string };
 }) {
   const t = await getTranslations("auth.error");
-  const params = await searchParams;
 
   return (
     <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
@@ -17,10 +16,9 @@ export default async function Page({
             <CardHeader>
               <CardTitle className='text-2xl'>{t("title")}</CardTitle>
             </CardHeader>
-            <CardContent>
-              {params?.error ? (
+            <CardContent>              {searchParams?.error ? (
                 <p className='text-sm text-muted-foreground'>
-                  {t("errorCode", { code: params.error })}
+                  {t("errorCode", { code: searchParams.error })}
                 </p>
               ) : (
                 <p className='text-sm text-muted-foreground'>

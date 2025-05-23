@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import Image from 'next/image';
 import {
   Form,
   FormControl,
@@ -484,9 +485,14 @@ export default function DHLShippingPage() {
               <CardContent>
                 {shippingLabel && (
                   <div className="flex flex-col items-center">
-                    <p className="mb-2">{t('shippingLabel', { defaultValue: 'Shipping Label:' })}</p>
-                    <div className="border border-gray-200 p-4 bg-white">
-                      <img src={shippingLabel} alt="Shipping Label" width={300} height={400} />
+                    <p className="mb-2">{t('shippingLabel', { defaultValue: 'Shipping Label:' })}</p>                    <div className="border border-gray-200 p-4 bg-white">
+                      <Image 
+                        src={shippingLabel} 
+                        alt="Shipping Label" 
+                        width={300} 
+                        height={400} 
+                        unoptimized
+                      />
                     </div>
                     <Button className="mt-4" variant="outline" onClick={() => window.open(shippingLabel)}>
                       {t('download', { defaultValue: 'Download Label' })}
@@ -547,8 +553,7 @@ export default function DHLShippingPage() {
               <CardHeader>
                 <CardTitle>{t('trackingInfo', { defaultValue: 'Tracking Information' })}</CardTitle>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold">{t('status', { defaultValue: 'Status' })}:</span> 
-                  <Badge variant={trackingResults.status === "Delivered" ? "success" : "default"}>
+                  <span className="font-bold">{t('status', { defaultValue: 'Status' })}:</span>                  <Badge variant={trackingResults.status === "Delivered" ? "income" : "default"}>
                     {trackingResults.status}
                   </Badge>
                 </div>

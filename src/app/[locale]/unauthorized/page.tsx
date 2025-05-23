@@ -13,9 +13,8 @@ export default function UnauthorizedPage() {
       <div className='rounded-full bg-yellow-100 p-4 mb-6'>
         <AlertTriangle className='h-12 w-12 text-yellow-600' />
       </div>
-      <h1 className='text-3xl font-bold mb-2'>Access Denied</h1>
-      <p className='text-muted-foreground mb-6 max-w-md'>
-        You don't have permission to access this page. If you believe this is an
+      <h1 className='text-3xl font-bold mb-2'>Access Denied</h1>      <p className='text-muted-foreground mb-6 max-w-md'>
+        You don&apos;t have permission to access this page. If you believe this is an
         error, please contact support.
       </p>
       <div className='flex flex-col sm:flex-row gap-4'>

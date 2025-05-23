@@ -39,7 +39,6 @@ const CheckoutForm = ({ currency = 'usd' }) => {
   const taxRate = 0.08;
   const taxAmount = subtotal * taxRate;
   const total = subtotal + shippingCost + taxAmount;
-
   // Format currency using the currency from settings
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -97,9 +96,9 @@ const CheckoutForm = ({ currency = 'usd' }) => {
     };
     
     createPaymentIntent();
-  }, [items, currency, router, supabase]);
+  }, [items, currency, router, supabase, shippingCost, taxAmount, total]);
   
-  // Check current user
+    // Check current user
   useEffect(() => {
     const getCurrentUser = async () => {
       const { data } = await supabase.auth.getSession();
