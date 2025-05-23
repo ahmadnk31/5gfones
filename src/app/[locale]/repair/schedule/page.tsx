@@ -721,15 +721,14 @@ const RepairSchedulePage = () => {
                 <div className='p-3 mb-6 bg-blue-50 border border-blue-100 rounded-md'>
                   <div className='flex items-start space-x-3'>
                     <HelpCircleIcon className='w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0' />
-                    <div>
-                      <p className='text-sm text-blue-700 mb-2'>
+                    <div>                      <p className='text-sm text-emerald-700 mb-2'>
                         {t("cantFindDevice")}
                       </p>
                       <Link href={`/${locale}/repair/custom-request`}>
                         <Button
                           variant='outline'
                           size='sm'
-                          className='text-blue-600 border-blue-300 hover:bg-blue-100'
+                          className='text-emerald-600 border-emerald-300 hover:bg-emerald-100'
                         >
                           {t("submitCustomRepairRequest")}
                         </Button>
@@ -1517,12 +1516,11 @@ const RepairSchedulePage = () => {
             </div>
           )}
         </div>
-      </div>
-      {/* Custom Repair Request Link */}
+      </div>      {/* Custom Repair Request Link */}
       <div className='mt-8 text-center'>
         <p className='text-gray-600 mb-3'>{t("deviceNotListed")}</p>
         <Link href={`/${locale}/repair/custom-request`}>
-          <Button className='bg-blue-600 hover:bg-blue-700'>
+          <Button className='bg-emerald-600 hover:bg-emerald-700'>
             <HelpCircleIcon className='w-4 h-4 mr-2' />
             {t("customRepairRequest")}
           </Button>

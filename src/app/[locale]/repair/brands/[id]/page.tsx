@@ -90,11 +90,10 @@ export default async function RepairBrandDetailPage({
       {deviceTypes && deviceTypes.length > 0 && (
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6">{t("selectDeviceType") || "Select Your Device Type"}</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-            {deviceTypes.map((type) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">            {deviceTypes.map((type) => (
               <Link
                 key={type.id}
-                href={`/${locale}/repair/device-types/${type.id}`}
+                href={`/${locale}/repair/devices?brand=${brand.id}`}
                 className="flex flex-col items-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200"
               >
                 <div className="w-16 h-16 relative mb-3">

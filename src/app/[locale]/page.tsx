@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Carousel, Card } from "@/components/ui/apple-card-carousel";
 import BannerCarousel from "@/components/banner-carousel";
+import HomepageBanner from "@/components/homepage-banner";
 import { formatCurrency } from "@/lib/utils";
 import { IconArrowRight } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
@@ -343,31 +344,14 @@ console.log("phoneTradeIns:", phoneTradeIns);
     .eq("is_repair_part", true)
     .order("in_stock", { ascending: false })
     .limit(4);
-    console.log("repairParts:", repairServicesPremium);
-  return (
+    console.log("repairParts:", repairServicesPremium);  return (
     <main>
-      {/* Hero Banner Carousel */}
-      <section className="container mx-auto px-4 py-4">
-        <BannerCarousel targetPage="home" />
-      </section>
-
-      {/* Hero Section */}
-      <section className='bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 md:py-24'>
-        <div className='container mx-auto px-4 max-w-6xl'>
-          <div className='max-w-3xl'>
-            <h1 className='text-3xl md:text-5xl font-bold mb-4'>
-              {t("app.tagline")}
-            </h1>              <p className='text-lg md:text-xl mb-6 opacity-90'>
-                {t("app.heroBanner.subtitle")}
-              </p>
-            <Link href='/products'>
-              <Button size='lg' variant='secondary'>
-                {t("navigation.products")}
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* HomepageBanner: Conditionally shows Banner Carousel or Default Hero */}
+      <HomepageBanner 
+        tagline="Get the latest 5G devices and accessories" 
+        subtitle="Your premier destination for cutting-edge 5G technology and accessories"
+        buttonLabel={t("navigation.products")}
+      />
       {/* Main Services Section */}
       <section className='py-12 md:py-20'>
         <div className='container mx-auto px-4 max-w-7xl'>
@@ -386,8 +370,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     <div className='space-y-4'>
                       <p className='text-lg text-gray-700'>
                         {t("app.carousel.phoneRepair.description") || "Professional screen repair service for all phone models"}
-                      </p>
-                      <Link href='/repairs'>
+                      </p>                      <Link href='/repair'>
                         <Button className='flex items-center gap-2'>
                           {t("app.carousel.phoneRepair.button") || "Book Repair"}
                           <IconArrowRight size={16} />
@@ -409,7 +392,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                       <p className='text-lg text-gray-700'>
                         {t("app.carousel.batteryReplacement.description")}
                       </p>
-                      <Link href='/repair'>
+                      <Link href='/repair/services'>
                         <Button className='flex items-center gap-2'>
                           {t("app.carousel.batteryReplacement.button")}
                           <IconArrowRight size={16} />
@@ -430,8 +413,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     <div className='space-y-4'>
                       <p className='text-lg text-gray-700'>
                         {t("app.carousel.tradeIn.description")}
-                      </p>
-                      <Link href='/sell-phone'>
+                      </p>                      <Link href="/sell-phone">
                         <Button className='flex items-center gap-2'>
                           {t("app.carousel.tradeIn.button")}
                           <IconArrowRight size={16} />
@@ -496,7 +478,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                   <p className="text-xl font-bold text-blue-600 mb-4">
                     {formatCurrency(service.base_price)}
                   </p>
-                  <Link href={`/repair-services/${service.id}`}>
+                  <Link href={`/repair/services/${service.id}`}>
                     <Button variant="outline" className="w-full">
                       {t("common.bookNow") || "Book Now"}
                     </Button>
@@ -577,7 +559,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
             )}
           </div>
           <div className='mt-8 text-center'>
-            <Link href='/brands'>
+            <Link href='/repair/brands'>
               <Button
                 variant='outline'
                 className='flex items-center gap-2 mx-auto'
@@ -828,7 +810,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
           </div>
 
           <div className='text-center'>
-            <Link href='/repair'>
+            <Link href='/repair/services'>
               <Button size='lg' className='flex items-center gap-2 mx-auto'>
                 {t("app.services.viewAll")}
                 <IconArrowRight size={16} />
@@ -914,10 +896,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     <span className='text-gray-700'>
                       {t("app.tradeIn.feature3")}
                     </span>
-                  </li>
-                </ul>
-
-                <Link href='/sell-phone'>
+                  </li>                </ul>                <Link href="/sell-phone">
                   <Button size='lg' className='flex items-center gap-2'>
                     {t("app.tradeIn.cta")}
                     <IconArrowRight size={18} />
@@ -1091,8 +1070,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                 </h3>
                 <p className='text-gray-600 mb-4'>
                   {t("app.tradeIn.sell.description")}
-                </p>
-                <Link href='/sell-phone'>
+                </p>                <Link href='/sell-phone'>
                   <Button className='w-full flex items-center justify-center gap-2'>
                     {t("app.tradeIn.quoteButton")} <IconArrowRight size={16} />
                   </Button>
@@ -1116,8 +1094,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                 </h3>
                 <p className='text-gray-600 mb-4'>
                   {t("app.tradeIn.upgrade.description")}
-                </p>
-                <Link href='/sell-phone/upgrade'>
+                </p>                <Link href='/sell-phone/upgrade'>
                   <Button className='w-full flex items-center justify-center gap-2'>
                     {t("app.tradeIn.upgradeButton")}{" "}
                     <IconArrowRight size={16} />
@@ -1244,8 +1221,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                                 <span className='text-sm text-green-500'>
                                   {t("app.tradeIn.cashOffer")}
                                 </span>
-                              </div>
-                              <Link href='/trade-in'>
+                              </div>                              <Link href='/sell-phone'>
                                 <Button className='flex items-center gap-2'>
                                   {t("app.tradeIn.sellButton")}
                                   <IconArrowRight size={16} />
@@ -1297,9 +1273,8 @@ console.log("phoneTradeIns:", phoneTradeIns);
             </div>
           </div>
         </section>
-      )}
-      {/* CTA Banner */}
-      <section className='py-12 bg-gradient-to-r from-blue-600 to-purple-700 text-white'>
+      )}      {/* CTA Banner */}
+      <section className='py-12 bg-gradient-to-r from-emerald-600 to-green-700 text-white'>
         <div className='container mx-auto px-4 max-w-6xl'>
           <div className='flex flex-col md:flex-row items-center justify-between'>
             <div className='md:w-2/3 text-center md:text-left mb-6 md:mb-0'>
@@ -1312,12 +1287,10 @@ console.log("phoneTradeIns:", phoneTradeIns);
                 <p className='text-lg mb-6 max-w-2xl opacity-90'>
                   {t("app.ctaBanner.description")}
                 </p>
-              )}
-              <Link href='/repairs'>
+              )}              <Link href='/repair'>
                 <Button
                   size='lg'
-                  variant='secondary'
-                  className='px-8 py-3 text-lg'
+                  className='px-8 py-3 text-lg bg-white text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800'
                 >
                   {t("app.ctaBanner.button") || t("common.learnMore")}
                 </Button>

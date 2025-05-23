@@ -90,13 +90,12 @@ export default async function RepairServiceDetailPage({
     .limit(3);
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
-      <Link
+    <div className="container mx-auto px-4 py-12 max-w-6xl">      <Link
         href={`/${locale}/repair/services`}
         className="flex items-center text-blue-600 mb-8 hover:underline"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
-        {t("backToServices") || "Back to all repair services"}
+        {t("serviceDetail.backToServices") || "Back to all repair services"}
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-12">
@@ -113,10 +112,9 @@ export default async function RepairServiceDetailPage({
             </div>
             <h1 className="text-3xl font-bold mb-4">{service.name}</h1>
 
-            {deviceModel && (
-              <div className="mb-6 inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm border border-blue-200">
+            {deviceModel && (              <div className="mb-6 inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm border border-blue-200">
                 <span>
-                  {t("compatibleWith", {
+                  {t("serviceDetail.compatibleWith", {
                     model: deviceModel.name,
                     series: deviceModel.device_series?.name || "",
                     brand: deviceModel.device_series?.device_type?.brand?.name || "",
@@ -126,41 +124,37 @@ export default async function RepairServiceDetailPage({
             )}
 
             <div className="prose max-w-none">
-              <p className="text-lg mb-6">{service.description}</p>
-
-              <h2 className="text-xl font-semibold mt-8 mb-4">
-                {t("whatIncluded") || "What's Included"}
+              <p className="text-lg mb-6">{service.description}</p>              <h2 className="text-xl font-semibold mt-8 mb-4">
+                {t("serviceDetail.whatIncluded") || "What's Included"}
               </h2>
               <ul className="space-y-3">
                 <li className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                   <span>
-                    {t("qualityParts") ||
+                    {t("serviceDetail.qualityParts") ||
                       "Genuine or high-quality compatible parts"}
                   </span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                   <span>
-                    {t("expertService") || "Expert technician labor"}
+                    {t("serviceDetail.expertService") || "Expert technician labor"}
                   </span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                   <span>
-                    {t("diagnostics") || "Complete device diagnostic"}
+                    {t("serviceDetail.diagnostics") || "Complete device diagnostic"}
                   </span>
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                   <span>
-                    {t("warranty") || "90-day warranty on parts and labor"}
+                    {t("serviceDetail.warranty") || "90-day warranty on parts and labor"}
                   </span>
                 </li>
-              </ul>
-
-              <h2 className="text-xl font-semibold mt-8 mb-4">
-                {t("serviceProcess") || "Service Process"}
+              </ul>              <h2 className="text-xl font-semibold mt-8 mb-4">
+                {t("serviceDetail.serviceProcess") || "Service Process"}
               </h2>
               <ul className="space-y-6">
                 <li className="flex items-start">
@@ -169,10 +163,10 @@ export default async function RepairServiceDetailPage({
                   </div>
                   <div>
                     <h3 className="font-medium">
-                      {t("schedule") || "Schedule"}
+                      {t("serviceDetail.schedule") || "Schedule"}
                     </h3>
                     <p className="text-gray-600">
-                      {t("scheduleDescription") ||
+                      {t("serviceDetail.scheduleDescription") ||
                         "Book an appointment at a time that works for you"}
                     </p>
                   </div>
@@ -183,10 +177,10 @@ export default async function RepairServiceDetailPage({
                   </div>
                   <div>
                     <h3 className="font-medium">
-                      {t("diagnostic") || "Diagnosis"}
+                      {t("serviceDetail.diagnostic") || "Diagnosis"}
                     </h3>
                     <p className="text-gray-600">
-                      {t("diagnosticDescription") ||
+                      {t("serviceDetail.diagnosticDescription") ||
                         "Our technicians will diagnose the problem and confirm the repair"}
                     </p>
                   </div>
@@ -197,10 +191,9 @@ export default async function RepairServiceDetailPage({
                   </div>
                   <div>
                     <h3 className="font-medium">
-                      {t("repair") || "Repair"}
-                    </h3>
-                    <p className="text-gray-600">
-                      {t("repairDescription") ||
+                      {t("serviceDetail.repair") || "Repair"}
+                    </h3>                    <p className="text-gray-600">
+                      {t("serviceDetail.repairDescription") ||
                         "We repair your device using quality parts"}
                     </p>
                   </div>
@@ -211,10 +204,10 @@ export default async function RepairServiceDetailPage({
                   </div>
                   <div>
                     <h3 className="font-medium">
-                      {t("pickup") || "Pickup"}
+                      {t("serviceDetail.pickup") || "Pickup"}
                     </h3>
                     <p className="text-gray-600">
-                      {t("pickupDescription") ||
+                      {t("serviceDetail.pickupDescription") ||
                         "Pick up your repaired device, fully tested and ready to use"}
                     </p>
                   </div>
@@ -227,9 +220,8 @@ export default async function RepairServiceDetailPage({
         <div className="lg:col-span-2">
           <div className="sticky top-20">
             <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 mb-8">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-2">
-                  {t("priceDetails") || "Price Details"}
+              <div className="p-6">                <h2 className="text-2xl font-bold mb-2">
+                  {t("serviceDetail.priceDetails") || "Price Details"}
                 </h2>
                 <div className="flex items-center text-3xl font-bold text-blue-600 mb-4">
                   {new Intl.NumberFormat("en-US", {
@@ -242,24 +234,24 @@ export default async function RepairServiceDetailPage({
                   <li className="flex items-center">
                     <PenTool className="h-5 w-5 text-blue-600 mr-3" />
                     <span>
-                      {t("priceIncludesParts") ||
+                      {t("serviceDetail.priceIncludesParts") ||
                         "Price includes parts and labor"}
                     </span>
                   </li>
                   <li className="flex items-center">
                     <Clock className="h-5 w-5 text-blue-600 mr-3" />
                     <span>
-                      {t("typicalDuration") ||
+                      {t("serviceDetail.typicalDuration") ||
                         "Typical duration: 1-2 hours"}
                     </span>
                   </li>
                 </ul>                <div className="space-y-3">
                   <Link href={`/${locale}/repair/schedule?repairPartId=${service.id}${service.compatible_with_model_id ? `&modelId=${service.compatible_with_model_id}` : ''}`}>
-                    <Button className="w-full">{t("scheduleService") || "Schedule Service"}</Button>
+                    <Button className="w-full">{t("serviceDetail.scheduleService") || "Schedule Service"}</Button>
                   </Link>
                   <Link href={`/${locale}/contact`}>
                     <Button variant="outline" className="w-full">
-                      {t("askQuestion") || "Ask a Question"}
+                      {t("serviceDetail.askQuestion") || "Ask a Question"}
                     </Button>
                   </Link>
                 </div>
@@ -268,9 +260,8 @@ export default async function RepairServiceDetailPage({
 
             {relatedServices && relatedServices.length > 0 && (
               <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-                <div className="p-6">
-                  <h2 className="text-xl font-bold mb-4">
-                    {t("relatedServices") || "Related Services"}
+                <div className="p-6">                  <h2 className="text-xl font-bold mb-4">
+                    {t("serviceDetail.relatedServices") || "Related Services"}
                   </h2>
                   <div className="space-y-4">
                     {relatedServices.map((relatedService) => (

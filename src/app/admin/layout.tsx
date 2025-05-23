@@ -18,6 +18,7 @@ import {
   MessageSquare,
   X,
   Mail,
+  Truck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -145,11 +146,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       href: "/admin/contact",
       icon: <Mail className='h-5 w-5' />,
       exact: false,
-    },
-    {
+    },    {
       name: "Settings",
       href: "/admin/settings",
       icon: <Settings className='h-5 w-5' />,
+      exact: false,
+    },
+    {
+      name: "DHL Integration",
+      href: "/admin/dhl-experimental",
+      icon: <Truck className='h-5 w-5' />,
       exact: false,
     },
   ];

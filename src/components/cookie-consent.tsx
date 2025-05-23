@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useParams } from 'next/navigation';
 import { 
   Dialog, 
   DialogContent,
@@ -13,7 +14,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { X } from 'lucide-react';
+import { X, GlobeIcon, ShieldIcon } from 'lucide-react';
+import { isEuUser } from '@/lib/geo-detection';
 
 type CookieConsent = {
   essential: boolean; // Always true and disabled
@@ -23,13 +25,15 @@ type CookieConsent = {
   consentVersion: number; // For tracking changes to the cookie policy
 };
 
-const CONSENT_VERSION = 1;
+const CONSENT_VERSION = 2; // Upgraded version for GDPR compliance
 const CONSENT_COOKIE_NAME = 'cookie-consent';
 
 export function CookieConsent() {
   const t = useTranslations('privacy');
+  const { locale } = useParams() as { locale: string };
   const [isOpen, setIsOpen] = useState(false);
   const [showBanner, setShowBanner] = useState(false);
+  const [isEuRegion, setIsEuRegion] = useState(true); // Default to true for maximum compliance
   const [consent, setConsent] = useState<CookieConsent>({
     essential: true,
     preferences: false,
@@ -39,6 +43,22 @@ export function CookieConsent() {
   });
 
   useEffect(() => {
+    // Determine if the user is likely from the EU (simplified for demo purposes)
+    // In production, you'd use a proper geo-location service
+    const checkRegion = async () => {
+      try {
+        // For the demo, we'll assume users from certain languages are in the EU
+        const euLanguages = ['de', 'fr', 'es', 'it', 'nl', 'pt', 'sv', 'fi', 'da', 'pl', 'cs', 'sk', 'hu', 'ro', 'bg', 'el', 'lt', 'lv', 'et', 'sl', 'mt'];
+        const isLikelyEu = euLanguages.includes(locale) || isEuUser();
+        setIsEuRegion(isLikelyEu);
+      } catch (error) {
+        console.error('Error determining region:', error);
+        setIsEuRegion(true); // Default to true for safety
+      }
+    };
+    
+    checkRegion();
+    
     // Check if consent cookie exists and is current version
     const storedConsent = getCookieConsent();
     if (!storedConsent || storedConsent.consentVersion !== CONSENT_VERSION) {
@@ -48,7 +68,7 @@ export function CookieConsent() {
     } else {
       setConsent(storedConsent);
     }
-  }, []);
+  }, [locale]);
 
   const getCookieConsent = (): CookieConsent | null => {
     try {
@@ -130,12 +150,21 @@ export function CookieConsent() {
 
   // Cookie preferences dialog should be always available regardless of banner visibility
   const preferencesDialog = (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-lg">
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{t('cookieConsent.preferencesTitle')}</DialogTitle>
+          <div className="flex items-center gap-2">
+            <DialogTitle>{t('cookieConsent.preferencesTitle')}</DialogTitle>
+            {isEuRegion && (
+              <div className="px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900 text-xs font-medium text-blue-600 dark:text-blue-400">
+                GDPR
+              </div>
+            )}
+          </div>
           <DialogDescription>
-            {t('cookieConsent.preferencesDescription')}
+            {isEuRegion 
+              ? `${t('cookieConsent.preferencesDescription')} As per the GDPR requirements, we provide detailed information about each type of cookie we use.` 
+              : t('cookieConsent.preferencesDescription')
+            }
           </DialogDescription>
         </DialogHeader>
         
@@ -208,15 +237,25 @@ export function CookieConsent() {
               </p>
             </div>
           </div>
-        </div>
-
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}>
-            {t('cookieConsent.cancel')}
-          </Button>
-          <Button onClick={handleAcceptSelected}>
-            {t('cookieConsent.save')}
-          </Button>
+        </div>        <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
+          <div className="flex items-center mr-auto">
+            <a 
+              href={`/${locale}/privacy-policy`} 
+              className="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+            >
+              <ShieldIcon className="h-3 w-3" />
+              {t('cookieConsent.learnMore')}
+            </a>
+          </div>
+          
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              {t('cookieConsent.cancel')}
+            </Button>
+            <Button onClick={handleAcceptSelected}>
+              {t('cookieConsent.save')}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -228,14 +267,34 @@ export function CookieConsent() {
       <>
         <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-md p-4 md:p-6 border-t border-gray-200 dark:border-gray-700">
           <div className="container mx-auto">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="flex-1">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">              <div className="flex-1">
+                {isEuRegion && (
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="rounded-full bg-blue-100 dark:bg-blue-900 p-1">
+                      <GlobeIcon className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
+                      GDPR Compliant
+                    </span>
+                  </div>
+                )}
+                
                 <h3 className="font-bold text-lg mb-2">
                   {t('cookieConsent.title')}
                 </h3>
+                
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
-                  {t('cookieConsent.description')}
+                  {isEuRegion 
+                    ? `${t('cookieConsent.description')} Under the GDPR, we require your explicit consent before using non-essential cookies.` 
+                    : t('cookieConsent.description')
+                  }
                 </p>
+                
+                {isEuRegion && (
+                  <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
+                    You can change your preferences at any time using the cookie button in the bottom-left corner.
+                  </p>
+                )}
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button variant="outline" size="sm" onClick={handleAcceptEssential}>

@@ -34,8 +34,7 @@ export default async function RepairBrandsPage({
 
         {/* Brands Grid */}
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6'>
-          {brands?.map((brand) => (
-            <Link
+          {brands?.map((brand) => (            <Link
               key={brand.id}
               href={`/${locale}/repair/devices?brand=${brand.id}`}
               className='hover:opacity-90 transition-opacity'

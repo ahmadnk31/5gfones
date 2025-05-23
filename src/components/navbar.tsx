@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { ShoppingCart, Menu, X, User, ChevronDown } from "lucide-react";
+import { Menu, X, User, ChevronDown, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/client";
 import { Badge } from "./ui/badge";
@@ -21,15 +21,15 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import CartSheet from "./cart-sheet";
 
 const NavBar = () => {
   const t = useTranslations("navigation");
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createClient();  
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [userRole,setUserRole]=useState<string>("user");
-  const [cartCount, setCartCount] = useState(0); // Get the current locale for links
   const locale = useTranslations("common")("locale") || "en";
 
   // Check authentication state
@@ -63,44 +63,12 @@ const NavBar = () => {
       authListener.subscription.unsubscribe();
     };
   }, [supabase.auth]);
-
-  // Handle cart count from local storage
-  useEffect(() => {
-    const getCartFromStorage = () => {
-      if (typeof window !== "undefined") {
-        const cart = localStorage.getItem("cart");
-        if (cart) {
-          try {
-            const cartItems = JSON.parse(cart);
-            const itemCount = cartItems.reduce(
-              (total: number, item: any) => total + item.quantity,
-              0
-            );
-            setCartCount(itemCount);
-          } catch (e) {
-            console.error("Error parsing cart data:", e);
-            setCartCount(0);
-          }
-        }
-      }
-    };
-
-    getCartFromStorage();
-    window.addEventListener("storage", getCartFromStorage);
-
-    // Custom event for cart updates
-    window.addEventListener("cartUpdated", getCartFromStorage);
-
-    return () => {
-      window.removeEventListener("storage", getCartFromStorage);
-      window.removeEventListener("cartUpdated", getCartFromStorage);
-    };
-  }, []);
+  // No need to handle cart count here anymore as it's managed by CartSheet
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <nav className='bg-white shadow-md sticky top-0 z-50'>
+    <nav className='bg-emerald-50 shadow-md sticky top-0 z-50 border-b border-emerald-100'>
       <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
         <div className='flex justify-between h-16'>
           {/* Logo and brand name */}{" "}
@@ -108,15 +76,14 @@ const NavBar = () => {
             <Link
               href={`/${locale}`}
               className='flex-shrink-0 flex items-center'
-            >
-              <Image
+            >              <Image
                 src='/placeholder.svg'
-                alt='FinOpenPOS'
+                alt='5GPhones'
                 width={32}
                 height={32}
                 className='h-8 w-auto'
               />
-              <span className='ml-2 text-lg sm:text-xl font-bold text-gray-900 truncate max-w-[100px] sm:max-w-full'>
+              <span className='ml-2 text-lg sm:text-xl font-bold text-emerald-700 truncate max-w-[100px] sm:max-w-full'>
                 5GPhones
               </span>
             </Link>
@@ -142,7 +109,7 @@ const NavBar = () => {
                       <li className='row-span-3'>
                         <NavigationMenuLink asChild>
                           <a
-                            className='flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-500 to-blue-700 p-6 no-underline outline-none focus:shadow-md'
+                            className='flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-emerald-500 to-green-700 p-6 no-underline outline-none focus:shadow-md'
                             href={`/${locale}/products`}
                           >
                             <ShoppingCart className='h-6 w-6 text-white' />
@@ -193,8 +160,7 @@ const NavBar = () => {
                               {t("browseByBrand")}
                             </p>
                           </NavigationMenuLink>
-                        </Link>
-                      </li>{" "}
+                        </Link>                      </li>{" "}
                       <li>
                         <Link
                           href={`/${locale}/offers`}
@@ -270,7 +236,7 @@ const NavBar = () => {
                       <li className='row-span-3'>
                         <NavigationMenuLink asChild>
                           <a
-                            className='flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-600 to-blue-800 p-6 no-underline outline-none focus:shadow-md'
+                            className='flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-emerald-600 to-green-800 p-6 no-underline outline-none focus:shadow-md'
                             href={`/${locale}/repair`}
                           >
                             <div className='mb-2 mt-4 text-lg font-medium text-white'>
@@ -350,20 +316,10 @@ const NavBar = () => {
             {/* Search Bar */}
             <div className='flex-1 max-w-md mx-4'>
               <SearchBarModal />
-            </div>{" "}
-            {/* User and Cart */}
+            </div>{" "}            {/* User and Cart */}
             <div className='flex items-center space-x-4'>
-              <Link href={`/${locale}/cart`} className='relative'>
-                <ShoppingCart className='h-6 w-6 text-gray-700 hover:text-gray-900' />
-                {cartCount > 0 && (
-                  <Badge
-                    variant='destructive'
-                    className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full p-0 text-xs'
-                  >
-                    {cartCount}
-                  </Badge>
-                )}
-              </Link>
+              {/* Cart Sheet Component */}
+              <CartSheet />
               {user ? (
                 <div className='relative group'>
                   <Avatar className='cursor-pointer h-9 w-9'>
@@ -376,8 +332,7 @@ const NavBar = () => {
                           className='object-cover'
                         />
                       </div>
-                    ) : (
-                      <AvatarFallback className='bg-blue-100 text-blue-800'>
+                    ) : (                      <AvatarFallback className='bg-emerald-100 text-emerald-800'>
                         {(user.user_metadata?.full_name || user.email || "User")
                           .split(" ")
                           .map((n: string) => n[0])
@@ -423,12 +378,17 @@ const NavBar = () => {
                             className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                           >
                             Test Payment
-                          </Link>
-                          <Link
+                          </Link>                          <Link
                             href={`/${locale}/admin/refund-requests`}
                             className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                           >
                             Refund Requests
+                          </Link>
+                          <Link
+                            href={`/${locale}/admin/dhl-shipping`}
+                            className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                          >
+                            DHL Shipping
                           </Link>
                         </>
                       )}
@@ -457,28 +417,18 @@ const NavBar = () => {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <Link href={`/${locale}/auth/login`} passHref>
-                  <Button variant='outline' size='sm'>
+              ) : (                <Link href={`/${locale}/auth/login`} passHref>
+                  <Button className="bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600" size='sm'>
                     {t("login")}
                   </Button>
                 </Link>
               )}
             </div>
-          </div>{" "}          {/* Mobile Menu Button */}
-          <div className='flex items-center md:hidden gap-2'>
-            <SearchBarModal iconOnly={true} />
-            <Link href={`/${locale}/cart`} className='relative mr-1'>
-              <ShoppingCart className='h-5 w-5 text-gray-700' />
-              {cartCount > 0 && (
-                <Badge
-                  variant='destructive'
-                  className='absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center rounded-full p-0 text-xs'
-                >
-                  {cartCount}
-                </Badge>
-              )}
-            </Link>
+          </div>{" "}          {/* Mobile Menu Button */}          <div className='flex items-center md:hidden gap-2'>            <SearchBarModal iconOnly={true} />
+            {/* Mobile Cart Sheet */}
+            <div className="scale-90">
+              <CartSheet />
+            </div>
             <button
               type='button'
               className='inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100'
@@ -548,13 +498,13 @@ const NavBar = () => {
                   className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                 >
                   {t("brands")}
-                </Link>{" "}
+                </Link>{" "}                {/* Offers page not implemented yet
                 <Link
                   href={`/${locale}/offers`}
                   className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                 >
                   {t("specialOffers")}
-                </Link>
+                </Link> */}
                 <Link
                   href={`/${locale}/refurbished`}
                   className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
@@ -633,12 +583,17 @@ const NavBar = () => {
                     className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                   >
                     Test Payment
-                  </Link>
-                  <Link
+                  </Link>                  <Link
                     href={`/${locale}/admin/refund-requests`}
                     className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                   >
                     Refund Requests
+                  </Link>
+                  <Link
+                    href={`/${locale}/admin/dhl-shipping`}
+                    className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
+                  >
+                    DHL Shipping
                   </Link>
                 </div>
               </div>
@@ -666,8 +621,7 @@ const NavBar = () => {
                             className='object-cover'
                           />
                         </div>
-                      ) : (
-                        <AvatarFallback className='bg-blue-100 text-blue-800'>
+                      ) : (                        <AvatarFallback className='bg-emerald-100 text-emerald-800'>
                           {(
                             user.user_metadata?.full_name ||
                             user.email ||
@@ -719,11 +673,10 @@ const NavBar = () => {
                   {t("logout")}
                 </button>
               </div>
-            ) : (
-              <div className='px-4'>
+            ) : (              <div className='px-4'>
                 <Link
                   href={`/${locale}/auth/login`}
-                  className='block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:bg-gray-100'
+                  className='block px-3 py-2 rounded-md text-base font-medium text-emerald-600 hover:bg-gray-100'
                 >
                   {t("login")}
                 </Link>

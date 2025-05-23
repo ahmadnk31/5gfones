@@ -294,12 +294,10 @@ export function RepairRequestForm() {
                   )}
                 />
               </div>
-            </div>{" "}
-            <div className='bg-blue-50 p-4 rounded-md flex gap-3 items-start'>
-              <InfoIcon className='h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0' />
-              <p className='text-sm text-blue-700'>{commonT("description")}</p>
-            </div>
-            <Button type='submit' disabled={loading} className='w-full'>
+            </div>{" "}            <div className='bg-emerald-50 p-4 rounded-md flex gap-3 items-start'>
+              <InfoIcon className='h-5 w-5 text-emerald-600 mt-0.5 flex-shrink-0' />
+              <p className='text-sm text-emerald-700'>{commonT("description")}</p>
+            </div>            <Button type='submit' disabled={loading} className='w-full bg-emerald-600 hover:bg-emerald-700'>
               {loading ? t("submitting") : t("submit")}
             </Button>
           </form>

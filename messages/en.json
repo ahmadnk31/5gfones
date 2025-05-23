@@ -166,17 +166,109 @@
         "category": "Sell Your Phone",
         "title": "Get Instant Cash",
         "description": "Trade in your old device for instant cash or store credit. We offer competitive prices for phones in any condition."
-      },
-      "upgrade": {
+      },      "upgrade": {
         "category": "Upgrade",
         "title": "Upgrade Your Device",
-        "description": "Trade in your current phone and get extra credit toward your next purchase of a new or refurbished device."
-      },
-      "recycle": {
+        "description": "Trade in your current phone and get extra credit toward your next purchase of a new or refurbished device.",
+        "subtitle": "Get the Latest Technology",
+        "benefit1": "Get instant credit toward a new device",
+        "benefit2": "Enjoy special discounts on new purchases",
+        "benefit3": "Free data transfer to your new device",
+        "howItWorks": "How It Works",
+        "step1Title": "Evaluate Your Device",
+        "step1Desc": "Tell us about your current device to get an estimated trade-in value.",
+        "step2Title": "Choose a New Device",
+        "step2Desc": "Browse our collection of latest devices and select your upgrade.",
+        "step3Title": "Complete the Exchange",
+        "step3Desc": "Bring your old device to our store or mail it in and receive your new one.",
+        "browseDevices": "Browse Devices",
+        "whyUpgrade": "Why Upgrade Now?",
+        "whyUpgradeSubtitle": "See how the latest devices compare to your current phone with these key improvements",
+        "testimonials": "Customer Experiences",
+        "faq": "Frequently Asked Questions",
+        "faqQuestions": {
+          "q1": "How do you determine the value of my current device?",
+          "a1": "We evaluate devices based on the model, condition, storage capacity, and current market value. Factors like screen condition, functionality of buttons and cameras, and general wear and tear are all considered in our assessment.",
+          "q2": "Can I trade in a device with a cracked screen?",
+          "a2": "Yes! We accept devices with cracked screens and other imperfections. While these issues will affect the trade-in value, you can still get credit toward your new device purchase.",
+          "q3": "How long does the upgrade process take?",
+          "a3": "The entire process typically takes between 30-60 minutes if done in-store, including device evaluation, data transfer, and setting up your new phone. If you choose to mail in your device, processing may take 3-5 business days after we receive it.",
+          "q4": "What should I do before trading in my device?",
+          "a4": "We recommend backing up your data, signing out of all accounts, disabling any security features, and performing a factory reset if possible. Our staff can assist you in-store with these steps.",
+          "q5": "Can I upgrade to any device or only specific models?",
+          "a5": "You can upgrade to any new or refurbished device in our inventory. Your trade-in credit will be applied to the purchase regardless of which model you select."
+        },
+        "ctaTitle": "Ready to Upgrade Your Device?",
+        "ctaSubtitle": "Get started today and enjoy the benefits of the latest technology with our hassle-free upgrade process.",
+        "contactUs": "Contact Us",
+        "comparison": {
+          "older": "Older Devices",
+          "latest": "Latest Devices",
+          "recommended": "RECOMMENDED",
+          "oldFeature1": "Slower performance with aging processor",
+          "oldFeature2": "Limited battery life that deteriorates over time",
+          "oldFeature3": "Basic camera functionality with lower resolution",
+          "oldFeature4": "Limited or no 5G connectivity capabilities",
+          "oldFeature5": "May no longer receive security updates",
+          "newFeature1": "Lightning-fast processing speed with latest chipsets",
+          "newFeature2": "All-day battery life with fast charging capabilities",
+          "newFeature3": "Advanced camera systems with AI-powered photography",
+          "newFeature4": "Ultra-fast 5G connectivity and WiFi 6 support",
+          "newFeature5": "Regular security updates and latest OS features"
+        }
+      },      "recycle": {
         "category": "Eco-friendly",
         "title": "Recycle Your Old Tech",
         "description": "Help reduce e-waste by trading in your old devices. We'll ensure they're properly recycled or refurbished for reuse.",
-        "learnMore": "Learn More"
+        "learnMore": "Learn More",
+        "subtitle": "Responsibly Dispose of Your Electronics",
+        "benefit1": "Free recycling of all electronic devices",
+        "benefit2": "Secure data wiping on all devices",
+        "benefit3": "Certificate of responsible recycling",
+        "howItWorks": "How It Works",
+        "startProcess": "Start Recycling Process",
+        "startNow": "Start Now",
+        "whyRecycle": "Why Recycle With Us?",
+        "environmentalBenefit": "Environmental Impact",
+        "environmentalDesc": "Prevent harmful materials from ending up in landfills and reduce the need for raw material mining.",
+        "certifiedBenefit": "Certified Process",
+        "certifiedDesc": "Our recycling partners follow strict environmental guidelines and data security protocols.",
+        "freePickupBenefit": "Free Pickup Service",
+        "freePickupDesc": "We offer convenient pickup options for multiple devices, making recycling effortless for you.",
+        "faqTitle": "Frequently Asked Questions",
+        "faq1": "What items can I recycle?",
+        "faq1Answer": "We accept smartphones, tablets, laptops, desktop computers, monitors, printers, keyboards, mice, gaming consoles, digital cameras, and other consumer electronics.",
+        "faq2": "Is there a cost to recycle my devices?",
+        "faq2Answer": "No, our electronics recycling program is completely free for consumers. We cover all costs associated with recycling your devices.",
+        "faq3": "How is my data protected?",
+        "faq3Answer": "All devices undergo certified data wiping procedures that meet industry standards. For devices with non-functioning memory components, physical destruction is used to ensure data cannot be recovered.",
+        "faq4": "Do I need to remove batteries before recycling?",
+        "faq4Answer": "No, you don't need to remove batteries. Our recycling partners are equipped to safely handle and process batteries as part of our recycling program.",
+        "faq5": "What happens to my device after recycling?",
+        "faq5Answer": "Devices are disassembled and sorted into different material categories (metals, plastics, glass, etc.). These materials are then processed and used to manufacture new products, reducing the need for raw materials.",
+        "environmentalImpactTitle": "Your Recycling Makes a Difference",
+        "stat1": "Conserves Natural Resources",
+        "stat1Desc": "Recycling one million cell phones can recover approximately 35,000 lbs of copper, 772 lbs of silver, 75 lbs of gold, and 33 lbs of palladium.",
+        "stat2": "Reduces E-Waste",
+        "stat2Desc": "Global e-waste reached 53.6 million metric tons in 2019, and only 17.4% was properly recycled. Your contribution helps increase this percentage.",
+        "stat3": "Energy Savings",
+        "stat3Desc": "Recycling electronics uses significantly less energy than mining and processing raw materials for new devices.",
+        "ctaTitle": "Ready to Responsibly Recycle Your Device?",
+        "ctaText": "Join thousands of environmentally conscious consumers who've already made a difference by recycling their electronics with us.",
+        "ctaButton": "Start Recycling Process",
+        "step1Title": "Register Your Device",
+        "step1Desc": "Tell us what devices you want to recycle using our easy online form. We accept phones, tablets, laptops, and other electronics.",
+        "step2Title": "Schedule a Pickup or Drop-off",
+        "step2Desc": "Choose whether you'd like us to pick up the device from your location or if you prefer to drop it off at one of our recycling centers.",
+        "step3Title": "Secure Data Wiping",
+        "step3Desc": "All devices undergo certified data wiping procedures to ensure your personal information is completely removed and unrecoverable.",
+        "step4Title": "Environmentally Friendly Recycling",
+        "step4Desc": "Your devices are broken down and recycled following strict environmental standards. We'll send you a certificate of recycling upon completion."
+      },
+        "step2Desc": "Bring your device to our store or request a free shipping label.",
+        "step3Title": "Receive Certificate",
+        "step3Desc": "Get a certificate confirming your device was recycled responsibly.",
+        "startProcess": "Start Recycling Process"
       },
       "estimate": {
         "value": "Estimated Value"
@@ -191,10 +283,10 @@
       "colorLabel": "Color",
       "feature1": "Instant Cash Offer",
       "feature2": "Free Shipping",
-      "feature3": "No Hidden Fees",
-      "cta": "Get Your Device Value",
+      "feature3": "No Hidden Fees",      "cta": "Get Your Device Value",
       "topPrices": "Top Trade-In Values",
-      "estimatedValue": "Estimated Value"
+      "estimatedValue": "Estimated Value",
+      "startProcess": "Start Upgrade Process"
     },
     "repairRequest": {
       "title": "Device Repair Request",
@@ -417,8 +509,8 @@
         "saving": "Saving...",
         "convertToAppointment": "Convert to Appointment"
       }
-    }
-  },  "shipping": {
+    },
+    "shipping": {
     "title": "Delivery Options",
     "addressTitle": "Shipping Address",
     "continue": "Continue",
@@ -751,8 +843,7 @@
         "fabric": "Fabric"
       }
     }
-  },
-  "cart": {
+  },  "cart": {
     "title": "Shopping Cart",
     "empty": "Your cart is empty",
     "orderSummary": "Order Summary",
@@ -765,6 +856,8 @@
     "checkout": "Proceed to Checkout",
     "update": "Update Cart",
     "remove": "Remove",
+    "viewCart": "View Cart",
+    "free": "Free",
     "itemCount": "{count, plural, =0 {no items} =1 {# item} other {# items}}"
   },
   "checkout": {
@@ -876,6 +969,7 @@
     "retry": "Retry",
     "save": "Save",
     "cancel": "Cancel",
+    "backTo": "Back to",
     "submit": "Submit",
     "back": "Back",
     "next": "Next",
@@ -1114,6 +1208,69 @@
     "notStored": "Required to test after repair",
     "brand": "Brand:",
     "device": "Device:",
+    "trackTitle": "Track Your Repair",
+  "enterRepairId": "Enter Repair ID",
+  "enterRepairIdDescription": "Enter your repair ID to check the status of your repair",
+  "repairIdPlaceholder": "Enter your repair ID",
+  "searching": "Searching...",
+  "cantFindRepairId": "Can't find your repair ID? Please contact our customer service team.",
+  "repairNumber": "Repair #{id}",
+  "statusPending": "Awaiting Service",
+  "statusInProgress": "In Progress",
+  "statusCompleted": "Completed",
+  "statusUnknown": "Unknown Status",
+  "noRepairFoundWithId": "No repair found with that ID. Please check and try again.",  "repairStatusCheckError": "There was a problem checking your repair status. Please try again later.",
+  "enterValidAppointmentNumber": "Please enter a valid appointment number",
+  "estimatedCompletion": "Estimated Completion",
+  "completionDate": "Completion Date",
+  "technicianNotes": "Technician Notes",
+  "repairProgress": "Repair Progress",
+  "deviceReceived": "Device Received",  "deviceCheckedIn": "Your device has been checked in",
+  "serviceDetail": {
+    "backToServices": "Back to all repair services",
+    "compatibleWith": "Compatible with {model}",
+    "whatIncluded": "What's Included",
+    "qualityParts": "Genuine or high-quality compatible parts",
+    "expertService": "Expert technician labor",
+    "diagnostics": "Complete device diagnostic",
+    "warranty": "90-day warranty on parts and labor",
+    "serviceProcess": "Service Process",
+    "schedule": "Schedule",
+    "scheduleDescription": "Book an appointment at a time that works for you",
+    "diagnostic": "Diagnosis",
+    "diagnosticDescription": "Our technicians will diagnose the problem and confirm the repair",
+    "repair": "Repair",
+    "repairDescription": "We repair your device using quality parts",
+    "pickup": "Pickup",
+    "pickupDescription": "Pick up your repaired device, fully tested and ready to use",
+    "priceDetails": "Price Details",
+    "priceIncludesParts": "Price includes parts and labor",
+    "typicalDuration": "Typical duration: 1-2 hours",
+    "scheduleService": "Schedule Service",
+    "askQuestion": "Ask a Question",
+    "relatedServices": "Related Services"
+  },
+  "diagnosisComplete": "Diagnosis Complete",
+  "deviceInspected": "Device has been inspected and issue confirmed",
+  "repairInProgress": "Repair in Progress",
+  "techniciansWorking": "Technicians are working on your device",
+  "repairCompleted": "Repair Completed",
+  "deviceReadyForPickup": "Your device is repaired and ready for pickup",
+  "backToRepairServices": "Back to Repair Services",
+  "schedulePickup": "Schedule Pickup",
+  "faqTitle": "Frequently Asked Questions",
+  "faqRepairTimeQuestion": "How long does a typical repair take?",
+  "faqRepairTimeAnswer": "Most repairs are completed within 24-48 hours depending on parts availability and the complexity of the repair. Some common repairs like screen replacements can often be completed same-day.",
+  "faqDelayQuestion": "What if my repair is taking longer than expected?",
+  "faqDelayAnswer": "If your repair requires special parts or faces unexpected complications, it may take longer. We'll always notify you if there's a delay and provide an updated timeline.",
+  "faqCompleteNotificationQuestion": "How will I know when my repair is complete?",
+  "faqCompleteNotificationAnswer": "We'll notify you via email and text message when your repair is complete. You can also check the status anytime on this page using your repair ID.",
+  "needHelp": "Need Help?",
+  "contactSupportMessage": "If you need assistance with your repair or have questions about our services, please contact our customer support team.",
+  "phone": "Phone",
+  "phoneNumber": "(555) 123-4567",
+  "email": "Email",
+  "supportEmail": "support@5gphones.com",
     "appointment": "Appointment:",
     "servicesLabel": "Services:",
     "summaryTitle": "Repair Summary",
@@ -1166,6 +1323,32 @@
         "description": "We'll ship the device back to the customer after repair"
       }
     },
+    "customRequest": {
+    "title": "Custom Repair Request",
+    "description": "If your device is not listed in our standard options, please provide the details below. Our repair specialists will review your request and contact you within 24 hours.",
+    "subtitle": "Tell us about your device and the issue you're experiencing",
+    "form": {
+      "deviceName": "Device Name",
+      "deviceNamePlaceholder": "e.g., iPhone 12 Pro Max, Samsung Galaxy S21",
+      "deviceType": "Device Type",
+      "deviceTypePlaceholder": "e.g., Smartphone, Tablet, Laptop",
+      "deviceBrand": "Brand",
+      "deviceBrandPlaceholder": "e.g., Apple, Samsung, Google",
+      "deviceColor": "Device Color",
+      "deviceColorPlaceholder": "e.g., Black, White, Gold",
+      "modelYear": "Model Year",
+      "modelYearPlaceholder": "e.g., 2021",
+      "serialNumber": "Serial Number (Optional)",
+      "serialNumberPlaceholder": "Device serial or IMEI number",
+      "problemDescription": "Problem Description",
+      "problemDescriptionPlaceholder": "Please describe the issue you're experiencing with your device in detail",
+      "contactInformation": "Contact Information",
+      "email": "Email Address",
+      "phone": "Phone Number (Optional)",
+      "submit": "Submit Request",
+      "submitting": "Submitting..."
+    }
+  },
     "selectDeviceInfo": "Please select your device information",
     "selectRepairService": "Please select at least one repair service",
     "selectDateTime": "Please select your preferred date and time",
@@ -1974,6 +2157,7 @@
     "keyPoint3": "You have control over your information and can request access, correction, or deletion.",
     "keyPoint4": "We use cookies to enhance your browsing experience and analyze website traffic.",
     "keyPoint5": "We only share your data with third parties when necessary to provide our services or when required by law.",
+    "keyPoint6": "We comply with GDPR regulations for EU users and respect your enhanced data protection rights.",
     "section1": {
       "title": "Information We Collect",
       "content1": "We collect several types of information from and about users of our website, including information by which you may be personally identified, such as name, postal address, e-mail address, telephone number, and payment information ('personal data').",
@@ -2027,8 +2211,40 @@
         "item3": "The right to request deletion of your personal data",
         "item4": "The right to restrict or object to our processing of your personal data"
       }
+    },    "section7": {
+      "title": "GDPR Compliance",
+      "content1": "For users in the European Union, we comply with the General Data Protection Regulation (GDPR). This means you have additional rights regarding your personal data.",
+      "content2": "As a data subject in the EU, you have the right to access, rectify, erase, restrict processing, object to processing, and data portability. You also have the right not to be subject to a decision based solely on automated processing.",
+      "gdprRights": {
+        "title": "Your GDPR Rights in Detail",
+        "rightToAccess": "Right to access – You have the right to request copies of your personal data.",
+        "rightToRectification": "Right to rectification – You have the right to request that we correct any information you believe is inaccurate or complete information you believe is incomplete.",
+        "rightToErasure": "Right to erasure – You have the right to request that we erase your personal data, under certain conditions.",
+        "rightToRestrict": "Right to restrict processing – You have the right to request that we restrict the processing of your personal data, under certain conditions.",
+        "rightToObject": "Right to object to processing – You have the right to object to our processing of your personal data, under certain conditions.",
+        "rightToDataPortability": "Right to data portability – You have the right to request that we transfer the data we have collected to another organization, or directly to you, under certain conditions.",
+        "timeframe": "We will respond to all legitimate requests within one month."
+      },
+      "dataTransfers": {
+        "title": "International Data Transfers",
+        "content": "We may transfer your personal data to countries outside the European Economic Area (EEA). When we do, we ensure a similar degree of protection is afforded to it by implementing safeguards like Standard Contractual Clauses approved by the European Commission."
+      },
+      "legalBasis": {
+        "title": "Legal Basis for Processing",
+        "content": "We process your personal data on the following legal bases:",
+        "consent": "Consent – You have given clear consent for us to process your personal data for a specific purpose.",
+        "contract": "Contract – The processing is necessary for a contract we have with you.",
+        "legalObligation": "Legal obligation – The processing is necessary for us to comply with the law.",
+        "vitalInterests": "Vital interests – The processing is necessary to protect someone's life.",
+        "publicTask": "Public task – The processing is necessary for us to perform a task in the public interest.",
+        "legitimateInterests": "Legitimate interests – The processing is necessary for our legitimate interests or the legitimate interests of a third party unless there is a good reason to protect your personal data which overrides those legitimate interests."
+      },
+      "dpo": {
+        "title": "Data Protection Officer",
+        "content": "We have appointed a Data Protection Officer (DPO) who is responsible for overseeing questions in relation to this privacy policy. If you have any questions about this privacy policy, including any requests to exercise your legal rights, please contact our DPO at dpo@5gphones.be."
+      }
     },
-    "section7": {
+    "section8": {
       "title": "Changes to This Privacy Policy",
       "content1": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last Updated' date.",
       "content2": "You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page."
@@ -2062,9 +2278,10 @@
     "newsletterDescription": "Stay updated with our latest products, services, and promotions.",
     "emailPlaceholder": "Enter your email",
     "subscribe": "Subscribe",
-    "subscribing": "Subscribing...",
-    "subscriptionSuccess": "Successfully subscribed to newsletter!",
+    "subscribing": "Subscribing...",    "subscriptionSuccess": "Successfully subscribed to newsletter!",
     "subscriptionError": "Failed to subscribe. Please try again.",
+    "specialOffers": "Special Offers",
+    "checkOutDeals": "Check out our exclusive deals and limited-time offers",
     "language": "Language",
     "privacyPolicy": "Privacy Policy",
     "termsOfService": "Terms of Service",
@@ -2180,6 +2397,38 @@
     "ctaText": "Every recycled device contributes to a more sustainable future for Belgium and our planet. Start your environmental journey with us today.",
     "recycleNowButton": "Recycle Now",
     "learnMoreButton": "Schedule a Collection"
+  },  "offers": {
+    "title": "Special Offers",
+    "subtitle": "Exclusive deals and limited-time offers",
+    "categoryDiscounts": "Category Discounts",
+    "discountedProducts": "Discounted Products",
+    "refurbishedDeals": "Refurbished Deals",
+    "noDiscounts": "No active discounts at the moment",
+    "noDiscountedProducts": "No discounted products available",
+    "noRefurbishedProducts": "No refurbished products on sale right now",
+    "discountEnds": "Ends on",
+    "filter": "Filter",
+    "allOffers": "All Offers",
+    "endingSoon": "Ending Soon",
+    "bestDeals": "Best Deals (15%+)",
+    "originalPrice": "Original Price",
+    "nowOnly": "Now Only",
+    "save": "Save",
+    "off": "off",
+    "addToCart": "Add to Cart",    "refurbished": "Refurbished",
+    "like-new": "Like New",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "validFrom": "Valid from",
+    "to": "to",
+    "shopCategory": "Shop Category",
+    "endsIn": "Ends in {{days}} days",
+    "viewAllProducts": "View All Products",
+    "viewAllRefurbished": "View All Refurbished",
+    "noOffersAvailable": "No Offers Available",
+    "checkBackLater": "Check back later for new discounts and special deals",
+    "browseProducts": "Browse Products"
   },
   "returnsPolicy": {
     "title": "Returns & Refunds Policy",
@@ -2478,8 +2727,7 @@
       "on": "on",
       "at": "at"
     }
-  },
-  "products": {
+  },  "products": {
     "title": "Products",
     "search": {
       "hideFilters": "Hide Filters",
@@ -2502,5 +2750,81 @@
       "previous": "Previous",
       "next": "Next"
     }
+  },
+  "dhl": {
+    "title": "DHL eCommerce Europe API Testing",
+    "description": "Experimental page for testing DHL eCommerce Europe API functions. Use this page to create shipments, generate labels, and track packages.",
+    
+    "createShipment": "Create Shipment",
+    "trackShipment": "Track Shipment",
+    "apiSettings": "API Settings",
+    
+    "createShipmentTitle": "Create DHL Shipment",
+    "createShipmentDesc": "Fill in the details to create a new shipment and generate a shipping label.",
+    "createShipmentAction": "Create Shipment",
+    
+    "recipientInfo": "Recipient Information",
+    "recipientName": "Recipient Name",
+    "street": "Street",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "country": "Country",
+    
+    "packageInfo": "Package Information",
+    "weight": "Weight (kg)",
+    "length": "Length (cm)",
+    "width": "Width (cm)",
+    "height": "Height (cm)",
+    "product": "DHL Product",
+    "returnLabel": "Include Return Label",
+    "returnLabelDesc": "Generate a return shipping label with the shipment",
+    
+    "creating": "Creating...",
+    "shipmentCreated": "Shipment Created Successfully!",
+    "trackingNumber": "Tracking Number",
+    "shippingLabel": "Shipping Label:",
+    "download": "Download Label",
+    
+    "trackShipmentTitle": "Track Shipment",
+    "trackShipmentDesc": "Enter a tracking number to get the current status and delivery information.",
+    "tracking": "Tracking...",
+    "trackPackage": "Track Package",
+    
+    "trackingInfo": "Tracking Information",
+    "status": "Status",
+    "timestamp": "Date & Time",
+    "location": "Location",
+    
+    "apiSettingsTitle": "DHL API Settings",
+    "apiSettingsDesc": "Configure your DHL eCommerce Europe API credentials.",
+    "apiKey": "API Key",
+    "apiSecret": "API Secret",
+    "accountNumber": "DHL Account Number",
+    "testMode": "Test Mode",
+    "testModeDesc": "Use DHL sandbox environment for testing",
+    "saving": "Saving...",    "saveSettings": "Save Settings"
+  },
+  "recycle": {
+    "howItWorks": "How It Works",
+    "benefits": "Benefits",
+    "faq": "FAQ",
+    "startNow": "Start Now",
+    "startProcess": "Start Recycling Process",
+    "learnMore": "Learn More",
+    "whyRecycle": "Why Recycle With Us?",
+    "environmentalBenefit": "Environmental Impact",
+    "environmentalDesc": "Prevent harmful materials from ending up in landfills and reduce the need for raw material mining.",
+    "certifiedBenefit": "Certified Process",
+    "certifiedDesc": "Our recycling partners follow strict environmental guidelines and data security protocols.",
+    "freePickupBenefit": "Free Pickup Service",
+    "freePickupDesc": "We offer convenient pickup options for multiple devices, making recycling effortless for you.",
+    "step1Title": "Register Your Device",
+    "step1Desc": "Tell us what devices you want to recycle using our easy online form. We accept phones, tablets, laptops, and other electronics.",
+    "step2Title": "Schedule a Pickup or Drop-off",
+    "step2Desc": "Choose whether you'd like us to pick up the device from your location or if you prefer to drop it off at one of our recycling centers.",
+    "step3Title": "Secure Data Wiping",
+    "step3Desc": "All devices undergo certified data wiping procedures to ensure your personal information is completely removed and unrecoverable.",
+    "step4Title": "Environmentally Friendly Recycling",
+    "step4Desc": "Your devices are broken down and recycled following strict environmental standards. We'll send you a certificate of recycling upon completion."
   }
 }

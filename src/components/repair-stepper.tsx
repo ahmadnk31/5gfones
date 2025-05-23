@@ -33,7 +33,7 @@ export default function RepairStepper({
               key={stepNumber}
               className={cn(
                 "flex-1 relative min-w-[120px] mb-2 sm:mb-0",
-                isActive ? "bg-blue-600" : "bg-gray-200",
+                isActive ? "bg-emerald-600" : "bg-gray-200",
                 isFirst ? "rounded-l-lg" : "",
                 isLast ? "rounded-r-lg" : ""
               )}
@@ -41,7 +41,7 @@ export default function RepairStepper({
               <div className="py-3 px-2 sm:px-4 text-center relative z-10">
                 <div className={cn(
                   "inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full mb-1",
-                  isActive ? "bg-white text-blue-600" : "bg-gray-400 text-white"
+                  isActive ? "bg-white text-emerald-600" : "bg-gray-400 text-white"
                 )}>
                   {stepNumber}
                 </div>
@@ -69,7 +69,7 @@ export default function RepairStepper({
             
             {/* Active progress overlay */}
             <div 
-              className="absolute h-1 bg-blue-600 top-4 transition-all duration-300"
+              className="absolute h-1 bg-emerald-600 top-4 transition-all duration-300"
               style={{ 
                 width: `${((safeCurrentStep - 1) / (steps.length - 1)) * 100}%`,
                 display: safeCurrentStep > 1 ? 'block' : 'none'
@@ -85,19 +85,19 @@ export default function RepairStepper({
               return (
                 <div key={stepNumber} className="relative flex flex-col items-center z-10 px-2 sm:px-4">
                   {isCompleted ? (
-                    <div className="rounded-full bg-blue-600 text-white z-10 w-8 h-8 flex items-center justify-center">
+                    <div className="rounded-full bg-emerald-600 text-white z-10 w-8 h-8 flex items-center justify-center">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                       </svg>
                     </div>
                   ) : (
                     <div className={`rounded-full z-10 w-8 h-8 flex items-center justify-center ${
-                      isActive ? "border-2 border-blue-600 bg-white text-blue-600" : "bg-gray-200 text-gray-600"
+                      isActive ? "border-2 border-emerald-600 bg-white text-emerald-600" : "bg-gray-200 text-gray-600"
                     }`}>
                       {stepNumber}
                     </div>
                   )}
-                  <p className={`text-xs mt-2 text-center whitespace-nowrap ${isActive || isCompleted ? "text-blue-600 font-medium" : "text-gray-500"}`}>
+                  <p className={`text-xs mt-2 text-center whitespace-nowrap ${isActive || isCompleted ? "text-emerald-600 font-medium" : "text-gray-500"}`}>
                     {step.label}
                   </p>
                 </div>
@@ -118,7 +118,7 @@ export default function RepairStepper({
           
           {/* Active progress overlay */}
           <div 
-            className="absolute h-px bg-blue-600 top-4 transition-all duration-300"
+            className="absolute h-px bg-emerald-600 top-4 transition-all duration-300"
             style={{ 
               width: `${((safeCurrentStep - 1) / (steps.length - 1)) * 100}%`,
               display: safeCurrentStep > 1 ? 'block' : 'none'
@@ -133,9 +133,8 @@ export default function RepairStepper({
             
             return (
               <div key={stepNumber} className="relative flex flex-col items-center px-2 sm:px-4">
-                <div className={`rounded-full z-10 w-8 h-8 flex items-center justify-center ${
-                  isCompleted ? "bg-blue-600 text-white" : 
-                  isActive ? "bg-blue-600 text-white" : 
+                <div className={`rounded-full z-10 w-8 h-8 flex items-center justify-center ${                  isCompleted ? "bg-emerald-600 text-white" : 
+                  isActive ? "bg-emerald-600 text-white" : 
                   "bg-gray-200 text-gray-700"
                 }`}>
                   {isCompleted ? (
@@ -144,7 +143,7 @@ export default function RepairStepper({
                     </svg>
                   ) : stepNumber}
                 </div>
-                <p className={`text-xs mt-3 text-center whitespace-nowrap ${isActive ? "text-blue-600 font-medium" : "text-gray-500"}`}>
+                <p className={`text-xs mt-3 text-center whitespace-nowrap ${isActive ? "text-emerald-600 font-medium" : "text-gray-500"}`}>
                   {step.label}
                 </p>
               </div>

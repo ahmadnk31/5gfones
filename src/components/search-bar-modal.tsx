@@ -160,7 +160,7 @@ const SearchBarModal = ({ iconOnly = false }: SearchBarModalProps) => {
     <div className='bg-white w-full rounded-md'>
       {isLoading ? (
         <div className='p-6 text-center text-gray-500 flex flex-col items-center'>
-          <div className='animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-blue-600 mb-2'></div>
+          <div className='animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-emerald-600 mb-2'></div>
           {t("searching")}
         </div>
       ) : results.length > 0 ? (
@@ -176,7 +176,7 @@ const SearchBarModal = ({ iconOnly = false }: SearchBarModalProps) => {
               >
                 <Link
                   href={`/en/products/${product.id}`}
-                  className='flex items-center p-4 hover:bg-blue-50'
+                  className='flex items-center p-4 hover:bg-emerald-50'
                   onClick={() => {
                     setIsSearching(false);
                     setIsOpen(false);
@@ -196,7 +196,7 @@ const SearchBarModal = ({ iconOnly = false }: SearchBarModalProps) => {
                       {product.name}
                     </p>
                     <p className='text-sm text-gray-500 mt-1 flex justify-between'>
-                      <span className='font-semibold text-blue-700'>
+                      <span className='font-semibold text-emerald-700'>
                         {new Intl.NumberFormat("en-US", {
                           style: "currency",
                           currency: "USD",
@@ -221,7 +221,7 @@ const SearchBarModal = ({ iconOnly = false }: SearchBarModalProps) => {
                 setIsOpen(false);
                 router.push(`/en/search?q=${encodeURIComponent(query.trim())}`);
               }}
-              className='w-full text-center text-sm bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors duration-200'
+              className='w-full text-center text-sm bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-md transition-colors duration-200'
             >
               {t("viewAllResults")}
             </button>
@@ -265,7 +265,7 @@ const SearchBarModal = ({ iconOnly = false }: SearchBarModalProps) => {
                 id='search-input'
                 type='text'
                 placeholder={t("placeholder")}
-                className='w-full border border-gray-300 rounded-md pl-10 pr-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200'
+                className='w-full border border-gray-300 rounded-md pl-10 pr-10 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200'
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 autoComplete='off'

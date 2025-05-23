@@ -76,6 +76,7 @@ export default async function RepairModelsPage({
       id,
       name,
       image_url,
+      device_series_id,
       device_series (
         id,
         name,
@@ -91,20 +92,39 @@ export default async function RepairModelsPage({
         )
       )
     `);
-
-  // Apply device type filter
+  
+  console.log("Filter parameters:", { deviceTypeId, seriesId });
+  
+  // Create a join to filter properly
   if (seriesId) {
+    console.log("Filtering by series ID:", seriesId);
     modelsQuery = modelsQuery.eq("device_series_id", seriesId);
-  } else if (deviceTypeId && series.length === 0) {
-    // Only filter by device type if there's no series filter and no series available
-    modelsQuery = modelsQuery.eq("device_series.device_type_id", deviceTypeId);
+  } else if (deviceTypeId) {
+    // First get the series IDs for this device type
+    console.log("Filtering by device type ID:", deviceTypeId);
+    
+    const { data: seriesForDeviceType } = await supabase
+      .from("device_series")
+      .select("id")
+      .eq("device_type_id", deviceTypeId);
+    
+    if (seriesForDeviceType && seriesForDeviceType.length > 0) {
+      console.log("Found series for device type:", seriesForDeviceType.map(s => s.id));
+      const seriesIds = seriesForDeviceType.map(s => s.id);
+      modelsQuery = modelsQuery.in("device_series_id", seriesIds);
+    } else {
+      // No series found, this will return no results
+      console.log("No series found for device type ID:", deviceTypeId);
+    }
   } else if (!deviceTypeId && !seriesId) {
+    console.log("No filters applied, limiting results");
     // If no filters, limit the results
     modelsQuery = modelsQuery.limit(20);
   }
 
   // Execute the query
   const { data: models } = await modelsQuery.order("name");
+  console.log("Models query result count:", models?.length);
 
   // Get the selected series name if a filter is applied
   let selectedSeriesName = "";

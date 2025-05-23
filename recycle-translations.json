@@ -1,0 +1,44 @@
+{
+  "app": {
+    "tradeIn": {
+      "recycle": {
+        "title": "Recycle Your Old Device",
+        "description": "Don't throw your old electronics in the trash. Recycle them responsibly with our program and help protect the environment.",
+        "benefit1": "Free recycling of all electronic devices",
+        "benefit2": "Secure data wiping on all devices",
+        "benefit3": "Certificate of responsible recycling",
+        "startProcess": "Start Recycling Process",
+        "howItWorks": "How It Works",
+        "step1Title": "Register Your Device",
+        "step1Desc": "Tell us about the device you want to recycle.",
+        "step2Title": "Drop Off or Ship",
+        "step2Desc": "Bring your device to our store or request a free shipping label.",
+        "step3Title": "Receive Certificate",
+        "step3Desc": "Get a certificate confirming your device was recycled responsibly."
+      }
+    }
+  },
+  "recycle": {
+    "howItWorks": "How It Works",
+    "benefits": "Benefits",
+    "faq": "FAQ",
+    "startNow": "Start Now",
+    "startProcess": "Start Recycling Process",
+    "learnMore": "Learn More",
+    "whyRecycle": "Why Recycle With Us?",
+    "environmentalBenefit": "Environmental Impact",
+    "environmentalDesc": "Prevent harmful materials from ending up in landfills and reduce the need for raw material mining.",
+    "certifiedBenefit": "Certified Process",
+    "certifiedDesc": "Our recycling partners follow strict environmental guidelines and data security protocols.",
+    "freePickupBenefit": "Free Pickup Service",
+    "freePickupDesc": "We offer convenient pickup options for multiple devices, making recycling effortless for you.",
+    "step1Title": "Register Your Device",
+    "step1Desc": "Tell us what devices you want to recycle using our easy online form. We accept phones, tablets, laptops, and other electronics.",
+    "step2Title": "Schedule a Pickup or Drop-off",
+    "step2Desc": "Choose whether you'd like us to pick up the device from your location or if you prefer to drop it off at one of our recycling centers.",
+    "step3Title": "Secure Data Wiping",
+    "step3Desc": "All devices undergo certified data wiping procedures to ensure your personal information is completely removed and unrecoverable.",
+    "step4Title": "Environmentally Friendly Recycling",
+    "step4Desc": "Your devices are broken down and recycled following strict environmental standards. We'll send you a certificate of recycling upon completion."
+  }
+}

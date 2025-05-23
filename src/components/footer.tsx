@@ -7,6 +7,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Github } from "lucide-react";
 import { NewsletterForm } from "./newsletter-form";
 import { ThemeToggle } from "./theme-toggle";
 import { CreatedBy } from "./created-by";
+import { GdprComplianceBadge } from "./gdpr-compliance-badge";
 
 const Footer = () => {
   const t = useTranslations("footer");
@@ -317,11 +318,15 @@ const Footer = () => {
                   </Link>
                 </div>
               </div>
-            </div>{" "}
-            {/* Copyright */}{" "}
+            </div>{" "}            {/* Copyright */}{" "}
             <div className='text-sm text-center text-gray-400'>
               <p>{t("copyright", { year: new Date().getFullYear() })}</p>
               <p className='mt-2'>{t("proudlyMadeBy")}</p>
+              
+              {/* GDPR Compliance Badge */}
+              <div className="mt-4 flex justify-center">
+                <GdprComplianceBadge />
+              </div>
             </div>
           </div>
         </div>
