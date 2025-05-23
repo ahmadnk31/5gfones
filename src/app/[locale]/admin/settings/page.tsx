@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import {
   Card,
   CardContent,
@@ -359,7 +358,7 @@ export default function SettingsPage() {
                       />
                       <AlertTriangle 
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-500 cursor-pointer"
-                        title="Secret keys should be stored in environment variables"
+                        
                         onClick={() => setShowSecretKeyAlert(true)}
                       />
                     </div>
@@ -383,7 +382,7 @@ export default function SettingsPage() {
                     />
                     <AlertTriangle 
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-yellow-500 cursor-pointer"
-                      title="Webhook secrets should be stored in environment variables"
+                      
                       onClick={() => setShowSecretKeyAlert(true)}
                     />
                   </div>

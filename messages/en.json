@@ -158,16 +158,16 @@
         "title": "Refurbished Tablets",
         "description": "Professionally refurbished tablets from top brands, perfect for work or entertainment at affordable prices."
       }
-    },
-    "tradeIn": {
+    },    "tradeIn": {
       "title": "Phone Trade-In Program",
       "sellButton": "Sell Your Phone", 
+      "upgradeButton": "Upgrade Now",
       "description": "Turn your old phone into cash or use it as credit towards a new device",
       "sell": {
         "category": "Sell Your Phone",
         "title": "Get Instant Cash",
         "description": "Trade in your old device for instant cash or store credit. We offer competitive prices for phones in any condition."
-      },      "upgrade": {
+      },"upgrade": {
         "category": "Upgrade",
         "title": "Upgrade Your Device",
         "description": "Trade in your current phone and get extra credit toward your next purchase of a new or refurbished device.",
