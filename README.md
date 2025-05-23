@@ -55,39 +55,91 @@ This project embraces the spirit of open-source development, making it freely av
 
 ## Project Structure
 
-- `src/app/`: Next.js app router pages
+- `src/app/`: Next.js app router pages with route groups for localization
+- `src/app/[locale]/`: Internationalized routes
+- `src/app/api/`: API routes for checkout, payments, webhooks
 - `src/components/`: Reusable React components
-- `src/lib/`: Utility functions and Supabase client
-- `schema.sql`: Database schema
+- `src/lib/`: Utility functions, hooks, and providers
+- `messages/`: Translation files for multiple languages
+- `public/`: Static assets including product images
+- `sql/`: Database migration scripts and schema definitions
 
 ## Key Pages
 
-- `/admin`: Main dashboard
-- `/admin/products`: Product management
-- `/admin/customers`: Customer management
-- `/admin/orders`: Order management
-- `/admin/pos`: Point of Sale interface
+- `/`: Homepage with featured products and promotions
+- `/products`: Product catalog with filtering
+- `/categories`: Product categories
+- `/offers`: Special deals and discounts
+- `/cart`: Shopping cart management
+- `/checkout`: Secure checkout process
+- `/refurbished`: Refurbished products marketplace
+- `/account`: User account management
+- `/admin`: Administration dashboard
 
 ## Database Schema
 
 The project uses a PostgreSQL database with the following main tables:
 
-- `products`: Store product information
-- `customers`: Customer details
-- `orders`: Order information
-- `order_items`: Items within each order
-- `transactions`: Financial transactions
-- `payment_methods`: Available payment methods
+- `products`: Product catalog with details and inventory
+- `categories`: Product categorization system
+- `product_variants`: Variant options for products (color, storage, etc.)
+- `variant_images`: Multiple images for product variants
+- `refurbished_products`: Specialized table for refurbished inventory
+- `category_discounts`: Time-based discounts for product categories
+- `customers`: User accounts and details
+- `orders`: Order information and status
+- `order_items`: Individual items within each order
+- `payment_transactions`: Complete payment history with Stripe integration
+- `repair_requests`: System for managing device repair appointments
+- `trade_in_estimates`: Trade-in valuation system
 
-For the complete schema, refer to `schema.sql`.
+## Payment Integration
 
-## Authentication
+The platform includes full Stripe payment integration with:
+- Multiple payment methods
+- Secure checkout
+- Webhook handling for async payment events
+- Refund processing
+- Error handling and recovery
 
-User authentication is handled through Supabase. The login page is available at `/login`.
+## Internationalization
 
-## Error Handling
+Full multi-language support is implemented using next-intl. Currently supported languages:
+- English (default)
+- Spanish
 
-A basic error page is implemented at `/error` to handle and display any errors that occur during runtime.
+To add additional languages, create new translation files in the `messages/` directory.
+
+## Advanced Features
+
+### Vector Search
+The platform uses PostgreSQL pgvector for enhanced product search capabilities. This allows for semantic search across product descriptions and specifications.
+
+### Trade-in System
+Customers can get instant quotes for trading in their old devices. The system uses a pricing algorithm based on device condition, model, and market values.
+
+### Refurbished Products
+Complete marketplace for refurbished phones with:
+- Condition ratings (Excellent, Good, Fair)
+- Special pricing and discounts
+- Transparent condition descriptions
+- Variant support
+
+### Dynamic Discounts
+The platform supports time-limited promotional discounts:
+- Category-wide discounts
+- Individual product discounts
+- Special offers page
+- "Ending soon" highlights
+
+## Documentation
+
+Additional documentation for specific features:
+- `STRIPE-PAYMENT-GUIDE.md`: Complete guide to the payment system
+- `STRIPE-PRODUCTION-GUIDE.md`: Moving to production with Stripe
+- `REFURBISHED-VARIANTS-GUIDE.md`: Managing refurbished product variants
+- `VECTOR-SEARCH-GUIDE.md`: Implementing and configuring vector search
+- `TESTING-PAYMENT-WORKFLOW.md`: Testing the complete payment flow
 
 ## Contributing
 

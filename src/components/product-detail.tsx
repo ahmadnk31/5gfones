@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
-
+import { ReactQuillEditor } from "@/components/react-quill-editor";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-provider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -634,53 +634,65 @@ const ProductDetail = ({
             </TabsTrigger>
             <TabsTrigger
               value="details"
-                <table className='w-full border-collapse'>
+              className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-black pb-3 data-[state=active]:shadow-none bg-transparent text-base font-medium data-[state=active]:text-black text-gray-500"
+            >
+              {t("details")}
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="description" className="pt-6">
+            <div className="prose max-w-none">
+              <ReactQuillEditor
+                value={typeof product.description === "object" 
+                  ? product.description[locale] || product.description.en || ""
+                  : String(product.description || "")}
+                setValue={() => {}}
+                isEditable={false}
+                className="bg-background"
+              />
+              {!product.description && <p className="text-gray-500">{t("noDescription")}</p>}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="details" className="pt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div>
+                <h3 className="font-semibold mb-4 text-lg">{t("specifications")}</h3>
+                <table className="w-full border-collapse">
                   <tbody>
                     {product.brands && (
-                      <tr className='border-b'>
-                        <td className='py-3 pr-8 text-gray-600'>
-                          {t("brand")}
-                        </td>
-                        <td className='py-3 font-medium'>
-                          {product.brands.name}
-                        </td>
+                      <tr className="border-b">
+                        <td className="py-3 pr-8 text-gray-600">{t("brand")}</td>
+                        <td className="py-3 font-medium">{product.brands.name}</td>
                       </tr>
                     )}
                     {product.categories && (
-                      <tr className='border-b'>
-                        <td className='py-3 pr-8 text-gray-600'>
-                          {t("category")}
-                        </td>
-                        <td className='py-3 font-medium'>
-                          {product.categories.name}
-                        </td>
+                      <tr className="border-b">
+                        <td className="py-3 pr-8 text-gray-600">{t("category")}</td>
+                        <td className="py-3 font-medium">{product.categories.name}</td>
                       </tr>
                     )}
-                    <tr className='border-b'>
-                      <td className='py-3 pr-8 text-gray-600'>
-                        {t("availability")}
-                      </td>
-                      <td className='py-3 font-medium'>
+                    <tr className="border-b">
+                      <td className="py-3 pr-8 text-gray-600">{t("availability")}</td>
+                      <td className="py-3 font-medium">
                         {inStock ? t("inStock") : t("outOfStock")}
                       </td>
-                    </tr>{" "}
-                    <tr className='border-b'>
-                      <td className='py-3 pr-8 text-gray-600'>{t("sku")}</td>
-                      <td className='py-3 font-medium'>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-3 pr-8 text-gray-600">{t("sku")}</td>
+                      <td className="py-3 font-medium">
                         {selectedVariant?.sku || `PROD-${product.id}`}
                       </td>
                     </tr>
-                    {/* Display product attributes */}
                     {product.attributes &&
                       Object.entries(product.attributes).map(([key, value]) => (
-                        <tr key={key} className='border-b'>
-                          <td className='py-3 pr-8 text-gray-600'>
+                        <tr key={key} className="border-b">
+                          <td className="py-3 pr-8 text-gray-600">
                             {t(`attributeLabels.${key.toLowerCase()}`) || key}
                           </td>
-                          <td className='py-3 font-medium'>
+                          <td className="py-3 font-medium">
                             {typeof value === "string"
-                              ? t(`attributeValues.${value.toLowerCase()}`) ||
-                                value
+                              ? t(`attributeValues.${value.toLowerCase()}`) || value
                               : value}
                           </td>
                         </tr>
@@ -689,10 +701,8 @@ const ProductDetail = ({
                 </table>
               </div>
               <div>
-                <h3 className='font-semibold mb-4 text-lg'>
-                  {t("shippingAndReturns")}
-                </h3>
-                <div className='space-y-4 text-gray-600'>
+                <h3 className="font-semibold mb-4 text-lg">{t("shippingAndReturns")}</h3>
+                <div className="space-y-4 text-gray-600">
                   <p>{t("freeShippingPolicy")}</p>
                   <p>{t("returnPolicy")}</p>
                 </div>
