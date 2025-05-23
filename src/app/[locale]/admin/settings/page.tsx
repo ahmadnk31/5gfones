@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -475,7 +476,7 @@ export default function SettingsPage() {
                             </TableCell>
                           </TableRow>
                         ))
-                      )}
+                      }
                     </TableBody>
                   </Table>
                 </div>

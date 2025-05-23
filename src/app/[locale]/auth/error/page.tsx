@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<{ error: string }>;
 }) {
-  const t = useTranslations("auth.error");
+  const t = await getTranslations("auth.error");
   const params = await searchParams;
 
   return (

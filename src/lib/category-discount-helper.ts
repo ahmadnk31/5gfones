@@ -1,5 +1,12 @@
-import { getCategoryDiscount } from "@/lib/discount-service";
+import { getCategoryDiscount, getCategoryDiscounts } from "@/lib/discount-service";
 import { calculateDiscountedPrice, getEffectiveDiscountPercentage } from "@/lib/discount";
+
+/**
+ * Type for objects that can have category discounts applied
+ */
+interface WithCategoryId {
+  category_id: number | null;
+}
 
 /**
  * Middleware for enhancing products with category discount information
@@ -8,9 +15,11 @@ import { calculateDiscountedPrice, getEffectiveDiscountPercentage } from "@/lib/
  * @param product A single product object
  * @returns The product with added categoryDiscount field
  */
-export async function withCategoryDiscount<T extends { category_id: number }>(product: T): Promise<T & { categoryDiscount: number }> {
+export async function withCategoryDiscount<T extends WithCategoryId>(
+  product: T
+): Promise<T & { categoryDiscount: number }> {
   // Get category discount if a category_id exists
-  const categoryDiscount = product.category_id 
+  const categoryDiscount = product.category_id != null 
     ? await getCategoryDiscount(product.category_id)
     : 0;
     
@@ -26,9 +35,15 @@ export async function withCategoryDiscount<T extends { category_id: number }>(pr
  * @param products Array of product objects
  * @returns Array of products with added categoryDiscount field
  */
-export async function withCategoryDiscounts<T extends { category_id: number }>(products: T[]): Promise<(T & { categoryDiscount: number })[]> {
-  // Get unique category IDs
-  const categoryIds = [...new Set(products.map(p => p.category_id).filter(Boolean))];
+export async function withCategoryDiscounts<T extends WithCategoryId>(
+  products: T[]
+): Promise<(T & { categoryDiscount: number })[]> {
+  // Get unique category IDs, filtering out null/undefined values
+  const categoryIds = [...new Set(
+    products
+      .map(p => p.category_id)
+      .filter((id): id is number => id != null)
+  )];
   
   // If there are no valid category IDs, return products with 0 discounts
   if (categoryIds.length === 0) {
@@ -36,12 +51,11 @@ export async function withCategoryDiscounts<T extends { category_id: number }>(p
   }
   
   // Get discounts for all categories at once
-  const { getCategoryDiscounts } = await import('@/lib/discount-service');
   const discountMap = await getCategoryDiscounts(categoryIds);
   
   // Apply discounts to products
   return products.map(product => ({
     ...product,
-    categoryDiscount: product.category_id ? discountMap[product.category_id] || 0 : 0
+    categoryDiscount: product.category_id != null ? discountMap[product.category_id] || 0 : 0
   }));
 }

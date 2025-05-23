@@ -17,8 +17,8 @@ import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-// Initialize Stripe (will be configured later with settings)
-const stripePromise = null;
+// Initialize Stripe with public key
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 // Checkout Form Component
 const CheckoutForm = ({ currency = 'usd' }) => {
@@ -34,12 +34,12 @@ const CheckoutForm = ({ currency = 'usd' }) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   
-  // Calculate additional amounts
+  // Calculate additional amounts - moved inside component to ensure reactivity
   const shippingCost = subtotal >= 50 ? 0 : 5.99;
   const taxRate = 0.08;
   const taxAmount = subtotal * taxRate;
   const total = subtotal + shippingCost + taxAmount;
-  
+
   // Format currency using the currency from settings
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -47,10 +47,14 @@ const CheckoutForm = ({ currency = 'usd' }) => {
       currency: currency.toUpperCase(),
     }).format(amount);
   };
-    // Create payment intent when component mounts
+
+  // Create payment intent when component mounts or when cart items change
   useEffect(() => {
     const createPaymentIntent = async () => {
-      if (!items.length) return;
+      if (!items.length) {
+        router.push('/cart');
+        return;
+      }
       
       try {
         // First we need to create an order in the database
@@ -72,7 +76,7 @@ const CheckoutForm = ({ currency = 'usd' }) => {
           },
           body: JSON.stringify({
             orderId: orderData.order_id,
-            amount: total,
+            amount: Math.round(total * 100), // Convert to cents for Stripe
             currency: currency.toLowerCase(),
             description: `Order #${orderData.order_id}`
           }),
@@ -93,7 +97,7 @@ const CheckoutForm = ({ currency = 'usd' }) => {
     };
     
     createPaymentIntent();
-  }, [items, shippingCost, taxAmount, total, currency, supabase]);
+  }, [items, currency, router, supabase]);
   
   // Check current user
   useEffect(() => {
