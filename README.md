@@ -1,32 +1,36 @@
-# POS and Inventory Management System
+# 5GPhones - E-commerce Platform for Mobile Devices
 
-This is a Point of Sale (POS) and Inventory Management System built with Next.js, React, and Supabase. It provides a comprehensive solution for managing products, customers, orders, and transactions in a retail or small business setting.
+This is a modern, full-featured e-commerce platform specialized for mobile phones and accessories, built with Next.js 14, React, and Supabase. It provides a comprehensive solution for selling new and refurbished phones, handling trade-ins, managing repairs, and processing secure payments.
 
-As a developer with extensive experience in creating similar applications, this project represents the culmination of years of expertise in building POS systems. Of course, in the beginning the project seem a little raw, but with time and hopefully with the help of the community, it will become a robust and feature-rich solution for businesses of all sizes.
+As a developer with extensive experience in creating similar applications, this project represents the culmination of years of expertise in building e-commerce platforms. The codebase is well-structured and implements modern best practices, with internationalization support and responsive design throughout.
 
-This particular iteration embraces the spirit of open-source development, making it freely available for the community to use, modify, and improve upon.
+This project embraces the spirit of open-source development, making it freely available for the community to use, modify, and improve upon.
 
 ## Features
 
-- **Dashboard**: Overview of key metrics and charts
-- **Products Management**: Add, edit, delete, and view products
-- **Customer Management**: Manage customer information and status
-- **Order Management**: Create and manage orders
-- **Point of Sale (POS)**: Quick and easy sales processing
-- **User Authentication**: Secure login system
-- **Refurbished Products**: Full management of refurbished inventory with variant support
-  - Product variants (color, storage capacity, etc.)
-  - Variant-specific pricing and stock
-  - Multiple images per variant
-  - Easy customer selection on product pages
+- **Multi-language Support**: Full internationalization with English and Spanish translations
+- **Product Catalog**: Comprehensive catalog with category filtering and search functionality
+- **Special Offers**: Dynamic discounts for categories and products with time-limited promotions
+- **Refurbished Products**: Complete marketplace for refurbished phones with condition rating
+- **Shopping Cart**: Full-featured cart with persistent storage
+- **Secure Checkout**: Integrated Stripe payment processing with multiple payment options
+- **Customer Accounts**: User registration, login, and profile management
+- **Order Management**: Complete order history and status tracking
+- **Trade-in Program**: System for customers to trade in old devices
+- **Repair Services**: Appointment booking for device repairs
+- **Admin Dashboard**: Comprehensive backend for inventory and order management
 
 ## Tech Stack
 
-- **Frontend**: Next.js, React, Tailwind CSS
-- **Backend**: Supabase (PostgreSQL database)
-- **State Management**: React Hooks
-- **UI Components**: Custom components and Shadcn UI
-- **Charts**: Recharts
+- **Frontend**: Next.js 14 with App Router, React 18
+- **Styling**: Tailwind CSS with Shadcn UI components
+- **Backend**: Supabase (PostgreSQL database with RLS policies)
+- **Authentication**: Supabase Auth with social providers
+- **Payments**: Stripe integration with Elements and Checkout
+- **State Management**: React Context API and Hooks
+- **Internationalization**: next-intl for multi-language support
+- **Image Handling**: Next.js Image optimization
+- **Vector Search**: PostgreSQL pgvector for advanced product search
 
 ## Getting Started
 
