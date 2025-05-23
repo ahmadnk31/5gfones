@@ -55,12 +55,11 @@ export const ClientSupportProvider = ({
   if (!isLoaded) {
     return <>{children}</>;
   }
-
   return (
     <>
       {children}
-      {/* Only show support bubble for non-admin users and when the page is loaded */}
-      {!isAdmin && <CustomerSupportBubble username={username} />}
+      {/* CustomerSupportBubble is disabled because we're now using ChatSupportBubble in layout.tsx */}
+      {/* {!isAdmin && <CustomerSupportBubble username={username} />} */}
     </>
   );
 };

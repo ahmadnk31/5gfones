@@ -21,7 +21,7 @@ import { Link } from "@/i18n/navigation";
 
 export default function SustainabilityPage() {
   const t = useTranslations("sustainability");
-  const locale = useLocale();
+
 
   return (
     <div className='container mx-auto py-12 px-4'>
@@ -937,7 +937,7 @@ export default function SustainabilityPage() {
                 className='bg-transparent border-white hover:bg-white hover:text-emerald-700'
                 asChild
               >
-                <Link href={`/${locale}/contact?subject=recycle`}>
+                <Link href={`/contact?subject=recycle`}>
                   {t("recycleNowButton", { defaultValue: "Recycle Now" })}
                 </Link>
               </Button>
@@ -946,7 +946,7 @@ export default function SustainabilityPage() {
                 className='bg-white text-emerald-700 hover:bg-emerald-100'
                 asChild
               >
-                <Link href={`/${locale}/contact?subject=collection`}>
+                <Link href={`/contact?subject=collection`}>
                   {t("learnMoreButton", {
                     defaultValue: "Schedule a Collection",
                   })}

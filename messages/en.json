@@ -1,4 +1,5 @@
-{  "app": {
+{  
+  "app": {
     "name": "5GPhones",
     "tagline": "Your one-stop shop for all things 5G",
 
@@ -30,7 +31,8 @@
       "availableProducts": "Available Products"
     },
     "carousel": {
-      "title": "Repair Services",      "phoneRepair": {
+      "title": "Repair Services",      
+      "phoneRepair": {
         "category": "Repair Service",
         "title": "Phone Screen Repair",
         "description": "Professional screen replacement for all phone models with same-day service and quality parts.",

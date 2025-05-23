@@ -41,13 +41,13 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           {" "}
           <Providers>
-            <ClientSupportProvider>              <Toaster />
+                         <Toaster />
               <NavBar />
               <main className='min-h-screen'>{children}</main>
               <ChatSupportBubble />
               <Footer />
               <CookieConsent />
-            </ClientSupportProvider>
+            
           </Providers>
     
         </NextIntlClientProvider>

@@ -37,7 +37,7 @@ export function StripeAddressElement({
       const { name, address } = event.value;
       onChange({ name, address });
     }
-  };
+};
 
   return (
     <div className='mt-2'>
