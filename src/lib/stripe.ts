@@ -1,9 +1,5 @@
 
 import Stripe from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-04-30.basil',
-    typescript: true,
-        })
 // Function to get Stripe instance with proper configuration
 async function getStripeInstance() {
   try {
@@ -97,6 +93,9 @@ export async function createPaymentIntent({
   paymentMethodTypes?: string[];
   description?: string;
 }) {  try {
+    // Get properly initialized Stripe instance
+    const stripe = await getStripe();
+    
     // Amount should be in cents (e.g., $10.00 = 1000)
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents and ensure it's an integer
@@ -147,17 +146,19 @@ export async function createCheckoutSession({
   cancelUrl: string;
 }) {
   try {
-    const session = await stripe.checkout.sessions.create({
+    // Get properly initialized Stripe instance
+    const stripe = await getStripe();
+      const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: items,
+      line_items: items as any, // Cast to any to work around type issues
       mode: 'payment',
       success_url: successUrl,
       cancel_url: cancelUrl,
       customer_email: customerEmail,
       metadata: {
         orderId,
-        userId,
-        discountIds: discounts.length > 0 ? JSON.stringify(discounts) : undefined,
+        userId: userId || '',
+        discountIds: discounts.length > 0 ? JSON.stringify(discounts) : '',
       },
     });
 
@@ -172,12 +173,13 @@ export async function createCheckoutSession({
 }
 
 // Helper function to validate a Stripe webhook signature
-export function validateWebhookSignature(
+export async function validateWebhookSignature(
   body: string,
   signature: string,
   secret: string
 ) {
   try {
+    const stripe = await getStripe();
     const event = stripe.webhooks.constructEvent(body, signature, secret);
     return { valid: true, event };
   } catch (error: any) {
@@ -188,6 +190,9 @@ export function validateWebhookSignature(
 // Function to create or retrieve a customer
 export async function getOrCreateCustomer(email: string, name?: string) {
   try {
+    // Get properly initialized Stripe instance
+    const stripe = await getStripe();
+    
     // Search for existing customer
     const customers = await stripe.customers.list({
       email,
