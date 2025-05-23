@@ -133,11 +133,15 @@ const ProductDetail = ({
                     description: variant.variant_value,
                     variant: "default",
                     duration: 2000,
-                  },
+                  }
                 })
               );
-            } catch (error) {
-              // Ignore error if toast isn't available
+            } catch (err) {
+              if (err instanceof Error) {
+                console.error("Error showing toast notification:", err.message);
+              } else {
+                console.error("Error showing toast notification");
+              }
             }
 
             return;
@@ -639,21 +643,26 @@ const ProductDetail = ({
               {t("details")}
             </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="description" className="pt-6">
             <div className="prose max-w-none">
-              <ReactQuillEditor
-                value={typeof product.description === "object" 
-                  ? product.description[locale] || product.description.en || ""
-                  : String(product.description || "")}
-                setValue={() => {}}
-                isEditable={false}
-                className="bg-background"
-              />
-              {!product.description && <p className="text-gray-500">{t("noDescription")}</p>}
+              {product.description ? (
+                <ReactQuillEditor
+                  value={
+                    typeof product.description === "object"
+                      ? product.description[locale] || product.description.en || ""
+                      : String(product.description)
+                  }
+                  setValue={() => {}}
+                  isEditable={false}
+                  className="bg-background"
+                />
+              ) : (
+                <p className="text-gray-500">{t("noDescription")}</p>
+              )}
             </div>
           </TabsContent>
-          
+
           <TabsContent value="details" className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <div>
@@ -693,7 +702,7 @@ const ProductDetail = ({
                           <td className="py-3 font-medium">
                             {typeof value === "string"
                               ? t(`attributeValues.${value.toLowerCase()}`) || value
-                              : value}
+                              : String(value)}
                           </td>
                         </tr>
                       ))}
@@ -880,14 +889,15 @@ const ProductDetail = ({
                                           description: `1x ${item.name}`,
                                           variant: "default",
                                           duration: 2000,
-                                        },
+                                        }
                                       })
                                     );
-                                  } catch (error) {
-                                    console.error(
-                                      "Error showing toast notification",
-                                      error
-                                    );
+                                  } catch (err) {
+                                    if (err instanceof Error) {
+                                      console.error("Error showing toast notification:", err.message);
+                                    } else {
+                                      console.error("Error showing toast notification");
+                                    }
                                   }
                                 }}
                               >
@@ -951,11 +961,15 @@ const ProductDetail = ({
                             description: t("product.allItemsAddedToCart"),
                             variant: "default",
                             duration: 3000,
-                          },
+                          }
                         })
                       );
-                    } catch (error) {
-                      console.error("Error showing toast notification", error);
+                    } catch (err) {
+                      if (err instanceof Error) {
+                        console.error("Error showing toast notification:", err.message);
+                      } else {
+                        console.error("Error showing toast notification");
+                      }
                     }
                   }}
                 >
@@ -1033,14 +1047,15 @@ const ProductDetail = ({
                                   description: `1x ${accessory.name}`,
                                   variant: "default",
                                   duration: 2000,
-                                },
+                                }
                               })
                             );
-                          } catch (error) {
-                            console.error(
-                              "Error showing toast notification",
-                              error
-                            );
+                          } catch (err) {
+                            if (err instanceof Error) {
+                              console.error("Error showing toast notification:", err.message);
+                            } else {
+                              console.error("Error showing toast notification");
+                            }
                           }
                         }}
                       >
