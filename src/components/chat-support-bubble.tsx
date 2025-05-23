@@ -11,7 +11,7 @@ export const ChatSupportBubble = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<'whatsapp' | 'chat' | null>(null);
   const { user } = useUser();
-  const phoneNumber = '+32467871205'; // Replace with your WhatsApp number
+  const phoneNumber = '+32466134181'; // Replace with your WhatsApp number
   const message = 'Hello! I have a question.';
   
   const handleOptionSelect = (option: 'whatsapp' | 'chat') => {

@@ -1,0 +1,675 @@
+{  
+  "app": {
+    "name": "5GPhones",
+    "tagline": "Uw one-stop shop voor alles wat met 5G te maken heeft",
+
+    "heroBanner": {
+      "subtitle": "Deskundige reparaties, premium accessoires en de nieuwste apparaten op één plek"
+    },    "navigation":{
+        "allProducts": "Alle Producten",
+        "sellPhone": "Verkoop Telefoon",
+        "home": "Home",
+        "products": "Producten",
+        "specialOffers": "Speciale Aanbiedingen",
+        "sustainability": "Duurzaamheid",
+        "repair": "Reparatiediensten"
+    },
+    "featuredProducts": {
+      "title": "Nieuwe Aankomsten",
+      "description": "Bekijk onze nieuwste producten en accessoires",
+      "viewAll": "Bekijk Alles"
+    },
+    "deviceBrands": {
+      "title": "Populaire Merken",
+      "viewAll": "Alle Merken Bekijken"
+    },
+    "categories": {
+      "title": "Productcategorieën",
+      "browse": "Bladeren",
+      "description": "Blader door ons uitgebreide assortiment producten en accessoires per categorie",
+      "viewAll": "Alle Categorieën Bekijken",
+      "productCount": "Producten",
+      "featuredProducts": "Aanbevolen Producten",
+      "noProducts": "Geen producten in deze categorie",
+      "availableProducts": "Beschikbare Producten"
+    },
+    "carousel": {
+      "title": "Reparatiediensten",      
+      "phoneRepair": {
+        "category": "Reparatieservice",
+        "title": "Telefoonscherm Reparatie",
+        "description": "Professionele schermvervanging voor alle telefoonmodellen met service op dezelfde dag en kwaliteitsonderdelen.",
+        "button": "Reparatie Inplannen"
+      },
+      "batteryReplacement": {
+        "category": "Batterijservice",
+        "title": "Batterijvervanging",
+        "description": "Verleng de levensduur van uw apparaat met onze professionele batterijvervangingsservice. Snel, betrouwbaar en betaalbaar.",
+        "button": "Batterijservice Boeken"
+      },
+      "tradeIn": {
+        "category": "Inruil",
+        "title": "Verkoop Uw Oude Telefoon",
+        "description": "Krijg direct contant geld voor uw oude apparaat. We bieden concurrerende prijzen voor telefoons in elke staat.",
+        "button": "Verkoop Uw Telefoon"
+      },
+      "accessories": {
+        "category": "Winkel",
+        "title": "Premium Accessoires",
+        "description": "Ontdek onze collectie hoogwaardige hoesjes, schermbeschermers en oplaadoplossingen voor alle apparaten.",
+        "button": "Accessoires Bekijken"
+      }
+    },
+    "latestDevices": {
+      "title": "Nieuwe Producten",
+      "iphone": {
+        "category": "Nieuwe Aankomsten",
+        "title": "iPhone Pro Max",
+        "description": "Ervaar de krachtigste iPhone ooit met de nieuwste A-serie chip, professioneel camerasysteem en batterij die de hele dag meegaat."
+      },
+      "samsung": {
+        "category": "Nieuwe Aankomsten",
+        "title": "Samsung Galaxy S Serie",
+        "description": "Ontdek de geavanceerde Galaxy S serie met verbluffende displays, revolutionaire camerasystemen en bliksemsnelle prestaties."
+      },
+      "pixel": {
+        "category": "Nieuwe Aankomsten",
+        "title": "Google Pixel",
+        "description": "Ontdek de Google Pixel met zijn uitzonderlijke camera, zuivere Android-ervaring en intelligente functies aangedreven door Google AI."
+      },
+      "xiaomi": {
+        "category": "Nieuwe Aankomsten",
+        "title": "Xiaomi Vlaggenschip Serie",
+        "description": "Premium smartphones met hoogwaardige specificaties voor concurrerende prijzen. Ervaar geavanceerde technologie zonder veel geld uit te geven."
+      }
+    },
+    "gadgets": {
+      "title": "Elektronische Accessoires",
+      "smartwatch": {
+        "category": "Draagbare apparaten",
+        "title": "Smartwatches",
+        "description": "Blijf verbonden en houd uw fitness bij met onze collectie premium smartwatches van topmerken zoals Apple, Samsung en Garmin."
+      },
+      "earbuds": {
+        "category": "Audio",
+        "title": "Draadloze Oordopjes",
+        "description": "Ervaar kristalhelder geluid en naadloze connectiviteit met onze selectie premium draadloze oordopjes voor muziek, gesprekken en meer."
+      },
+      "tablets": {
+        "category": "Computers",
+        "title": "Tablets & iPads",
+        "description": "Perfect voor werk en entertainment, onze tabletcollectie omvat de nieuwste modellen van Apple, Samsung en andere toonaangevende merken."
+      },
+      "laptops": {
+        "category": "Computers",
+        "title": "Laptops & MacBooks",
+        "description": "Werk de hele dag door met hoogwaardige laptops en MacBooks met de nieuwste processors en verbluffende displays."
+      }
+    },
+    "services": {
+      "title": "Reparatieonderdelen",
+      "description": "Professionele reparatiediensten voor alle mobiele apparaten met kwaliteitsonderdelen en deskundige technici",
+      "time": "30-60 min",
+      "timeVaries": "1-3 dagen",
+      "warranty": "90 Dagen Garantie",
+      "noRecoveryNoFee": "Geen Herstel, Geen Kosten",
+      "book": "Dienst Boeken",
+      "viewAll": "Alle Services Bekijken",
+      "screenRepair": {
+        "title": "Schermreparatie",
+        "description": "Professionele schermvervangingsservice met kwaliteitsonderdelen en deskundige technici"
+      },
+      "battery": {
+        "title": "Batterijvervanging",
+        "description": "Verleng de levensduur van uw apparaat met een professionele batterijvervangingsservice"
+      },
+      "insurance": {
+        "category": "Bescherming",
+        "title": "Apparaatverzekering",
+        "description": "Bescherm uw investering met onze uitgebreide apparaatverzekeringen die schade door ongevallen, diefstal en meer dekken."
+      },
+      "dataRecovery": {
+        "category": "Herstel",
+        "title": "Gegevensherstel",
+        "description": "Belangrijke gegevens verloren? Onze deskundige technici kunnen foto's, contacten en bestanden terughalen van beschadigde of slecht functionerende apparaten."
+      },
+      "customization": {
+        "category": "Personalisatie",
+        "title": "Apparaatcustomisatie",
+        "description": "Maak uw apparaat echt van u met professionele aanpassingsdiensten, waaronder skins, graveren en aangepaste hoesjes."
+      },
+      "training": {
+        "category": "Leren",
+        "title": "Technische Training",
+        "description": "Haal het meeste uit uw apparaten met één-op-één trainingssessies die alles behandelen, van basisinstallatie tot geavanceerde functies."
+      }
+    },
+    "refurbished": {
+      "title": "Gereviseerde Apparaten",
+      "description": "Bespaar tot 40% op gecertificeerde gereviseerde telefoons en apparaten die werken als nieuw",
+      "viewAll": "Alle Gereviseerde Apparaten",
+      "warranty": {
+        "months": "maanden"
+      },
+      "condition": {
+        "likeNew": "Als nieuw",
+        "excellent": "Uitstekend",
+        "good": "Goed",
+        "fair": "Redelijk"
+      },
+      "iphone": {
+        "category": "Gereviseerd",
+        "title": "Gereviseerde iPhone",
+        "description": "Bespaar tot 40% op gecertificeerde gereviseerde iPhones die er uitzien en werken als nieuw, met volledige garantie en gratis verzending."
+      },
+      "samsung": {
+        "category": "Gereviseerd",
+        "title": "Gereviseerde Samsung Galaxy",
+        "description": "Premium gereviseerde Samsung-apparaten, grondig getest en hersteld naar nieuwstaat, voor een fractie van de oorspronkelijke prijs."
+      }
+    },
+    "tradeIn": {
+      "title": "Telefoon Inruilen",
+      "description": "Krijg de beste prijs voor uw oude apparaat en upgrade naar een nieuw model",
+      "feature1": "Directe Prijsopgave",
+      "feature2": "Gratis Verzending",
+      "feature3": "Veilig Gegevenswissen",
+      "cta": "Uw Telefoon Nu Inruilen",
+      "topPrices": "Beste Inruilprijzen",
+      "sell": {
+        "title": "Verkoop Uw Oude Telefoon",
+        "description": "Krijg contant geld voor uw niet meer gebruikte apparaten. We accepteren telefoons in elke staat, zelfs met defecten.",
+        "category": "Inruil Service"
+      },
+      "upgrade": {
+        "title": "Upgrade naar een Nieuw Apparaat",
+        "description": "Gebruik de waarde van uw oude telefoon om te upgraden naar een nieuwer model. Gemakkelijke overstap met gegevensoverdracht inbegrepen."
+      },
+      "quoteButton": "Offerte Krijgen",
+      "upgradeButton": "Nu Upgraden",
+      "recycle": {
+        "title": "Recycle Uw Oude Apparaten",
+        "description": "Milieuvriendelijke recycling voor apparaten zonder inruilwaarde. Wij zorgen voor een verantwoorde verwerking.",
+        "learnMore": "Meer Informatie"
+      },
+      "estimate": {
+        "value": "Geschatte Waarde"
+      },
+      "device": "Apparaat",
+      "deviceCondition": "Staat",
+      "storageCapacity": "Opslag",
+      "colorLabel": "Kleur"
+    },
+    "warranty": {
+      "months": "maanden garantie"
+    },
+    "ctaBanner": {
+      "title": "Professionele Reparatiediensten",
+      "description": "Is uw telefoon beschadigd? Onze gecertificeerde technici kunnen vrijwel elk probleem oplossen, van kapotte schermen tot camerastoringen.",
+      "button": "Reparatie Inplannen",
+      "imageAlt": "Professionele Telefoonreparatie"
+    },
+    "trendingProducts": {
+      "title": "Populaire Producten",
+      "viewAll": "Alles Bekijken"
+    }
+  },
+  "faq": {
+    "title": "Veelgestelde Vragen",
+    "subtitle": "Antwoorden op de meest gestelde vragen",
+    "searchPlaceholder": "Zoek in veelgestelde vragen...",
+    "noResults": "Geen resultaten gevonden",
+    "seeAll": "Alle vragen bekijken",
+    "general": "Algemene Vragen",
+    "repairs": "Reparatiediensten",
+    "orders": "Bestellingen & Verzending",
+    "refurbished": "Gereviseerde Apparaten",
+    "returns": "Retouren & Garantie"
+  },
+  "contact": {
+    "title": "Neem Contact Op",
+    "subtitle": "We staan klaar om te helpen",
+    "form": {
+      "name": "Naam",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer (optioneel)",
+      "subject": "Onderwerp",
+      "message": "Bericht",
+      "submit": "Bericht Versturen",
+      "sending": "Versturen...",
+      "success": "Dank u! Uw bericht is verzonden. We nemen zo snel mogelijk contact met u op.",
+      "error": "Er is een fout opgetreden bij het versturen van uw bericht. Probeer het opnieuw.",
+      "required": "Verplicht veld",
+      "invalidEmail": "Voer een geldig e-mailadres in",
+      "minLength": "Moet minimaal {min} tekens bevatten",
+      "nameRequired": "Naam is vereist",
+      "emailRequired": "E-mailadres is vereist",
+      "subjectRequired": "Onderwerp is vereist",
+      "messageRequired": "Bericht is vereist"
+    },
+    "address": "Winkel Adres",
+    "businessHours": "Openingstijden",
+    "mondayFriday": "Maandag - Vrijdag",
+    "saturday": "Zaterdag",
+    "sunday": "Zondag",
+    "closed": "Gesloten",
+    "phoneNumber": "Telefoon",
+    "emailAddress": "E-mail",
+    "contactMethods": "Contactmethoden",
+    "findUs": "Vind Ons",
+    "directions": "Routebeschrijving Krijgen",
+    "addressLine": "Leuvensesteenweg 610, 1930 Zaventem",
+    "messageUs": "Stuur ons een bericht met uw vraag"
+  },
+  "customerSupport": {
+    "title": "Klantenondersteuning",
+    "subtitle": "We staan voor u klaar",
+    "chat": "Live Chat",
+    "phone": "Telefoon",
+    "email": "E-mail",
+    "faq": "Veelgestelde Vragen",
+    "startChat": "Begin Chat",
+    "callUs": "Bel Ons",
+    "emailUs": "E-mail Ons",
+    "viewFaq": "Bekijk FAQ",
+    "hide": "Verberg Klantinfo"
+  },
+  "terms": {
+    "title": "Algemene Voorwaarden",
+    "subtitle": "Onze algemene voorwaarden voor het gebruik van de website en onze producten en diensten",
+    "lastUpdated": "Laatst bijgewerkt: {date}",
+    "introduction": "Welkom bij 5GPhones. Door onze website te gebruiken en/of producten bij ons te kopen, gaat u akkoord met deze voorwaarden.",
+    "section1": {
+      "title": "1. Algemene Voorwaarden",
+      "content1": "Deze voorwaarden zijn van toepassing op het gebruik van de website en de aankoop van producten en diensten bij 5GPhones."
+    },
+    "section2": {
+      "title": "2. Gebruik van Onze Website",
+      "content1": "U mag onze website alleen gebruiken voor wettige doeleinden en in overeenstemming met deze voorwaarden.",
+      "content2": "U mag geen acties ondernemen die kunnen leiden tot schade aan de website of aantasting van de prestaties, beschikbaarheid of toegankelijkheid van de website."
+    },
+    "section3": {
+      "title": "3. Productinformatie",
+      "content1": "We streven ernaar om producten en diensten op onze website nauwkeurig te beschrijven. We garanderen echter niet dat alle details, beschrijvingen of afbeeldingen volledig nauwkeurig zijn.",
+      "content2": "Alle afbeeldingen en video's zijn alleen ter illustratie. Het werkelijke product kan enigszins afwijken."
+    },
+    "section4": {
+      "title": "4. Prijzen en Betalingen",
+      "content1": "Alle prijzen zijn inclusief BTW tenzij anders vermeld.",
+      "content2": "Alle betalingen moeten volledig worden voldaan vóór levering van producten of diensten. Wij accepteren verschillende betaalmethoden die op onze website worden vermeld."
+    }
+  },
+  "privacy": {
+    "title": "Privacybeleid",
+    "subtitle": "Hoe we uw persoonlijke informatie verzamelen, gebruiken en beschermen",
+    "lastUpdated": "Laatst bijgewerkt: {date}",
+    "introduction": "Bij 5GPhones respecteren we uw privacy en zijn we toegewijd aan het beschermen van uw persoonlijke gegevens. Dit Privacybeleid informeert u over hoe we voor uw persoonlijke gegevens zorgen wanneer u onze website bezoekt en vertelt u over uw privacyrechten en hoe de wet u beschermt.",
+    "cookieConsent": {
+      "message": "Deze website gebruikt cookies om uw ervaring te verbeteren",
+      "accept": "Accepteren",
+      "decline": "Weigeren",
+      "learnMore": "Meer Informatie"
+    },
+    "summary": "Samenvatting",
+    "fullPolicy": "Volledig Beleid",
+    "summary1": {
+      "title": "1. Informatie die we verzamelen",
+      "content": "We verzamelen persoonlijke informatie die u ons verstrekt, automatisch verzamelde informatie over uw apparaat en informatie van derden."
+    },
+    "summary2": {
+      "title": "2. Hoe we uw informatie beschermen",
+      "content": "We implementeren robuuste beveiligingsmaatregelen om uw gegevens te beschermen en verkopen uw persoonlijke informatie nooit aan derden."
+    }
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Er is iets misgegaan",
+    "retry": "Opnieuw proberen",
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "submit": "Verzenden",
+    "back": "Terug",
+    "next": "Volgende",
+    "confirm": "Bevestigen",
+    "delete": "Verwijderen",
+    "viewDetails": "Details Bekijken",
+    "locale": "nl",
+    "switchToDarkMode": "Overschakelen naar donkere modus",
+    "switchToLightMode": "Overschakelen naar lichte modus",
+    "darkMode": "Donkere modus",
+    "lightMode": "Lichte modus",
+    "theme": "Thema",
+    "bookNow": "Nu Boeken",
+    "learnMore": "Meer informatie",
+    "seeMore": "Meer Zien",
+    "showAll": "Alles Tonen",
+    "hideOptions": "Opties Verbergen",
+    "noResults": "Geen resultaten gevonden",
+    "searchResults": "Zoekresultaten voor \"{query}\"",
+    "searchPlaceholder": "Zoeken...",
+    "sold": "Verkocht",
+    "outOfStock": "Niet op voorraad",
+    "inStock": "Op voorraad",
+    "limitedStock": "Beperkte voorraad",
+    "limitedStockRemaining": "Nog {count} op voorraad",
+    "addToCart": "In Winkelwagen",
+    "addingToCart": "Toevoegen...",
+    "viewCart": "Winkelwagen Bekijken",
+    "checkout": "Afrekenen",
+    "continueShopping": "Verder Winkelen",
+    "quantity": "Hoeveelheid",
+    "total": "Totaal",
+    "subtotal": "Subtotaal",
+    "tax": "BTW",
+    "shipping": "Verzending",
+    "discount": "Korting",
+    "orderTotal": "Ordertotaal",
+    "apply": "Toepassen",
+    "remove": "Verwijderen",
+    "edit": "Bewerken",
+    "update": "Bijwerken"
+  },
+  "orders": {
+    "title": "Mijn Bestellingen",
+    "subtitle": "Bekijk en beheer uw bestelgeschiedenis",
+    "noOrders": "U heeft nog geen bestellingen",
+    "startShopping": "Begin met winkelen",
+    "orderNumber": "Bestelnummer",
+    "date": "Datum",
+    "status": "Status",
+    "total": "Totaal",
+    "viewDetails": "Details Bekijken",
+    "orderDetails": "Bestelgegevens",
+    "itemsOrdered": "Bestelde Artikelen",
+    "backToOrders": "Terug naar bestellingen",
+    "orderSummary": "Bestelgegevens",
+    "discount": "Korting",
+    "paymentInformation": "Betalingsinformatie",
+    "method": "Methode",
+    "creditCard": "Creditcard",
+    "cashOnDelivery": "Rembours",
+    "transactionId": "Transactie-ID",
+    "orderTimeline": "Bestelverloop",
+    "orderPlaced": "Bestelling Geplaatst",
+    "orderConfirmed": "Uw bestelling is bevestigd",
+    "orderProcessing": "In Behandeling",
+    "orderBeingPrepared": "Uw bestelling wordt voorbereid",
+    "orderShipped": "Verzonden",
+    "orderOnItsWay": "Uw bestelling is onderweg",
+    "orderDelivered": "Bezorgd",
+    "orderCompleted": "Uw bestelling is afgeleverd",
+    "orderCancelled": "Geannuleerd",
+    "orderCancelledDescription": "Deze bestelling is geannuleerd",
+    "current": "Huidig",
+    "shippingAddress": "Verzendadres",
+    "billingAddress": "Factuuradres",
+    "paymentMethod": "Betaalmethode"
+  },
+  "emails": {
+    "verificationSubject": "Verifieer uw e-mailadres - 5GPhones",
+    "verificationHeading": "Verifieer uw e-mailadres",
+    "verificationIntro": "Bedankt voor uw inschrijving voor onze nieuwsbrief. Klik op de onderstaande knop om uw e-mailadres te verifiëren.",
+    "verifyButton": "E-mail verifiëren",
+    "verifyButtonText": "Verifieer uw e-mail door deze link te bezoeken",
+    "verificationExpires": "Deze verificatielink verloopt over 24 uur.",
+    "unsubscribeText": "Om u af te melden voor onze nieuwsbrief, klik hier:",
+    "unsubscribeLink": "Afmelden",
+    "regards": "Met vriendelijke groet",
+    "orderConfirmation": "Bestelbevestiging",
+    "orderNumber": "Bestelnummer",
+    "orderDate": "Besteldatum",
+    "orderTotal": "Besteltotaal",
+    "thankYouOrder": "Bedankt voor uw bestelling!",
+    "orderDetails": "Bestelgegevens",
+    "shippingAddress": "Verzendadres",
+    "billingAddress": "Factuuradres",
+    "paymentMethod": "Betaalmethode",
+    "viewOrderStatus": "Bestelstatus bekijken"
+  },  "navigation": {
+    "home": "Home",
+    "products": "Producten",
+    "cart": "Winkelwagen",
+    "checkout": "Afrekenen",
+    "account": "Account",
+    "login": "Inloggen",
+    "logout": "Uitloggen",
+    "register": "Registreren",
+    "search": "Producten zoeken...",
+    "categories": "Categorieën",
+    "brands": "Merken",
+    "brandsEmpty": "Geen merken gevonden",
+    "repair": "Reparatiediensten",
+    "sustainability": "Duurzaamheid",
+    "allProducts": "Alle Producten",
+    "browseOurCollection": "Blader door onze complete collectie producten",
+    "browseByCategory": "Vind producten per categorie",
+    "browseByBrand": "Vind producten per merk",
+    "specialOffers": "Speciale Aanbiedingen",
+    "checkOutDeals": "Bekijk onze nieuwste deals en promoties",
+    "deviceRepair": "Apparaatreparatie",
+    "professionalRepairServices": "Professionele reparatiediensten voor uw apparaten",
+    "scheduleRepair": "Reparatie Inplannen",
+    "bookAppointment": "Maak een afspraak voor uw apparaat",
+    "trackRepair": "Reparatie Volgen",
+    "adminDashboard": "Beheerderspaneel",
+    "checkStatus": "Controleer de status van uw reparatie",
+    "repairParts": "Reparatie-onderdelen",
+    "browseRepairParts": "Blader door reparatie-onderdelen voor uw apparaat",
+    "myOrders": "Mijn Bestellingen",
+    "sellPhone": "Verkoop Uw Telefoon",
+    "sellYourDevice": "Zet uw oude apparaat om in contant geld",
+    "myDevices": "Mijn Apparaten",
+    "checkTradeInStatus": "Controleer de status van uw inruilingen",
+    "tradeIn": "Inruilen"
+  },
+  "filters": {
+    "title": "Filters",
+    "reset": "Resetten",
+    "apply": "Toepassen",
+    "category": "Categorie",
+    "brand": "Merk",
+    "priceRange": "Prijsbereik",
+    "minPrice": "Minimumprijs",
+    "maxPrice": "Maximumprijs",
+    "availability": "Beschikbaarheid",
+    "inStock": "Op voorraad",
+    "outOfStock": "Niet op voorraad",
+    "condition": "Staat",
+    "allConditions": "Alle Condities",
+    "excellent": "Uitstekend",
+    "good": "Goed",
+    "fair": "Redelijk",
+    "variants": "Varianten",
+    "allProducts": "Alle Producten",
+    "withVariants": "Met Varianten",
+    "withoutVariants": "Zonder Varianten",
+    "compatibleModels": "Compatibele Modellen"
+  },
+  "newsletter": {
+    "verificationSuccess": "Inschrijving Bevestigd!",
+    "verificationSuccessMessage": "Bedankt voor het bevestigen van uw inschrijving voor onze nieuwsbrief. U ontvangt nu updates over onze producten, diensten en promoties.",
+    "unsubscribeSuccess": "Afmelding Succesvol",
+    "unsubscribeSuccessMessage": "Uw inschrijving voor onze nieuwsbrief is succesvol opgezegd. We vinden het jammer dat u vertrekt. Als u van gedachten verandert, kunt u zich altijd opnieuw aanmelden via onze website.",
+    "verificationError": "Verificatie Mislukt",
+    "verificationErrorMessage": "We konden uw inschrijving niet verifiëren. Mogelijk is de verificatielink ongeldig of verlopen.",
+    "unsubscribeError": "Fout bij Afmelden",
+    "unsubscribeErrorMessage": "We konden uw afmeldingsverzoek niet verwerken. Mogelijk is de link ongeldig of verlopen.",
+    "returnToHomepage": "Terug naar de Startpagina",
+    "subscribeTitle": "Schrijf u in voor onze Nieuwsbrief",
+    "subscribeDescription": "Ontvang de laatste updates over onze producten en diensten",
+    "emailPlaceholder": "Voer uw e-mailadres in",
+    "subscribeButton": "Inschrijven",
+    "subscribing": "Inschrijven...",
+    "subscribeSuccess": "Bedankt voor uw inschrijving!",
+    "subscribeSuccessMessage": "Controleer uw e-mail om uw inschrijving te bevestigen. We hebben u een verificatie-e-mail gestuurd.",
+    "subscribeError": "Inschrijvingsfout",
+    "subscribeErrorMessage": "We konden uw inschrijvingsverzoek niet verwerken. Probeer het opnieuw of neem contact op met ons ondersteuningsteam.",
+    "subscribeAgain": "Opnieuw Inschrijven",
+    "loading": "Laden...",
+    "emailRequired": "E-mailadres is vereist",
+    "invalidEmail": "Voer een geldig e-mailadres in",
+    "alreadySubscribed": "Dit e-mailadres is al ingeschreven voor onze nieuwsbrief"
+  },
+  "auth": {
+    "login": {
+      "title": "Welkom terug",
+      "subtitle": "Voer uw e-mailadres en wachtwoord in om in te loggen",
+      "email": "E-mailadres",
+      "emailPlaceholder": "naam@voorbeeld.com",
+      "password": "Wachtwoord",
+      "forgotPassword": "Wachtwoord vergeten?",
+      "signIn": "Inloggen",
+      "signInProcessing": "Inloggen...",
+      "noAccount": "Geen account?",
+      "createAccount": "Account aanmaken",
+      "error": "Ongeldig e-mailadres of wachtwoord"
+    },
+    "signUpSuccess": {
+      "title": "Registratie Succesvol",
+      "subtitle": "Bedankt voor het aanmaken van een account",
+      "message": "We hebben u een bevestigingsmail gestuurd. Controleer uw inbox en klik op de link om uw e-mailadres te verifiëren.",
+      "checkInbox": "Controleer uw inbox",
+      "checkSpam": "Als u de e-mail niet in uw inbox ziet, controleer dan uw spammap."
+    },
+    "register": {
+      "title": "Account aanmaken",
+      "subtitle": "Voer uw gegevens in om een nieuw account aan te maken",
+      "name": "Volledige naam",
+      "namePlaceholder": "Jan Jansen",
+      "email": "E-mailadres",
+      "emailPlaceholder": "naam@voorbeeld.com",
+      "password": "Wachtwoord",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "passwordRequirements": "Wachtwoord moet minstens 6 tekens bevatten",
+      "createAccount": "Account aanmaken",
+      "creatingAccount": "Account aanmaken...",
+      "haveAccount": "Heeft u al een account?",
+      "signIn": "Inloggen",
+      "passwordsNotMatch": "Wachtwoorden komen niet overeen",
+      "success": "Account succesvol aangemaakt!",
+      "error": "Fout bij het aanmaken van het account",
+      "emailAlreadyInUse": "Dit e-mailadres is al in gebruik",
+      "invalidEmail": "Voer een geldig e-mailadres in",
+      "invalidPassword": "Wachtwoord voldoet niet aan de vereisten",
+      "tooManyAttempts": "Te veel pogingen, probeer het later opnieuw",
+      "passwordTooShort": "Wachtwoord moet minstens 6 tekens bevatten",
+      "emailRequired": "E-mailadres is vereist"
+    },
+    "forgotPassword": {
+      "title": "Wachtwoord vergeten",
+      "subtitle": "Voer uw e-mailadres in en we sturen u een link om uw wachtwoord opnieuw in te stellen",
+      "email": "E-mailadres",
+      "emailPlaceholder": "naam@voorbeeld.com",
+      "submit": "Resetlink versturen",
+      "processing": "Versturen...",
+      "success": "Controleer uw e-mail voor een link om uw wachtwoord opnieuw in te stellen",
+      "error": "Fout bij het versturen van de resetlink",
+      "backToLogin": "Terug naar inloggen",
+      "updatePasswordDesc": "Voer hieronder uw nieuwe wachtwoord in. Om veiligheidsredenen moet uw wachtwoord minstens 6 tekens bevatten."
+    },
+    "resetPassword": {
+      "title": "Wachtwoord opnieuw instellen",
+      "subtitle": "Voer uw nieuwe wachtwoord in",
+      "password": "Nieuw wachtwoord",
+      "confirmPassword": "Bevestig nieuw wachtwoord",
+      "submit": "Wachtwoord opnieuw instellen",
+      "processing": "Opnieuw instellen...",
+      "success": "Wachtwoord succesvol opnieuw ingesteld!",
+      "error": "Fout bij het opnieuw instellen van het wachtwoord",
+      "cancel": "Annuleren",
+      "passwordsNotMatch": "Wachtwoorden komen niet overeen"
+    },
+    "account": {
+      "title": "Mijn Account",
+      "profile": "Profiel",
+      "personalInfo": "Persoonlijke Informatie",
+      "personalInfoDescription": "Beheer uw persoonlijke informatie",
+      "name": "Volledige Naam",
+      "technicianDashboard": "Technicus Dashboard",
+      "technicianDashboardDesc": "Beheer uw reparatieafspraken en houd uw werk bij.",
+      "manageUser": "Gebruikers Beheren",
+      "manageProducts": "Producten Beheren",
+      "repairDashboard": "Reparatie Dashboard",
+      "email": "E-mailadres",
+      "phone": "Telefoonnummer",
+      "adminDashboard": "Beheerders Dashboard",
+      "adminDashboardDescription": "Beheer gebruikers, bestellingen en instellingen.",
+      "manageAppointments": "Afspraken Beheren",
+      "manageOrders": "Bestellingen Beheren",
+      "role": "Gebruikersrol",
+      "roleCustomer": "Klant",
+      "roleTechnician": "Technicus",
+      "roleAdmin": "Beheerder",
+      "password": "Wachtwoord",
+      "cancel": "Annuleren",
+      "updatePassword": "Wachtwoord bijwerken",
+      "updatePasswordDesc": "Voer hieronder uw nieuwe wachtwoord in. Om veiligheidsredenen moet uw wachtwoord minstens 6 tekens bevatten.",
+      "passwordUpdated": "Wachtwoord succesvol bijgewerkt",
+      "updateProfile": "Profiel bijwerken",
+      "updating": "Bijwerken...",
+      "updateSuccess": "Profiel succesvol bijgewerkt",
+      "updateError": "Fout bij het bijwerken van het profiel",
+      "preferences": "Voorkeuren",
+      "language": "Taal",
+      "notifications": "Notificaties",
+      "emailNotifications": "E-mailnotificaties",
+      "deleting": "Verwijderen...",
+      "deleteError": "Fout bij het verwijderen van het account",
+      "deleteSuccess": "Account succesvol verwijderd",
+      "deletingAccountError": "Fout bij het verwijderen van het account",
+      "smsNotifications": "SMS-notificaties",
+      "danger": "Gevarenzone",
+      "warning": "Deze actie kan niet ongedaan worden gemaakt",
+      "deleteAccountDescription": "Uw account en alle bijbehorende gegevens permanent verwijderen.",
+      "deleteAccount": "Account verwijderen",
+      "deleteWarning": "Deze actie kan niet ongedaan worden gemaakt. Dit zal uw account en alle gegevens permanent verwijderen."
+    }
+  },
+  "footer": {
+    "description": "Open source Point of Sale systeem voor telefoonreparatiewinkels en elektronicadetailhandelaren.",
+    "quickLinks": "Snelle Links",
+    "products": "Producten",
+    "categories": "Categorieën",
+    "brands": "Merken",
+    "customerService": "Klantenservice",
+    "contactUs": "Contact",
+    "faqs": "Veelgestelde Vragen",
+    "shippingPolicy": "Verzendbeleid",
+    "returns": "Retourneren & Terugbetalingen",
+    "contact": "Contact",
+    "address": "123 Reparatiestraat, Tech Stad, TC 98765",
+    "phone": "+32 467 12 34 56",
+    "email": "support@finopenspos.com",
+    "hours": "Ma-Vr: 9u-18u, Za: 10u-16u",
+    "copyright": "© {year} 5GPhones. Alle rechten voorbehouden.",
+    "followUs": "Volg Ons",
+    "theme": "Thema",
+    "subscribeToNewsletter": "Schrijf u in voor onze nieuwsbrief",
+    "newsletterDescription": "Blijf op de hoogte van onze nieuwste producten, diensten en promoties.",
+    "emailPlaceholder": "Voer uw e-mail in",
+    "subscribe": "Inschrijven",
+    "subscribing": "Inschrijven...",
+    "subscriptionSuccess": "Succesvol ingeschreven voor de nieuwsbrief!",
+    "subscriptionError": "Fout bij het inschrijven. Probeer het opnieuw.",
+    "specialOffers": "Speciale Aanbiedingen",
+    "checkOutDeals": "Ontdek onze exclusieve aanbiedingen en tijdelijke promoties",
+    "language": "Taal",
+    "privacyPolicy": "Privacybeleid",
+    "termsOfService": "Servicevoorwaarden",
+    "repairs": "Reparatiediensten",
+    "deviceRepair": "Apparaatreparatie",
+    "scheduleRepair": "Reparatie Inplannen",
+    "trackRepair": "Reparatie Volgen",
+    "repairParts": "Reserveonderdelen",
+    "proudlyMadeBy": "Trots gemaakt door ahmadullah.dev"
+  },
+  "search": {
+    "title": "Zoeken",
+    "placeholder": "Zoeken naar producten, merken of categorieën...",
+    "noResults": "Geen resultaten gevonden voor \"{query}\"",
+    "searchResults": "Zoekresultaten voor \"{query}\"",
+    "searching": "Zoeken...",
+    "searchError": "Fout bij het zoeken. Probeer het opnieuw.",
+    "searchProducts": "Zoek naar producten, merken of categorieën"
+  }
+}
