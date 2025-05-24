@@ -1,10 +1,11 @@
-"use client";
-
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
+import { generateSEOMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 
 import {
   Leaf,
@@ -19,7 +20,25 @@ import {
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
-export default function SustainabilityPage() {
+interface SustainabilityPageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: SustainabilityPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'seo' });
+  
+  return generateSEOMetadata({
+    pageType: 'sustainability',
+    locale,
+    title: t('sustainability.title'),
+    description: t('sustainability.description'),
+    keywords: t('sustainability.keywords'),
+    path: '/sustainability'
+  });
+}
+
+export default function SustainabilityPage({ params }: SustainabilityPageProps) {
   const t = useTranslations("sustainability");
 
 

@@ -2,6 +2,8 @@ import React from "react";
 import { createClient } from "@/lib/supabase/server";
 import { getTranslations            } from "next-intl/server";
 import Image from "next/image";
+import { Metadata } from "next";
+import { generateSEOMetadata, PageType } from "@/lib/seo";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +15,20 @@ import {
   PenToolIcon,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+
+// Generate metadata for the repair page
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return generateSEOMetadata({
+    pageType: PageType.REPAIR,
+    locale,
+  });
+}
 
 export default async function RepairPage({
   params,

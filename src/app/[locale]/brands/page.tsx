@@ -1,6 +1,8 @@
 import React from "react";
 import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
+import { generateSEOMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import {
@@ -10,6 +12,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return generateSEOMetadata({
+    pageType: "category" as any,
+    locale: params.locale,
+    customTitle: await (await getTranslations({ locale: params.locale, namespace: "seo" }))("brands.title"),
+    customDescription: await (await getTranslations({ locale: params.locale, namespace: "seo" }))("brands.description"),
+    customKeywords: [await (await getTranslations({ locale: params.locale, namespace: "seo" }))("brands.keywords")],
+  });
+}
 
 export default async function BrandsPage({
   params,

@@ -1,6 +1,8 @@
 import React from "react";
 import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
+import { generateSEOMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 import Image from "next/image";
 import {
   Card,
@@ -24,6 +26,20 @@ const categoryIcons: Record<string, React.ReactNode> = {
   Smartwatches: <Watch />,
   // Add more mappings as needed
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return generateSEOMetadata({
+    pageType: "category" as any,
+    locale: params.locale,
+    customTitle: await (await getTranslations({ locale: params.locale, namespace: "seo" }))("categories.title"),
+    customDescription: await (await getTranslations({ locale: params.locale, namespace: "seo" }))("categories.description"),
+    customKeywords: [await (await getTranslations({ locale: params.locale, namespace: "seo" }))("categories.keywords")],
+  });
+}
 
 export default async function CategoriesPage() {
   const t = await getTranslations();

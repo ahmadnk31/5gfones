@@ -9,6 +9,22 @@ import { formatCurrency } from "@/lib/utils";
 import { IconArrowRight } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { Metadata } from "next";
+import { generateSEOMetadata, PageType } from "@/lib/seo";
+
+// Generate metadata for the homepage
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return generateSEOMetadata({
+    pageType: PageType.HOME,
+    locale,
+  });
+}
 
 interface RepairService {
   id: string;

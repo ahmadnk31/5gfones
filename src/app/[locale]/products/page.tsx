@@ -2,6 +2,24 @@ import React from "react";
 import { createClient } from "@/lib/supabase/server";
 import ProductsGrid from "@/components/products-grid";
 import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+import { generateSEOMetadata, PageType } from "@/lib/seo";
+
+// Generate metadata for the products page
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return generateSEOMetadata({
+    pageType: PageType.CATEGORY,
+    locale,
+    customTitle: "5G Smartphones & Mobile Accessories",
+    customDescription: "Browse our extensive collection of 5G smartphones, cases, screen protectors, chargers, and premium mobile accessories from top brands.",
+  });
+}
 
 // Product type definition
 interface ProductVariant {

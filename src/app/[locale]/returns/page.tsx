@@ -1,6 +1,5 @@
-"use client";
-
 import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Accordion,
@@ -17,8 +16,28 @@ import {
   CreditCardIcon,
   HelpCircleIcon,
 } from "lucide-react";
+import { generateSEOMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 
-export default function ReturnsPage() {
+interface ReturnsPageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: ReturnsPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'seo' });
+  
+  return generateSEOMetadata({
+    pageType: 'returns',
+    locale,
+    title: t('returns.title'),
+    description: t('returns.description'),
+    keywords: t('returns.keywords'),
+    path: '/returns'
+  });
+}
+
+export default function ReturnsPage({ params }: ReturnsPageProps) {
   const t = useTranslations("returnsPolicy");
 
   return (

@@ -1194,10 +1194,10 @@
     "shippingPolicy": "Verzendbeleid",
     "returns": "Retourneren & Terugbetalingen",
     "contact": "Contact",
-    "address": "123 Reparatiestraat, Tech Stad, TC 98765",
-    "phone": "+32 467 12 34 56",
-    "email": "support@finopenspos.com",
-    "hours": "Ma-Vr: 9u-18u, Za: 10u-16u",
+    "address": "Bondgenotenlaan 84, 3000 Leuven, België",
+    "phone": "+32 466 134181",
+    "email": "support@5gphones.be",
+    "hours": "Ma-Za: 10u-18u, ",
     "copyright": "© {year} 5GPhones. Alle rechten voorbehouden.",
     "followUs": "Volg Ons",
     "theme": "Thema",
@@ -1507,10 +1507,88 @@
     "cvv": "CVV",
     "firstName": "Voornaam",
     "lastName": "Achternaam",
-    "email": "E-mail",
-    "phone": "Telefoon",
-    "address": "Adres",    "city": "Stad",
+    "email": "E-mail",    "phone": "Telefoon",
+    "address": "Adres",
+    "city": "Stad",
     "state": "Provincie",
-    "zipCode": "Postcode",    "country": "Land"
+    "zipCode": "Postcode",
+    "country": "Land"
+  },
+  "seo": {
+    "siteTitle": "5GPhones - Uw Vertrouwde Partner voor 5G Telefoons & Accessoires",
+    "siteDescription": "Ontdek de nieuwste 5G smartphones, professionele reparatiediensten, premium accessoires en gereviseerde toestellen. Deskundige technici, kwaliteitsonderdelen en concurrerende prijzen in België.",
+    "homeTitle": "5GPhones - Premium 5G Smartphones & Professionele Diensten",
+    "homeDescription": "Shop de nieuwste 5G smartphones, boek deskundige reparatiediensten en vind premium accessoires. Professionele toestelreparatie, inruilprogramma's en gecertificeerde gereviseerde telefoons in België.",
+    "homeKeywords": [
+      "5G telefoons",
+      "smartphone reparatie",
+      "telefoon accessoires",
+      "gereviseerde telefoons",
+      "inruil",
+      "België",
+      "Leuven",
+      "scherm reparatie",
+      "batterij vervanging"
+    ],
+    "productsTitle": "5G Smartphones & Mobiele Accessoires",
+    "productsDescription": "Bekijk onze uitgebreide collectie van 5G smartphones, hoesjes, screen protectors, laders en premium mobiele accessoires van topmerken.",
+    "repairTitle": "Professionele Telefoon Reparatiediensten",
+    "repairDescription": "Deskundige smartphone reparatiediensten met nog-dezelfde-dag service, kwaliteitsonderdelen, 90-dagen garantie en gecertificeerde technici. Boek vandaag uw reparatieafspraak.",
+    "aboutTitle": "Over 5GPhones - Toonaangevende Mobiele Technologie Experts",
+    "aboutDescription": "Leer meer over 5GPhones, België's vertrouwde mobiele technologie experts die verkoop, reparaties en accessoires leveren met uitzonderlijke klantenservice sinds onze oprichting.",
+    "contactTitle": "Contact 5GPhones - Krijg Deskundige Mobiele Ondersteuning",
+    "contactDescription": "Neem contact op met onze mobiele technologie experts voor productadvies, reparatieconsultaties of klantenondersteuning. Bezoek onze Leuven winkel of neem online contact op.",    "sustainabilityTitle": "Milieuduurzaamheid & Verantwoordelijke Technologie",
+    "sustainabilityDescription": "Ontdek onze toewijding aan milieuduurzaamheid door toestelrecycling, renovatieprogramma's en milieuvriendelijke praktijken in mobiele technologie.",
+    "sustainabilityKeywords": [
+      "duurzame technologie",
+      "toestel recycling",
+      "milieuvriendelijke telefoons",
+      "gereviseerde toestellen",
+      "milieu verantwoordelijkheid",
+      "e-afval reductie",
+      "groene technologie",
+      "duurzame mobiel"
+    ],    "sustainability": {
+      "title": "Milieuduurzaamheid & Verantwoordelijke Technologie | 5GPhones",
+      "description": "Leer over 5GPhones' toewijding aan milieuduurzaamheid door toestelrecyclingprogramma's, renovatie-initiatieven en milieuvriendelijke praktijken die e-afval verminderen in België.",
+      "keywords": "milieuduurzaamheid, toestel recycling, milieuvriendelijke technologie, gereviseerde telefoons, e-afval reductie, groene technologie, duurzame mobiele toestellen, verantwoordelijke technologie"
+    },    "returns": {
+      "title": "Retour & Terugbetalingsbeleid | 5GPhones",
+      "description": "Leer over 5GPhones' retour- en terugbetalingsbeleid. Gemakkelijke retouren binnen 30 dagen, probleemloos proces en klanttevredenheidsgarantie voor alle aankopen.",
+      "keywords": "retourbeleid, terugbetalingen, retourproces, klanttevredenheid, 30-dagen retouren, probleemloos retourneren, aankoopbescherming"
+    },
+    "categories": {
+      "title": "Shop per Categorie | 5GPhones",
+      "description": "Blader door alle productcategorieën bij 5GPhones. Vind smartphones, tablets, laptops, smartwatches, koptelefoons en accessoires georganiseerd per categorie voor gemakkelijk winkelen.",
+      "keywords": "productcategorieën, smartphones per categorie, mobiele apparaat categorieën, elektronica categorieën, telefoon accessoires, tech producten, apparaat types"
+    },
+    "brands": {
+      "title": "Shop per Merk | 5GPhones",
+      "description": "Ontdek producten van top technologie merken bij 5GPhones. Vind smartphones, accessoires en elektronica van Apple, Samsung, Google, Xiaomi en andere toonaangevende fabrikanten.",
+      "keywords": "technologie merken, smartphone merken, Apple producten, Samsung toestellen, Google Pixel, Xiaomi telefoons, merk shopping, fabrikant producten"
+    },
+    "termsTitle": "Algemene Voorwaarden - 5GPhones Service Overeenkomst",
+    "termsDescription": "Lees onze uitgebreide algemene voorwaarden betreffende productverkoop, reparatiediensten, garanties en klantbeleid bij 5GPhones.",
+    "privacyTitle": "Privacybeleid - Hoe We Uw Informatie Beschermen",
+    "privacyDescription": "Leer hoe 5GPhones uw persoonlijke informatie verzamelt, gebruikt en beschermt. Ons uitgebreide privacybeleid waarborgt uw gegevensbeveiliging.",
+    "tradeInTitle": "Ruil Uw Oude Telefoon In - Krijg Geld voor Uw Toestel",
+    "tradeInDescription": "Krijg directe offertes voor uw oude smartphone. Ruil uw toestel in voor contant geld of krediet voor een nieuwe aankoop. Gratis evaluatie en veilige gegevenswissing.",
+    "refurbishedTitle": "Gecertificeerde Gereviseerde Smartphones - Kwaliteit Gegarandeerd",
+    "refurbishedDescription": "Shop gecertificeerde gereviseerde smartphones met garantie. Kwaliteit geteste toestellen tegen betaalbare prijzen met professionele revisie en gegarandeerde prestaties.",
+    "searchTitle": "Zoekresultaten - Vind Uw Perfecte Toestel",
+    "searchDescription": "Zoekresultaten voor smartphones, accessoires en diensten. Vind precies wat u nodig heeft met onze geavanceerde zoek- en filteropties.",
+    "cartTitle": "Winkelwagen - Bekijk Uw Mobiele Technologie Bestelling",
+    "cartDescription": "Bekijk uw geselecteerde smartphones, accessoires en diensten voor checkout. Veilige betalingsopties en snelle verzending beschikbaar.",
+    "checkoutTitle": "Veilige Checkout - Voltooi Uw Aankoop",
+    "checkoutDescription": "Voltooi uw aankoop met onze veilige checkout. Meerdere betalingsopties, snelle verzending en klantbescherming gegarandeerd.",
+    "accountTitle": "Mijn Account - Beheer Uw 5GPhones Profiel",
+    "accountDescription": "Beheer uw accountinstellingen, bekijk bestellingsgeschiedenis, volg reparaties en update uw voorkeuren. Toegang tot uw complete 5GPhones profiel.",
+    "ordersTitle": "Bestellingsgeschiedenis - Volg Uw Aankopen",
+    "ordersDescription": "Bekijk uw complete bestellingsgeschiedenis, volg huidige bestellingen en beheer retouren. Toegang tot al uw 5GPhones aankoopinformatie.",
+    "repairStatusTitle": "Reparatiestatus - Volg Uw Toestelreparatie",
+    "repairStatusDescription": "Controleer de status van uw toestelreparatie, bekijk reparatievoortgang en krijg updates over voltooiingstijden. Professioneel reparatie-volgsysteem.",
+    "categoryPrefix": "Shop",
+    "brandPrefix": "Blader",
+    "productSuffix": "- Online Kopen bij 5GPhones"
   }
-  }
+}

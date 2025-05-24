@@ -11,13 +11,25 @@ import { Toaster } from "@/components/ui/sonner";
 import { ClientSupportProvider } from "@/components/support-provider";
 import { CookieConsent } from "@/components/cookie-consent";
 import { ChatSupportBubble } from '@/components/chat-support-bubble';
+import { generateSEOMetadata, PageType } from "@/lib/seo";
+import OrganizationStructuredData from "@/components/seo/organization-structured-data";
+import SEODebugger from "@/components/seo/seo-debugger";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "5GPhones",
-  description: "Your one-stop shop for 5G phones",
-};
+// Generate metadata for the layout
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return generateSEOMetadata({
+    pageType: PageType.HOME,
+    locale,
+  });
+}
 
 export default async function RootLayout({
   children,
@@ -37,16 +49,16 @@ export default async function RootLayout({
   return (
     <html lang={locale} className='scroll-smooth'>
       <body className={inter.className}>
-        {" "}
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        {" "}        <NextIntlClientProvider locale={locale} messages={messages}>
           {" "}
           <Providers>
                          <Toaster />
-              <NavBar />
-              <main className='min-h-screen'>{children}</main>
+              <OrganizationStructuredData locale={locale} />
+              <NavBar />              <main className='min-h-screen'>{children}</main>
               <ChatSupportBubble />
               <Footer />
               <CookieConsent />
+              <SEODebugger />
             
           </Providers>
     

@@ -3,6 +3,47 @@ import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import ProductDetail from '@/components/product-detail';
+import { Metadata } from 'next';
+import { generateProductSEO } from '@/lib/seo-utils';
+import ProductStructuredData from '@/components/seo/product-structured-data';
+import BreadcrumbStructuredData from '@/components/seo/breadcrumb-structured-data';
+import { generateProductBreadcrumbs } from '@/lib/seo-utils';
+
+// Generate metadata for individual product pages
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string; productId: string };
+}): Promise<Metadata> {
+  const { locale, productId } = await params;
+  const supabase = await createClient();
+  
+  const { data: product } = await supabase
+    .from('products')
+    .select(`
+      *,
+      brands (name),
+      categories (name, slug)
+    `)
+    .eq('id', productId)
+    .single();
+
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+      description: 'The requested product could not be found.',
+    };
+  }
+
+  return generateProductSEO({
+    ...product,
+    brand: product.brands?.name,
+    category: product.categories ? {
+      name: product.categories.name,
+      slug: product.categories.slug,
+    } : undefined,
+  }, locale);
+}
 
 export default async function ProductPage({
   params
@@ -12,7 +53,7 @@ export default async function ProductPage({
   const t = await getTranslations('product')
   const {productId}=await params
   const supabase = await createClient();
-  
+  const { locale } = await params;
 
   
   // Fetch product details
@@ -75,14 +116,38 @@ export default async function ProductPage({
       categoryDiscount = discountData[0].discount_percentage;
     }
   }
-  
-  return (
-    <ProductDetail 
-      product={product} 
-      variants={variants || []} 
-      relatedProducts={relatedProducts || []}
-      variantImages={variantImages || []}
-      categoryDiscount={categoryDiscount}
-    />
+    return (
+    <>
+      <ProductStructuredData 
+        product={{
+          ...product,
+          brand: product.brands?.name,
+          currency: 'EUR',
+          availability: product.in_stock > 0,
+          category: product.categories ? {
+            name: product.categories.name,
+            slug: product.categories.slug,
+          } : undefined,
+        }}
+        locale={locale}
+      />
+      <BreadcrumbStructuredData 
+        items={generateProductBreadcrumbs({
+          ...product,
+          brand: product.brands?.name,
+          category: product.categories ? {
+            name: product.categories.name,
+            slug: product.categories.slug,
+          } : undefined,
+        }, locale)}
+      />
+      <ProductDetail 
+        product={product} 
+        variants={variants || []} 
+        relatedProducts={relatedProducts || []}
+        variantImages={variantImages || []}
+        categoryDiscount={categoryDiscount}
+      />
+    </>
   );
 }

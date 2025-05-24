@@ -2856,8 +2856,84 @@
     "step2Title": "Schedule a Pickup or Drop-off",
     "step2Desc": "Choose whether you'd like us to pick up the device from your location or if you prefer to drop it off at one of our recycling centers.",
     "step3Title": "Secure Data Wiping",
-    "step3Desc": "All devices undergo certified data wiping procedures to ensure your personal information is completely removed and unrecoverable.",
-    "step4Title": "Environmentally Friendly Recycling",
+    "step3Desc": "All devices undergo certified data wiping procedures to ensure your personal information is completely removed and unrecoverable.",    "step4Title": "Environmentally Friendly Recycling",
     "step4Desc": "Your devices are broken down and recycled following strict environmental standards. We'll send you a certificate of recycling upon completion."
+  },
+  "seo": {
+    "siteTitle": "5GPhones - Your One-Stop Shop for 5G Phones & Accessories",
+    "siteDescription": "Discover the latest 5G smartphones, professional repair services, premium accessories, and refurbished devices. Expert technicians, quality parts, and competitive prices in Belgium.",
+    "homeTitle": "5GPhones - Premium 5G Smartphones & Professional Services",
+    "homeDescription": "Shop the latest 5G smartphones, book expert repair services, and find premium accessories. Professional device repair, trade-in programs, and certified refurbished phones in Belgium.",
+    "homeKeywords": [
+      "5G phones",
+      "smartphone repair",
+      "phone accessories",
+      "refurbished phones",
+      "trade-in",
+      "Belgium",
+      "Leuven",
+      "screen repair",
+      "battery replacement"
+    ],
+    "productsTitle": "5G Smartphones & Mobile Accessories",
+    "productsDescription": "Browse our extensive collection of 5G smartphones, cases, screen protectors, chargers, and premium mobile accessories from top brands.",
+    "repairTitle": "Professional Phone Repair Services",
+    "repairDescription": "Expert smartphone repair services with same-day service, quality parts, 90-day warranty, and certified technicians. Book your repair appointment today.",
+    "aboutTitle": "About 5GPhones - Leading Mobile Technology Experts",
+    "aboutDescription": "Learn about 5GPhones, Belgium's trusted mobile technology experts providing sales, repairs, and accessories with exceptional customer service since our founding.",
+    "contactTitle": "Contact 5GPhones - Get Expert Mobile Support",
+    "contactDescription": "Contact our mobile technology experts for product advice, repair consultations, or customer support. Visit our Leuven store or reach out online.",    "sustainabilityTitle": "Environmental Sustainability & Responsible Technology",
+    "sustainabilityDescription": "Discover our commitment to environmental sustainability through device recycling, refurbishment programs, and eco-friendly practices in mobile technology.",
+    "sustainabilityKeywords": [
+      "sustainable technology",
+      "device recycling",
+      "eco-friendly phones",
+      "refurbished devices",
+      "environmental responsibility",
+      "e-waste reduction",
+      "green technology",
+      "sustainable mobile"
+    ],    "sustainability": {
+      "title": "Environmental Sustainability & Responsible Technology | 5GPhones",
+      "description": "Learn about 5GPhones' commitment to environmental sustainability through device recycling programs, refurbishment initiatives, and eco-friendly practices reducing e-waste in Belgium.",
+      "keywords": "environmental sustainability, device recycling, eco-friendly technology, refurbished phones, e-waste reduction, green technology, sustainable mobile devices, responsible technology"
+    },    "returns": {
+      "title": "Returns & Refunds Policy | 5GPhones",
+      "description": "Learn about 5GPhones' return and refund policy. Easy returns within 30 days, hassle-free process, and customer satisfaction guarantee for all purchases.",
+      "keywords": "returns policy, refunds, return process, customer satisfaction, 30-day returns, hassle-free returns, purchase protection"
+    },
+    "categories": {
+      "title": "Shop by Category | 5GPhones",
+      "description": "Browse all product categories at 5GPhones. Find smartphones, tablets, laptops, smartwatches, headphones, and accessories organized by category for easy shopping.",
+      "keywords": "product categories, smartphones by category, mobile device categories, electronics categories, phone accessories, tech products, device types"
+    },
+    "brands": {
+      "title": "Shop by Brand | 5GPhones",
+      "description": "Explore products from top technology brands at 5GPhones. Find smartphones, accessories, and electronics from Apple, Samsung, Google, Xiaomi, and other leading manufacturers.",
+      "keywords": "technology brands, smartphone brands, Apple products, Samsung devices, Google Pixel, Xiaomi phones, brand shopping, manufacturer products"
+    },
+    "termsTitle": "Terms & Conditions - 5GPhones Service Agreement",
+    "termsDescription": "Read our comprehensive terms and conditions covering product sales, repair services, warranties, and customer policies at 5GPhones.",
+    "privacyTitle": "Privacy Policy - How We Protect Your Information",
+    "privacyDescription": "Learn how 5GPhones collects, uses, and protects your personal information. Our comprehensive privacy policy ensures your data security.",
+    "tradeInTitle": "Trade-In Your Old Phone - Get Cash for Your Device",
+    "tradeInDescription": "Get instant quotes for your old smartphone. Trade in your device for cash or credit towards a new purchase. Free evaluation and secure data wiping.",
+    "refurbishedTitle": "Certified Refurbished Smartphones - Quality Guaranteed",
+    "refurbishedDescription": "Shop certified refurbished smartphones with warranty. Quality tested devices at affordable prices with professional refurbishment and guaranteed performance.",
+    "searchTitle": "Search Results - Find Your Perfect Device",
+    "searchDescription": "Search results for smartphones, accessories, and services. Find exactly what you need with our advanced search and filtering options.",
+    "cartTitle": "Shopping Cart - Review Your Mobile Technology Order",
+    "cartDescription": "Review your selected smartphones, accessories, and services before checkout. Secure payment options and fast shipping available.",
+    "checkoutTitle": "Secure Checkout - Complete Your Purchase",
+    "checkoutDescription": "Complete your purchase with our secure checkout. Multiple payment options, fast shipping, and customer protection guaranteed.",
+    "accountTitle": "My Account - Manage Your 5GPhones Profile",
+    "accountDescription": "Manage your account settings, view order history, track repairs, and update your preferences. Access your complete 5GPhones profile.",
+    "ordersTitle": "Order History - Track Your Purchases",
+    "ordersDescription": "View your complete order history, track current orders, and manage returns. Access all your 5GPhones purchase information.",
+    "repairStatusTitle": "Repair Status - Track Your Device Repair",
+    "repairStatusDescription": "Check the status of your device repair, view repair progress, and get updates on completion times. Professional repair tracking system.",
+    "categoryPrefix": "Shop",
+    "brandPrefix": "Browse",
+    "productSuffix": "- Buy Online at 5GPhones"
   }
 }
