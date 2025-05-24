@@ -1,5 +1,41 @@
-{    "repair": {
+{
+  "repair": {
     "heroTitle": "Professionele Apparaat Reparatiediensten",
+    "brands":"Merken",
+    "summary":"Reparatie Samenvatting",
+    "filterByDeviceType":"Filter op Apparaat Type",
+    "brandsEmpty":"Geen merken gevonden.",
+    "filterBySeries":"Filter op Serie",
+    "confirmation":{
+        "dateTime":"Datum en Tijd"
+    },
+    "delivery":{
+        "method":"Bezorgmethode"
+    },
+    "deviceTypes":"Apparaat Types",
+    "models":"Modellen",
+    "repairParts":"Reparatie Onderdelen",
+    "repairServices":"Reparatiediensten",
+    "services":"Diensten",
+    "schedule":"Plan een Reparatie",
+    "track":"Volg uw Reparatie",
+    "status":"Status",
+    "needHelpWithDevice":"Heeft u hulp nodig met uw apparaat?",
+    "repairConsultationDescription": "Neem contact op met ons team voor een diagnostische beoordeling. We helpen u het exacte probleem en de beste oplossing te identificeren.",
+    "trackRepair":"Reparatie Volgen",
+    "devices":"{dvice} apparaten",
+    "devicesDescription":"Bekijk ons complete aanbod van professionele reparatiediensten voor alle soorten apparaten. Snelle doorlooptijden en kwaliteitsonderdelen gegarandeerd.",
+    "filterByBrand":"Filter op Merk",
+    "allModels":"Alle Modellen",
+    "noDevicesForBrand":"Geen apparaten gevonden voor dit merk.",
+    "noDevicesAvailable":"Geen apparaten beschikbaar voor reparatie.",
+    "checkBrandsSection":"Controleer onze Merken sectie voor meer opties.",
+    "brandsSectionLink":"Bekijk Merken",
+    "contactSupport":"Neem contact op met onze klantenservice voor hulp.",
+    "scheduleRepairConsultation":"Plan een Reparatie Consultatie",
+    "deviceTypesPageTitle":"Apparaat Types",
+    "deviceTypesPageDescription":"Bekijk ons complete aanbod van professionele reparatiediensten voor alle soorten apparaten. Snelle doorlooptijden en kwaliteitsonderdelen gegarandeerd.",
+    "tryDifferentBrand":"Probeer een ander merk.",
     "heroSubtitle": "Snelle, betrouwbare reparaties voor telefoons, tablets en computers met kwaliteitsonderdelen en deskundige technici.",
     "scheduleButton": "Plan een Reparatie",
     "mainProcessTitle": "Hoe Ons Reparatieproces Werkt",
@@ -8,10 +44,11 @@
     "processStep1Description": "Maak online een afspraak of loop binnen met uw apparaat op een tijdstip dat u uitkomt.",
     "processStep2Title": "2. Diagnose",
     "processStep2Description": "Onze technici stellen het probleem vast en geven een transparante prijsopgave.",
-    "processStep3Title": "3. Repareren",
-    "processStep3Description": "We repareren uw apparaat met kwaliteitsonderdelen en expertise, vaak op dezelfde dag.",
     "popularRepairsTitle": "Populaire Reparatiediensten",
     "viewAllRepairsButton": "Alle Reparatiediensten Bekijken",
+    "brand":"Merk",
+    "model":"Model",
+    "device": "Apparaat",
     "repairPriceFrom": "Vanaf",
     "deviceBrandsTitle": "Merk Selecteren",
     "viewAllBrandsButton": "Alle Merken Bekijken",
@@ -39,7 +76,22 @@
     "needHelpChoosingService": "Weet u niet welke reparatieservice u nodig heeft?",
     "helpChoosingDescription": "Neem contact op met ons team voor een diagnostische beoordeling. We helpen u het exacte probleem en de beste oplossing te identificeren.",
     "contactForDiagnostic": "Contact Voor Diagnose",
-    
+    "processStep3Title": "3. Repareren",    "processStep3Description": "We repareren uw apparaat met kwaliteitsonderdelen en expertise, vaak op dezelfde dag.",
+    "devicesWeRepair": "Apparaten Die We Repareren",
+    "popularRepairServices": "Populaire Reparatiediensten",
+    "servicesDescription": "Snelle en betrouwbare oplossingen voor de meest voorkomende problemen van uw apparaat.",
+    "viewAllServices": "Bekijk Alle Reparatiediensten",
+    "whyChooseTitle": "Waarom Kiezen Voor Onze Reparatiediensten",
+    "whyChooseDescription": "Vertrouwd door duizenden klanten voor kwaliteitsreparaties en uitzonderlijke service.",
+    "warrantyTitle": "Garantie Gegarandeerd",
+    "warrantyDescription": "Alle onze reparaties worden geleverd met een garantie van 90 dagen op onderdelen en service.",
+    "turnaroundTitle": "Snelle Afhandeling",
+    "turnaroundDescription": "Veel reparaties worden op dezelfde dag voltooid, zodat u uw apparaat sneller terugkrijgt.",
+    "techniciansTitle": "Ervaren Technici",
+    "techniciansDescription": "Bekwame, gecertificeerde technici met jarenlange ervaring in apparaatreparaties.",
+    "diagnosticsTitle": "Gratis Diagnose",
+    "diagnosticsDescription": "We diagnosticeren de problemen van uw apparaat kosteloos voordat reparaties beginnen.",
+    "contactUs": "Neem Contact Op",
     "scheduleRepair": "Plan een Reparatie",
     "repairDescription": "Reparatiebeschrijving",
     "repairDetails": "Reparatiedetails",
@@ -49,6 +101,11 @@
     "backButtonText": "Terug naar Reparaties",
     "scheduleThisRepair": "Deze Reparatie Plannen",    "selectBrand": "Selecteer Merk",
     "selectModel": "Selecteer Model",
+    "customRepairRequest": "Aangepast Reparatieverzoek Indienen",
+    "customRepairRequestDescription": "Als uw apparaat niet vermeld staat, geef dan details over uw apparaat en het probleem dat u ondervindt. Ons team zal uw verzoek beoordelen en binnen 24 uur contact met u opnemen.",
+    "deviceNotListed": "Staat uw apparaat niet in de lijst? Dien een aangepast reparatieverzoek in.",
+    "cantFindDevice": "Kunt u uw apparaat niet vinden in onze lijst?",
+    "submitCustomRepairRequest": "Aangepast Reparatieverzoek Indienen",
     "deviceModelPlaceholder": "bijv. iPhone 12, Galaxy S21",
     "deviceColorPlaceholder": "bijv. Zwart, Wit, Blauw",
     
@@ -90,12 +147,96 @@
     "confirmAppointment": "Afspraak Bevestigen",
     "backButton": "Terug",
     "nextButton": "Volgende",
-    "required": "Verplicht",
-    "successMessage": "Afspraak succesvol gepland!",
+    "required": "Verplicht",    "successMessage": "Afspraak succesvol gepland!",
     "appointmentConfirmed": "Uw reparatie-afspraak is bevestigd",
     "shipDeviceInstructions": "Instructies voor het verzenden van uw apparaat",
     "viewYourAppointment": "Bekijk Uw Afspraak",
-    "additionalInformation": "Extra informatie"
+    "additionalInformation": "Extra informatie",
+      "form": {
+      "selectDevice": "Selecteer Uw Apparaat",
+      "selectServices": "Selecteer Reparatiediensten",
+      "selectDateTime": "Selecteer Datum & Tijd",
+      "contactInfo": "Contactgegevens",
+      "problemDescription": "Beschrijf het Probleem",
+      "deviceSerialNumber": "Serienummer Apparaat",
+      "devicePassword": "Apparaat Ontgrendelpatroon/PIN",
+      "passwordDisclaimer": "Dit helpt onze technici uw apparaat te testen na reparatie"
+    },
+
+    "customRequest": {
+      "title": "Aangepaste Apparaat Reparatieverzoek",
+      "subtitle": "Vraag een reparatie aan voor een apparaat dat niet in onze standaardlijst staat",
+      "description": "Geef details over uw apparaat en het probleem dat u ondervindt. Ons team zal uw verzoek beoordelen en binnen 24 uur contact met u opnemen.",
+      "form": {
+        "deviceName": "Apparaatnaam",
+        "deviceNamePlaceholder": "bijv. Samsung Galaxy Z Fold 4",
+        "deviceType": "Apparaattype",
+        "deviceTypePlaceholder": "bijv. Smartphone, Tablet, Laptop",
+        "deviceBrand": "Apparaatmerk",
+        "deviceBrandPlaceholder": "bijv. Apple, Samsung, Google",
+        "deviceColor": "Apparaatkleur",
+        "deviceColorPlaceholder": "bijv. Zwart, Wit, Blauw",
+        "modelYear": "Modeljaar",
+        "modelYearPlaceholder": "bijv. 2022",
+        "serialNumber": "Serienummer (optioneel)",
+        "serialNumberPlaceholder": "Indien bekend, geef het serienummer van het apparaat",
+        "problemDescription": "Probleembeschrijving",
+        "problemDescriptionPlaceholder": "Beschrijf het probleem in detail",
+        "contactInformation": "Contactgegevens",
+        "email": "E-mailadres",
+        "phone": "Telefoonnummer",
+        "submit": "Reparatieverzoek Indienen",
+        "submitting": "Bezig met indienen...",
+        "requiredField": "Dit veld is verplicht"
+      }
+    },
+    
+    "error": {
+      "appointmentCreation": "Fout bij het maken van afspraak. Probeer het opnieuw.",
+      "appointmentItems": "Fout bij het toevoegen van reparatie-items. Uw afspraak is aangemaakt maar mogelijk incompleet.",
+      "scheduleRequest": "Kon de aanvraag niet plannen. Controleer uw informatie en probeer opnieuw.",
+      "unexpectedError": "Er is een onverwachte fout opgetreden. Probeer het opnieuw.",
+      "missingContactInfo": "Vul alle contactgegevens in.",
+      "missingShippingInfo": "Geef een geldig verzendadres op.",
+      "authRequired": "Inloggen vereist om een reparatie in te plannen",
+      "authRequiredMessage": "U moet ingelogd zijn om een reparatie-afspraak in te plannen. Log in om door te gaan.",
+      "missingDeliveryMethod": "Selecteer een bezorgmethode."
+    },
+      "shipping": {
+      "title": "Verzending",
+      "addressTitle": "Verzendadres",
+      "delivery": {
+        "method": "Verzendmethode",
+        "cost": "Verzendkosten:"
+      },
+      "shipping": {
+        "title": "Verzenden naar Klant",
+        "description": "We verzenden het apparaat terug naar de klant na reparatie"
+      }
+    },
+    
+    "common": {
+      "pickup": "Klant Ophalen",
+      "inStore": "Ophalen in Winkel",
+      "shipping": "Verzenden naar Klant",
+      "next": "Volgende",
+      "back": "Terug",
+      "continue": "Doorgaan",
+      "scheduleRepair": "Reparatie Inplannen",
+      "trackRepair": "Reparatie Volgen",
+      "loading": "Laden...",
+      "error": "Er is iets misgegaan"
+    },
+      "selectDeviceInfo": "Selecteer uw apparaatinformatie",
+    "selectRepairService": "Selecteer tenminste één reparatieservice",
+    "selectDateTime": "Selecteer uw gewenste datum en tijd",
+    "customerPickup": "Klant Ophalen",
+    "shipToCustomer": "Verzenden naar Klant",
+    "deliveryMethod": "Leveringsmethode",
+    "service": "service",
+    "shippingLabel": "Verzending",
+    "estimatedTotal": "Geschat Totaal",
+    "shippingAddressLabel": "Verzendadres"
   },
   
   "app": {
@@ -278,33 +419,96 @@
         "title": "Gereviseerde Samsung Galaxy",
         "description": "Premium gereviseerde Samsung-apparaten, grondig getest en hersteld naar nieuwstaat, voor een fractie van de oorspronkelijke prijs."
       }
-    },
-    "tradeIn": {
+    },    "tradeIn": {
       "title": "Telefoon Inruilen",
       "description": "Krijg de beste prijs voor uw oude apparaat en upgrade naar een nieuw model",
+      "sellButton": "Verkoop Uw Telefoon",
+      "upgradeButton": "Nu Upgraden",
       "feature1": "Directe Prijsopgave",
       "feature2": "Gratis Verzending",
       "feature3": "Veilig Gegevenswissen",
       "cta": "Uw Telefoon Nu Inruilen",
       "topPrices": "Beste Inruilprijzen",
+      "quoteButton": "Offerte Krijgen",
+      "cashOffer": "Contantaanbod",
+      "estimate": {
+        "title": "Krijg een Schatting",
+        "description": "Ontdek hoeveel uw oude apparaat waard is. Voer de gegevens van uw telefoon in voor een directe schatting.",
+        "value": "Geschatte Waarde"
+      },
       "sell": {
-        "title": "Verkoop Uw Oude Telefoon",
-        "description": "Krijg contant geld voor uw niet meer gebruikte apparaten. We accepteren telefoons in elke staat, zelfs met defecten.",
-        "category": "Inruil Service"
+        "category": "Verkoop Uw Telefoon",
+        "title": "Krijg Direct Contant Geld",
+        "description": "Ruil uw oude apparaat in voor direct contant geld of winkelkrediet. We bieden concurrerende prijzen voor telefoons in elke staat."
       },
       "upgrade": {
-        "title": "Upgrade naar een Nieuw Apparaat",
-        "description": "Gebruik de waarde van uw oude telefoon om te upgraden naar een nieuwer model. Gemakkelijke overstap met gegevensoverdracht inbegrepen."
+        "category": "Upgrade",
+        "title": "Upgrade Uw Apparaat",
+        "description": "Ruil uw huidige telefoon in en krijg extra krediet voor uw volgende aankoop van een nieuw of opgeknapt apparaat.",
+        "subtitle": "Krijg de Nieuwste Technologie",
+        "benefit1": "Krijg direct krediet voor een nieuw apparaat",
+        "benefit2": "Geniet van speciale kortingen op nieuwe aankopen",
+        "benefit3": "Gratis gegevensoverdracht naar uw nieuwe apparaat",
+        "howItWorks": "Hoe Het Werkt",
+        "step1Title": "Evalueer Uw Apparaat",
+        "step1Desc": "Vertel ons over uw huidige apparaat voor een geschatte inruilwaarde.",
+        "step2Title": "Kies een Nieuw Apparaat",
+        "step2Desc": "Blader door onze collectie nieuwste apparaten en selecteer uw upgrade.",
+        "step3Title": "Voltooi de Uitwisseling",
+        "step3Desc": "Breng uw oude apparaat naar onze winkel of stuur het op en ontvang uw nieuwe.",
+        "browseDevices": "Bekijk Apparaten",
+        "whyUpgrade": "Waarom Nu Upgraden?",
+        "whyUpgradeSubtitle": "Zie hoe de nieuwste apparaten zich verhouden tot uw huidige telefoon met deze belangrijke verbeteringen",
+        "testimonials": "Klantervaringen",
+        "faq": "Veelgestelde Vragen",
+        "faqQuestions": {
+          "q1": "Hoe bepalen jullie de waarde van mijn huidige apparaat?",
+          "a1": "We evalueren apparaten op basis van model, staat, opslagcapaciteit en huidige marktwaarde. Factoren zoals schermstaat, functionaliteit van knoppen en camera's, en algemene slijtage worden allemaal meegenomen in onze beoordeling.",
+          "q2": "Kan ik een apparaat inruilen met een gebarsten scherm?",
+          "a2": "Ja! We accepteren apparaten met gebarsten schermen en andere gebreken. Hoewel deze problemen de inruilwaarde beïnvloeden, kunt u nog steeds krediet krijgen voor uw nieuwe apparaataankoop.",
+          "q3": "Hoe lang duurt het upgradeproces?",
+          "a3": "Het hele proces duurt doorgaans 30-60 minuten in de winkel, inclusief apparaatevaluatie, gegevensoverdracht en het instellen van uw nieuwe telefoon. Als u ervoor kiest uw apparaat op te sturen, kan de verwerking 3-5 werkdagen duren nadat we het hebben ontvangen.",
+          "q4": "Wat moet ik doen voordat ik mijn apparaat inruil?",
+          "a4": "We raden aan om een back-up van uw gegevens te maken, uit te loggen bij alle accounts, beveiligingsfuncties uit te schakelen en indien mogelijk een factory reset uit te voeren. Ons personeel kan u in de winkel helpen met deze stappen.",
+          "q5": "Kan ik upgraden naar elk apparaat of alleen specifieke modellen?",
+          "a5": "U kunt upgraden naar elk nieuw of opgeknapt apparaat in onze voorraad. Uw inruilkrediet wordt toegepast op de aankoop, ongeacht welk model u selecteert."
+        },
+        "ctaTitle": "Klaar om Uw Apparaat te Upgraden?",
+        "ctaSubtitle": "Begin vandaag en geniet van de voordelen van de nieuwste technologie met ons zorgeloze upgradeproces.",
+        "contactUs": "Neem Contact Op",
+        "comparison": {
+          "older": "Oudere Apparaten",
+          "latest": "Nieuwste Apparaten",
+          "recommended": "AANBEVOLEN",
+          "oldFeature1": "Tragere prestaties met verouderende processor",
+          "oldFeature2": "Beperkte batterijduur die na verloop van tijd verslechtert",
+          "oldFeature3": "Basis camerafunctionaliteit met lagere resolutie",
+          "oldFeature4": "Beperkte of geen 5G-connectiviteitsmogelijkheden",
+          "oldFeature5": "Ontvangt mogelijk geen beveiligingsupdates meer",
+          "newFeature1": "Bliksemsnelle verwerkingssnelheid met nieuwste chipsets",
+          "newFeature2": "Batterij die de hele dag meegaat met snellaadmogelijkheden",
+          "newFeature3": "Geavanceerde camerasystemen met AI-aangedreven fotografie",
+          "newFeature4": "Ultrasnelle 5G-connectiviteit en WiFi 6-ondersteuning",
+          "newFeature5": "Regelmatige beveiligingsupdates en nieuwste OS-functies"
+        }
       },
-      "quoteButton": "Offerte Krijgen",
-      "upgradeButton": "Nu Upgraden",
       "recycle": {
-        "title": "Recycle Uw Oude Apparaten",
-        "description": "Milieuvriendelijke recycling voor apparaten zonder inruilwaarde. Wij zorgen voor een verantwoorde verwerking.",
-        "learnMore": "Meer Informatie"
-      },
-      "estimate": {
-        "value": "Geschatte Waarde"
+        "category": "Milieuvriendelijk",
+        "title": "Recycle Uw Oude Tech",
+        "description": "Help e-waste te verminderen door uw oude apparaten in te ruilen. Wij zorgen ervoor dat ze correct worden gerecycled of opgeknapt voor hergebruik.",
+        "learnMore": "Meer Informatie",
+        "subtitle": "Verantwoordelijke Verwerking van Uw Elektronica",
+        "benefit1": "Gratis recycling van alle elektronische apparaten",
+        "benefit2": "Veilige gegevenswissing op alle apparaten",
+        "benefit3": "Certificaat van verantwoordelijke recycling",
+        "howItWorks": "Hoe Het Werkt",
+        "startProcess": "Begin Recyclingproces",
+        "startNow": "Nu Beginnen",
+        "whyRecycle": "Waarom Recyclen Bij Ons?",
+        "environmentalBenefit": "Milieu-impact",
+        "environmentalDesc": "Voorkom dat schadelijke materialen op vuilnisbelten belanden en verminder de behoefte aan winning van grondstoffen.",
+        "certifiedBenefit": "Gecertificeerd Proces",
+        "certifiedDesc": "Onze recyclingpartners volgen strikte milieurichtlijnen en gegevensbeveiligingsprotocollen."
       },
       "device": "Apparaat",
       "deviceCondition": "Staat",
@@ -369,7 +573,7 @@
     "contactMethods": "Contactmethoden",
     "findUs": "Vind Ons",
     "directions": "Routebeschrijving Krijgen",
-    "addressLine": "Leuvensesteenweg 610, 1930 Zaventem",
+    "addressLine": "Bondgenotenlaan 84, 3000 Leuven, België",
     "messageUs": "Stuur ons een bericht met uw vraag"
   },
   "customerSupport": {
@@ -412,38 +616,39 @@
   },
   "privacy": {
     "title": "Privacybeleid",
+
     "subtitle": "Hoe we uw persoonlijke informatie verzamelen, gebruiken en beschermen",
     "lastUpdated": "Laatst bijgewerkt: {date}",
     "introduction": "Bij 5GPhones respecteren we uw privacy en zijn we toegewijd aan het beschermen van uw persoonlijke gegevens. Dit Privacybeleid informeert u over hoe we voor uw persoonlijke gegevens zorgen wanneer u onze website bezoekt en vertelt u over uw privacyrechten en hoe de wet u beschermt.",
+    
     "cookieConsent": {
       "title": "Cookie Melding",
-      "description": "Wij gebruiken cookies om uw ervaring op onze site te verbeteren. Door onze website te blijven gebruiken, gaat u akkoord met ons gebruik van cookies.",
+      "description": "Wij gebruiken cookies om uw ervaring op onze site te verbeteren. Sommige cookies zijn essentieel voor het functioneren van de site, terwijl andere ons helpen te begrijpen hoe u de site gebruikt en om gepersonaliseerde inhoud en advertenties te bieden.",
+      "acceptAll": "Alle Cookies Accepteren",
+      "acceptEssential": "Alleen Essentiële Accepteren",
+      "customizeSettings": "Instellingen Aanpassen",
       "preferencesTitle": "Cookie Voorkeuren",
-      "preferencesDescription": "U kunt kiezen welke soorten cookies u wilt accepteren. Deze instellingen kunt u op elk moment aanpassen.",
+      "preferencesDescription": "Cookies helpen ons onze diensten te leveren. Door onze website te gebruiken, gaat u akkoord met ons gebruik van cookies. U kunt uw cookie voorkeuren hieronder beheren.",
       "save": "Voorkeuren Opslaan",
       "cancel": "Annuleren",
-      "manageCookies": "Cookie-instellingen Beheren"
-    },
-    "section4": {
+      "manageCookies": "Cookie-instellingen Beheren",
+      "learnMore": "Meer Informatie"
+    },    "section4": {
+      "title": "Cookies en Tracking Technologieën",
+      "content1": "We gebruiken cookies, web beacons en vergelijkbare technologieën om uw ervaring op onze website te verbeteren, trends te analyseren, de website te beheren, bewegingen van gebruikers op de website te volgen en demografische informatie over onze gebruikersbasis te verzamelen.",
+      "content2": "U kunt cookies beheren via uw browserinstellingen en andere tools. Als u echter bepaalde cookies blokkeert, kunt u mogelijk sommige functies van onze website niet gebruiken.",
+      "cookiesTitle": "Soorten Cookies die We Gebruiken:",
+      "cookiesDescription": "We gebruiken verschillende soorten cookies voor verschillende doeleinden:",
       "cookieTypes": {
-        "essential": {
-          "title": "Essentiële Cookies",
-          "description": "Deze cookies zijn noodzakelijk voor het functioneren van de website. Ze kunnen niet worden uitgeschakeld."
-        },
-        "preferences": {
-          "title": "Voorkeur Cookies",
-          "description": "Deze cookies onthouden uw voorkeuren om uw gebruikservaring te verbeteren."
-        },
-        "statistics": {
-          "title": "Statistiek Cookies",
-          "description": "Deze cookies helpen ons te begrijpen hoe bezoekers onze website gebruiken."
-        },
-        "marketing": {
-          "title": "Marketing Cookies",
-          "description": "Deze cookies worden gebruikt om advertenties relevanter te maken voor u."
-        }
-      }
-    },
+        "essential": "Essentiële Cookies",
+        "essentialDesc": "Vereist voor het goed functioneren van de website",
+        "preferences": "Voorkeur Cookies",
+        "preferencesDesc": "Onthouden uw instellingen en voorkeuren",
+        "statistics": "Statistiek Cookies",
+        "statisticsDesc": "Helpen ons begrijpen hoe bezoekers interageren met onze website",
+        "marketing": "Marketing Cookies",
+        "marketingDesc": "Gebruikt om bezoekers te volgen op websites voor marketingdoeleinden"
+      }    },
     "summary": "Samenvatting",
     "fullPolicy": "Volledig Beleid",
     "summary1": {
@@ -453,14 +658,100 @@
     "summary2": {
       "title": "2. Hoe we uw informatie beschermen",
       "content": "We implementeren robuuste beveiligingsmaatregelen om uw gegevens te beschermen en verkopen uw persoonlijke informatie nooit aan derden."
-    }
-  },
-  "common": {
+    },
+    "keyPoints": "Kernpunten",
+    "keyPoint1": "We verzamelen alleen gegevens die nodig zijn om onze diensten te verlenen en uw ervaring te verbeteren.",
+    "keyPoint2": "Uw gegevens worden veilig opgeslagen en beschermd met industriestandaard encryptie.",
+    "keyPoint3": "U heeft controle over uw informatie en kunt toegang, correctie of verwijdering aanvragen.",
+    "keyPoint4": "We gebruiken cookies om uw browseervaring te verbeteren en websiteverkeer te analyseren.",
+    "keyPoint5": "We delen uw gegevens alleen met derden wanneer dit nodig is om onze diensten te verlenen of wanneer dit wettelijk vereist is.",
+    "keyPoint6": "We voldoen aan GDPR-regelgeving voor EU-gebruikers en respecteren uw uitgebreide gegevensbeschermingsrechten.",
+    "section1": {
+      "title": "Informatie die we verzamelen",
+      "content1": "We verzamelen verschillende soorten informatie van en over gebruikers van onze website, inclusief informatie waarmee u persoonlijk kunt worden geïdentificeerd, zoals naam, postadres, e-mailadres, telefoonnummer en betalingsinformatie ('persoonlijke gegevens').",
+      "content2": "We verzamelen deze informatie direct van u wanneer u deze aan ons verstrekt, automatisch terwijl u door de site navigeert, en van derden zoals zakelijke partners en analyseaanbieders.",
+      "list": {
+        "item1": "Contactinformatie (bijv. e-mail, telefoonnummer)",
+        "item2": "Accountgegevens (bijv. gebruikersnaam, wachtwoord)",
+        "item3": "Betalingsinformatie (bijv. creditcardgegevens, factuuradres)",
+        "item4": "Bestelgeschiedenis en voorkeuren",
+        "item5": "Apparaatinformatie en browsegegevens"
+      }
+    },
+    "section2": {
+      "title": "Hoe we uw informatie gebruiken",
+      "content1": "We gebruiken uw informatie om onze diensten te verlenen en te verbeteren, transacties te verwerken, met u te communiceren, uw ervaring te personaliseren en te voldoen aan wettelijke verplichtingen.",
+      "content2": "We kunnen uw informatie ook gebruiken om u promotionele communicatie over onze producten en diensten te sturen, maar u kunt zich op elk moment afmelden voor deze communicatie."
+    },
+    "section3": {
+      "title": "Informatie delen en openbaarmaking",
+      "content1": "We verkopen uw persoonlijke gegevens niet aan derden. We kunnen uw informatie delen met serviceproviders die ons helpen bij het runnen van ons bedrijf, met uw toestemming, of zoals vereist door de wet.",
+      "content2": "We kunnen ook geaggregeerde of geanonimiseerde informatie die u niet direct identificeert delen met derden voor marketing-, advertentie- of onderzoeksdoeleinden."
+    },
+    "section5": {
+      "title": "Gegevensbeveiliging",
+      "content1": "We hebben passende fysieke, technische en administratieve beveiligingsmaatregelen geïmplementeerd om uw persoonlijke gegevens te beschermen tegen onopzettelijk verlies, ongeautoriseerde toegang, gebruik of openbaarmaking.",
+      "content2": "Geen enkele transmissiemethode via internet of elektronische opslag is echter 100% veilig. Hoewel we streven naar commercieel acceptabele middelen om uw persoonlijke gegevens te beschermen, kunnen we de absolute beveiliging niet garanderen."
+    },
+    "section6": {
+      "title": "Uw rechten",
+      "content1": "Afhankelijk van uw locatie kunt u verschillende rechten hebben met betrekking tot uw persoonlijke gegevens, waaronder:",
+      "list": {
+        "item1": "Het recht om toegang te krijgen tot en een kopie te ontvangen van uw persoonlijke gegevens",
+        "item2": "Het recht om onjuiste persoonlijke gegevens te corrigeren",
+        "item3": "Het recht om verwijdering van uw persoonlijke gegevens aan te vragen",
+        "item4": "Het recht om onze verwerking van uw persoonlijke gegevens te beperken of er bezwaar tegen te maken"
+      }
+    },
+    "section7": {
+      "title": "GDPR-naleving",
+      "content1": "Voor gebruikers in de Europese Unie voldoen we aan de Algemene Verordening Gegevensbescherming (AVG). Dit betekent dat u aanvullende rechten heeft met betrekking tot uw persoonlijke gegevens.",
+      "content2": "Als betrokkene in de EU heeft u het recht op toegang, rectificatie, wissing, beperking van verwerking, bezwaar tegen verwerking en gegevensportabiliteit. U heeft ook het recht om niet onderworpen te worden aan een beslissing die uitsluitend gebaseerd is op geautomatiseerde verwerking.",
+      "gdprRights": {
+        "title": "Uw AVG-rechten in detail",
+        "rightToAccess": "Recht op toegang – U heeft het recht om kopieën van uw persoonlijke gegevens op te vragen.",
+        "rightToRectification": "Recht op rectificatie – U heeft het recht om te verzoeken dat we alle informatie corrigeren waarvan u denkt dat deze onjuist is of informatie aanvullen waarvan u denkt dat deze onvolledig is.",
+        "rightToErasure": "Recht op wissing – U heeft het recht om te verzoeken dat we uw persoonlijke gegevens wissen, onder bepaalde voorwaarden.",
+        "rightToRestrict": "Recht op beperking van verwerking – U heeft het recht om te verzoeken dat we de verwerking van uw persoonlijke gegevens beperken, onder bepaalde voorwaarden.",
+        "rightToObject": "Recht om bezwaar te maken tegen verwerking – U heeft het recht om bezwaar te maken tegen onze verwerking van uw persoonlijke gegevens, onder bepaalde voorwaarden.",
+        "rightToDataPortability": "Recht op gegevensportabiliteit – U heeft het recht om te verzoeken dat we de gegevens die we hebben verzameld overdragen aan een andere organisatie, of direct aan u, onder bepaalde voorwaarden.",
+        "timeframe": "We zullen binnen een maand reageren op alle legitieme verzoeken."
+      },
+      "dataTransfers": {
+        "title": "Internationale gegevensoverdrachten",
+        "content": "We kunnen uw persoonlijke gegevens overdragen naar landen buiten de Europese Economische Ruimte (EER). Wanneer we dit doen, zorgen we ervoor dat een vergelijkbare mate van bescherming wordt geboden door waarborgen te implementeren zoals Standaardcontractbepalingen goedgekeurd door de Europese Commissie."
+      },
+      "legalBasis": {
+        "title": "Rechtsgrond voor verwerking",
+        "content": "We verwerken uw persoonlijke gegevens op de volgende rechtsgronden:",
+        "consent": "Toestemming – U heeft duidelijke toestemming gegeven voor ons om uw persoonlijke gegevens voor een specifiek doel te verwerken.",
+        "contract": "Contract – De verwerking is noodzakelijk voor een contract dat we met u hebben.",
+        "legalObligation": "Wettelijke verplichting – De verwerking is noodzakelijk voor ons om te voldoen aan de wet.",
+        "vitalInterests": "Vitale belangen – De verwerking is noodzakelijk om iemands leven te beschermen.",
+        "publicTask": "Openbare taak – De verwerking is noodzakelijk voor ons om een taak in het openbaar belang uit te voeren.",
+        "legitimateInterests": "Legitieme belangen – De verwerking is noodzakelijk voor onze legitieme belangen of de legitieme belangen van een derde, tenzij er een goede reden is om uw persoonlijke gegevens te beschermen die deze legitieme belangen overstijgt."
+      },
+      "dpo": {
+        "title": "Functionaris voor gegevensbescherming",
+        "content": "We hebben een Functionaris voor Gegevensbescherming (FG) aangesteld die verantwoordelijk is voor het toezicht op vragen met betrekking tot dit privacybeleid. Als u vragen heeft over dit privacybeleid, inclusief verzoeken om uw wettelijke rechten uit te oefenen, neem dan contact op met onze FG op dpo@5gphones.be."
+      }
+    },
+    "section8": {
+      "title": "Wijzigingen in dit privacybeleid",
+      "content1": "We kunnen ons privacybeleid van tijd tot tijd bijwerken. We zullen u op de hoogte stellen van eventuele wijzigingen door het nieuwe privacybeleid op deze pagina te plaatsen en de datum 'Laatst bijgewerkt' bij te werken.",
+      "content2": "U wordt geadviseerd om dit privacybeleid periodiek te bekijken voor eventuele wijzigingen. Wijzigingen in dit privacybeleid zijn van kracht wanneer ze op deze pagina worden geplaatst."
+    },
+    "contactTitle": "Contact opnemen",
+    "contactDescription": "Als u vragen heeft over dit privacybeleid, of als u een van uw gegevensbeschermingsrechten wilt uitoefenen, neem dan contact met ons op.",
+    "email": "privacy@5gphones.be",
+    "contactButton": "Contact opnemen over privacy"
+  },  "common": {
     "loading": "Laden...",
     "error": "Er is iets misgegaan",
     "retry": "Opnieuw proberen",
     "save": "Opslaan",
     "cancel": "Annuleren",
+    "backTo": "Terug naar",
     "submit": "Verzenden",
     "back": "Terug",
     "next": "Volgende",
@@ -473,6 +764,7 @@
     "darkMode": "Donkere modus",
     "lightMode": "Lichte modus",
     "theme": "Thema",
+    "login": "Inloggen",
     "bookNow": "Nu Boeken",
     "learnMore": "Meer informatie",
     "seeMore": "Meer Zien",
@@ -502,7 +794,7 @@
     "remove": "Verwijderen",
     "edit": "Bewerken",
     "update": "Bijwerken"
-  },  "sustainability": {
+  },"sustainability": {
     "heroTitle": "Onze Inzet voor Duurzaamheid",
     "heroSubtitle": "Betekenisvolle acties vandaag voor een groenere toekomst in België en daarbuiten",
     "learnMore": "Meer Over Onze Initiatieven",
@@ -894,6 +1186,8 @@
     "products": "Producten",
     "categories": "Categorieën",
     "brands": "Merken",
+    "sustainability": "Duurzaamheid",
+    "aboutUs": "Over Ons",
     "customerService": "Klantenservice",
     "contactUs": "Contact",
     "faqs": "Veelgestelde Vragen",
@@ -1215,10 +1509,8 @@
     "lastName": "Achternaam",
     "email": "E-mail",
     "phone": "Telefoon",
-    "address": "Adres",
-    "city": "Stad",
+    "address": "Adres",    "city": "Stad",
     "state": "Provincie",
-    "zipCode": "Postcode",
-    "country": "Land"
+    "zipCode": "Postcode",    "country": "Land"
   }
-}
+  }

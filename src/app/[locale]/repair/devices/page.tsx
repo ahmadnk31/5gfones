@@ -64,18 +64,17 @@ export default async function RepairDevicesPage({
         <h1 className='text-3xl font-bold mb-2'>
           {brandId
             ? `${selectedBrandName} Devices`
-            : t("deviceTypesPageTitle") || "Device Types We Repair"}
+            : t("deviceTypesPageTitle")}
         </h1>
         <p className='text-gray-600 mb-8'>
-          {t("deviceTypesPageDescription") ||
-            "Select a device type to explore models and repair options"}
+          {t("deviceTypesPageDescription")}
         </p>
 
         {/* Brand Filters */}
         {brands && brands.length > 0 && (
           <div className='mb-8'>
             <h2 className='text-lg font-medium mb-3'>
-              {t("filterByBrand") || "Filter by Brand"}
+              {t("filterByBrand")}
             </h2>
             <Tabs
               defaultValue={brandId?.toString() || "all"}
@@ -87,7 +86,7 @@ export default async function RepairDevicesPage({
                     value='all'
                     className='data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700'
                   >
-                    {t("allBrands") || "All Brands"}
+                    {t("allBrands")}
                   </TabsTrigger>
                 </Link>
                 {brands.map((brand) => (
@@ -156,15 +155,12 @@ export default async function RepairDevicesPage({
             <p className='text-lg text-gray-500'>
               {brandId
                 ? `${
-                    t("noDevicesForBrand") ||
-                    "No devices available for this brand."
+                    t("noDevicesForBrand")
                   }`
-                : t("noDevicesAvailable") ||
-                  "No devices available at the moment."}
+                : t("noDevicesAvailable") }
             </p>
             <p className='text-sm text-gray-400 mt-2'>
-              {t("tryDifferentBrand") ||
-                "Try selecting a different brand or check back later."}
+              {t("tryDifferentBrand")}
             </p>
           </div>
         )}
@@ -172,11 +168,10 @@ export default async function RepairDevicesPage({
         {/* Help Section */}
         <div className='mt-16 bg-blue-50 rounded-lg p-6'>
           <h2 className='text-2xl font-bold mb-4'>
-            {t("needHelpWithDevice") || "Need help with your device?"}
+            {t("needHelpWithDevice")}
           </h2>
           <p className='mb-4'>
-            {t("repairConsultationDescription") ||
-              "If you're unsure about your device or need assistance, our team is here to help. You can:"}
+            {t("repairConsultationDescription") }
           </p>
           <ul className='list-disc pl-5 mb-6 space-y-2'>
             <li>
@@ -185,24 +180,21 @@ export default async function RepairDevicesPage({
                 href={`/${locale}/repair/brands`}
                 className='text-blue-600 hover:underline ml-1'
               >
-                {t("brandsSectionLink") || "Check our Brands section"}
+                {t("brandsSectionLink")}
               </Link>
             </li>
             <li>
-              {t("contactSupport") ||
-                "Contact our support team for assistance with identifying your device."}
+              {t("contactSupport") }
             </li>
             <li>
-              {t("scheduleRepairConsultation") ||
-                "Schedule a repair consultation with our experts."}
+              {t("scheduleRepairConsultation") }
             </li>
           </ul>
           <Link
             href={`/${locale}/repair/schedule`}
             className='inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md'
           >
-            {t("scheduleRepairConsultation") ||
-              "Schedule a Repair Consultation"}
+            {t("scheduleRepairConsultation")}
           </Link>
         </div>
       </div>

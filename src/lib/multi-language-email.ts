@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 /**
  * Supported languages for email communications
  */
-export type SupportedLanguage = "en" | "es";
+export type SupportedLanguage = "en" | "nl";
 
 /**
  * Interface for multilingual email content
@@ -110,12 +110,12 @@ export async function getVerificationEmailContent(
 ): Promise<MultilanguageEmailContent> {
   // Get translations for each supported language
   const enT = await getEmailTranslations("en", "emails");
-  const esT = await getEmailTranslations("es", "emails");
+  const nlT = await getEmailTranslations("nl", "emails");
 
   return {
     subject: {
       en: enT("verificationSubject"),
-      es: esT("verificationSubject"),
+      nl: nlT("verificationSubject"),
     },
     htmlBody: {
       en: `
@@ -131,17 +131,17 @@ export async function getVerificationEmailContent(
           <p>${enT("regards")},<br>FinOpenPOS</p>
         </div>
       `,
-      es: `
+      nl: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>${esT("verificationHeading")}</h2>
-          <p>${esT("verificationIntro")}</p>
+          <h2>${nlT("verificationHeading")}</h2>
+          <p>${nlT("verificationIntro")}</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${verificationLink}" style="background-color: #4CAF50; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px;">
-              ${esT("verifyButton")}
+              ${nlT("verifyButton")}
             </a>
           </div>
-          <p>${esT("verificationExpires")}</p>
-          <p>${esT("regards")},<br>FinOpenPOS</p>
+          <p>${nlT("verificationExpires")}</p>
+          <p>${nlT("regards")},<br>FinOpenPOS</p>
         </div>
       `,
     },
@@ -158,16 +158,16 @@ ${enT("verificationExpires")}
 ${enT("regards")},
 FinOpenPOS
       `,
-      es: `
-${esT("verificationHeading")}
+      nl: `
+${nlT("verificationHeading")}
 
-${esT("verificationIntro")}
+${nlT("verificationIntro")}
 
-${esT("verifyButtonText")}: ${verificationLink}
+${nlT("verifyButtonText")}: ${verificationLink}
 
-${esT("verificationExpires")}
+${nlT("verificationExpires")}
 
-${esT("regards")},
+${nlT("regards")},
 FinOpenPOS
       `,
     },
@@ -238,7 +238,7 @@ export async function getNewsletterEmailContent(
 ): Promise<MultilanguageEmailContent> {
   // Get translations for each supported language
   const enT = await getEmailTranslations("en", "emails");
-  const esT = await getEmailTranslations("es", "emails");
+  const nlT = await getEmailTranslations("nl", "emails");
 
   // Append token to unsubscribe URL if provided
   const unsubscribeLink = token
@@ -248,7 +248,7 @@ export async function getNewsletterEmailContent(
   return {
     subject: {
       en: subject,
-      es: subject, // We're using the same subject as it's custom per newsletter
+      nl: subject, // We're using the same subject as it's custom per newsletter
     },
     htmlBody: {
       en: `
@@ -261,11 +261,11 @@ export async function getNewsletterEmailContent(
           </div>
         </div>
       `,
-      es: `
+      nl: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           ${htmlContent}
           <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; font-size: 12px; color: #666;">
-            <p>${esT("unsubscribeText")} <a href="${unsubscribeLink}">${esT(
+            <p>${nlT("unsubscribeText")} <a href="${unsubscribeLink}">${nlT(
         "unsubscribeLink"
       )}</a></p>
           </div>
@@ -279,11 +279,11 @@ ${textContent}
 ---
 ${enT("unsubscribeText")} ${unsubscribeLink}
       `,
-      es: `
+      nl: `
 ${textContent}
 
 ---
-${esT("unsubscribeText")} ${unsubscribeLink}
+${nlT("unsubscribeText")} ${unsubscribeLink}
       `,
     },
   };

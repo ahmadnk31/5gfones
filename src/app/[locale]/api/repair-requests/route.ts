@@ -78,10 +78,10 @@ export async function POST(
     await sendMultilanguageEmail({
       to: data.customerEmail,
       preferredLanguage: locale,
-      content: {
-        subject: {
+      content: {        subject: {
           en: `Repair Request Confirmation - ${data.deviceName}`,
           es: `Confirmación de Solicitud de Reparación - ${data.deviceName}`,
+          nl: `Reparatieverzoek Bevestiging - ${data.deviceName}`,
         },
         htmlBody: {
           en: `
@@ -147,9 +147,42 @@ export async function POST(
                 <li>Nos comunicaremos con usted para discutir los detalles y evaluar la reparación.</li>
                 <li>Le proporcionaremos un presupuesto para el servicio de reparación.</li>
                 <li>Una vez aprobado, procederemos con el proceso de reparación.</li>
-              </ol>
-              <p>Si tiene alguna pregunta, comuníquese con nuestro equipo de soporte.</p>
+              </ol>              <p>Si tiene alguna pregunta, comuníquese con nuestro equipo de soporte.</p>
               <p>Gracias por elegir nuestros servicios.</p>
+            </div>
+          `,
+          nl: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #1a56db;">Reparatieverzoek Ontvangen</h2>
+              <p>Bedankt voor het indienen van een reparatieverzoek voor uw <strong>${
+                data.deviceName
+              }</strong>.</p>
+              <p>Uw reparatieverzoek is ontvangen en wordt beoordeeld door ons technisch team. Wij nemen binnenkort contact met u op om uw reparatiebehoeften te bespreken en een offerte te verstrekken.</p>
+              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Reparatiedetails:</h3>
+                <p><strong>Apparaat:</strong> ${data.deviceName}</p>
+                ${
+                  data.deviceBrand
+                    ? `<p><strong>Merk:</strong> ${data.deviceBrand}</p>`
+                    : ""
+                }
+                ${
+                  data.deviceType
+                    ? `<p><strong>Type:</strong> ${data.deviceType}</p>`
+                    : ""
+                }
+                <p><strong>Probleem:</strong> ${data.problemDescription}</p>
+                <p><strong>Referentie-ID:</strong> ${requestData.id}</p>
+              </div>
+              <p>Wat gebeurt er nu:</p>
+              <ol>
+                <li>Onze technici beoordelen uw verzoek.</li>
+                <li>Wij nemen contact met u op om details te bespreken en de reparatie te beoordelen.</li>
+                <li>Wij verstrekken een offerte voor de reparatieservice.</li>
+                <li>Na goedkeuring gaan wij door met het reparatieproces.</li>
+              </ol>
+              <p>Als u vragen heeft, neem dan contact op met ons ondersteuningsteam.</p>
+              <p>Bedankt voor het kiezen van onze diensten.</p>
             </div>
           `,
         },
@@ -198,13 +231,38 @@ export async function POST(
             
             Próximos pasos:
             1. Nuestros técnicos revisarán su solicitud.
-            2. Nos comunicaremos con usted para discutir los detalles y evaluar la reparación.
-            3. Le proporcionaremos un presupuesto para el servicio de reparación.
+            2. Nos comunicaremos con usted para discutir los detalles y evaluar la reparación.            3. Le proporcionaremos un presupuesto para el servicio de reparación.
             4. Una vez aprobado, procederemos con el proceso de reparación.
             
             Si tiene alguna pregunta, comuníquese con nuestro equipo de soporte.
             
             Gracias por elegir nuestros servicios.
+          `,
+          nl: `
+            Reparatieverzoek Ontvangen
+            
+            Bedankt voor het indienen van een reparatieverzoek voor uw ${
+              data.deviceName
+            }.
+            
+            Uw reparatieverzoek is ontvangen en wordt beoordeeld door ons technisch team. Wij nemen binnenkort contact met u op om uw reparatiebehoeften te bespreken en een offerte te verstrekken.
+            
+            Reparatiedetails:
+            - Apparaat: ${data.deviceName}
+            ${data.deviceBrand ? `- Merk: ${data.deviceBrand}` : ""}
+            ${data.deviceType ? `- Type: ${data.deviceType}` : ""}
+            - Probleem: ${data.problemDescription}
+            - Referentie-ID: ${requestData.id}
+            
+            Wat gebeurt er nu:
+            1. Onze technici beoordelen uw verzoek.
+            2. Wij nemen contact met u op om details te bespreken en de reparatie te beoordelen.
+            3. Wij verstrekken een offerte voor de reparatieservice.
+            4. Na goedkeuring gaan wij door met het reparatieproces.
+            
+            Als u vragen heeft, neem dan contact op met ons ondersteuningsteam.
+            
+            Bedankt voor het kiezen van onze diensten.
           `,
         },
       },
@@ -214,15 +272,14 @@ export async function POST(
     // Get admin emails from the environment variable or use a default
     const adminEmails = process.env.ADMIN_NOTIFICATION_EMAILS
       ? process.env.ADMIN_NOTIFICATION_EMAILS.split(",")
-      : ["admin@finopenspos.com"];
-
-    await sendMultilanguageEmail({
+      : ["admin@finopenspos.com"];    await sendMultilanguageEmail({
       to: adminEmails,
       preferredLanguage: "en", // Default admin notification to English
       content: {
         subject: {
           en: `New Custom Repair Request (#${requestData.id}) - ${data.deviceName}`,
           es: `Nueva Solicitud de Reparación Personalizada (#${requestData.id}) - ${data.deviceName}`,
+          nl: `Nieuw Aangepast Reparatieverzoek (#${requestData.id}) - ${data.deviceName}`,
         },
         htmlBody: {
           en: `
@@ -330,9 +387,62 @@ export async function POST(
                     ? `<p><strong>ID de Cliente:</strong> ${customerId}</p>`
                     : ""
                 }
-              </div>
-              <p>Por favor, revise esta solicitud y contacte al cliente para proporcionar un presupuesto de reparación.</p>
+              </div>              <p>Por favor, revise esta solicitud y contacte al cliente para proporcionar un presupuesto de reparación.</p>
               <p>Para gestionar esta solicitud, inicie sesión en el panel de administración.</p>
+            </div>
+          `,
+          nl: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #1a56db;">Nieuw Aangepast Reparatieverzoek</h2>
+              <p>Er is een nieuw reparatieverzoek ingediend voor een apparaat dat niet in de standaardcatalogus staat.</p>
+              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Verzoekdetails:</h3>
+                <p><strong>Verzoek-ID:</strong> ${requestData.id}</p>
+                <p><strong>Apparaat:</strong> ${data.deviceName}</p>
+                ${
+                  data.deviceBrand
+                    ? `<p><strong>Merk:</strong> ${data.deviceBrand}</p>`
+                    : ""
+                }
+                ${
+                  data.deviceType
+                    ? `<p><strong>Type:</strong> ${data.deviceType}</p>`
+                    : ""
+                }
+                ${
+                  data.deviceColor
+                    ? `<p><strong>Kleur:</strong> ${data.deviceColor}</p>`
+                    : ""
+                }
+                ${
+                  data.deviceModelYear
+                    ? `<p><strong>Modeljaar:</strong> ${data.deviceModelYear}</p>`
+                    : ""
+                }
+                ${
+                  data.deviceSerialNumber
+                    ? `<p><strong>Serienummer:</strong> ${data.deviceSerialNumber}</p>`
+                    : ""
+                }
+                <p><strong>Probleem:</strong> ${data.problemDescription}</p>
+              </div>
+              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Klantinformatie:</h3>
+                <p><strong>E-mail:</strong> ${data.customerEmail}</p>
+                ${
+                  data.customerPhone
+                    ? `<p><strong>Telefoon:</strong> ${data.customerPhone}</p>`
+                    : ""
+                }
+                <p><strong>Gebruikers-ID:</strong> ${user.id}</p>
+                ${
+                  customerId
+                    ? `<p><strong>Klant-ID:</strong> ${customerId}</p>`
+                    : ""
+                }
+              </div>
+              <p>Beoordeel dit verzoek en neem contact op met de klant om een reparatieofferte te verstrekken.</p>
+              <p>Om dit verzoek te beheren, log in op het beheerdashboard.</p>
             </div>
           `,
         },
@@ -397,9 +507,40 @@ export async function POST(
             ${data.customerPhone ? `- Teléfono: ${data.customerPhone}` : ""}
             - ID de Usuario: ${user.id}
             ${customerId ? `- ID de Cliente: ${customerId}` : ""}
-            
-            Por favor, revise esta solicitud y contacte al cliente para proporcionar un presupuesto de reparación.
+              Por favor, revise esta solicitud y contacte al cliente para proporcionar un presupuesto de reparación.
             Para gestionar esta solicitud, inicie sesión en el panel de administración.
+          `,
+          nl: `
+            Nieuw Aangepast Reparatieverzoek
+            
+            Er is een nieuw reparatieverzoek ingediend voor een apparaat dat niet in de standaardcatalogus staat.
+            
+            Verzoekdetails:
+            - Verzoek-ID: ${requestData.id}
+            - Apparaat: ${data.deviceName}
+            ${data.deviceBrand ? `- Merk: ${data.deviceBrand}` : ""}
+            ${data.deviceType ? `- Type: ${data.deviceType}` : ""}
+            ${data.deviceColor ? `- Kleur: ${data.deviceColor}` : ""}
+            ${
+              data.deviceModelYear
+                ? `- Modeljaar: ${data.deviceModelYear}`
+                : ""
+            }
+            ${
+              data.deviceSerialNumber
+                ? `- Serienummer: ${data.deviceSerialNumber}`
+                : ""
+            }
+            - Probleem: ${data.problemDescription}
+            
+            Klantinformatie:
+            - E-mail: ${data.customerEmail}
+            ${data.customerPhone ? `- Telefoon: ${data.customerPhone}` : ""}
+            - Gebruikers-ID: ${user.id}
+            ${customerId ? `- Klant-ID: ${customerId}` : ""}
+            
+            Beoordeel dit verzoek en neem contact op met de klant om een reparatieofferte te verstrekken.
+            Om dit verzoek te beheren, log in op het beheerdashboard.
           `,
         },
       },

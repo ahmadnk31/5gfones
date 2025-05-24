@@ -67,17 +67,16 @@ const NavBar = () => {
   // No need to handle cart count here anymore as it's managed by CartSheet
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-  return (
+  };  return (
     <nav className='bg-emerald-50 shadow-md sticky top-0 z-50 border-b border-emerald-100'>
-      <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>
-        <div className='flex justify-between h-16'>
-          {/* Logo and brand name */}{" "}
-          <div className='flex items-center'>
+      <div className='max-w-7xl mx-auto px-2 sm:px-4 lg:px-8'>        <div className='flex items-center justify-between h-16'>
+          {/* Logo and brand name */}
+          <div className='flex items-center flex-shrink-0'>
             <Link
               href={`/${locale}`}
               className='flex-shrink-0 flex items-center'
-            >              <Image
+            >
+              <Image
                 src='/placeholder.svg'
                 alt='5GPhones'
                 width={32}
@@ -89,22 +88,22 @@ const NavBar = () => {
               </span>
             </Link>
           </div>
-          {/* Desktop Navigation */}{" "}
-          <div className='hidden md:flex items-center justify-between flex-1 ml-6'>
+          
+          {/* Desktop Navigation - Centered */}
+          <div className='hidden md:flex items-center justify-center flex-1'>
             {/* Navigation Links with Shadcn Navigation Menu */}
             <NavigationMenu>
-              <NavigationMenuList>
+              <NavigationMenuList className='bg-transparent'>
                 <NavigationMenuItem>
                   <Link href={`/${locale}`} legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
+                      className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-emerald-100")}
                     >
                       {t("home")}
                     </NavigationMenuLink>
                   </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>{t("products")}</NavigationMenuTrigger>
+                </NavigationMenuItem>                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="bg-transparent hover:bg-emerald-100">{t("products")}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
                       <li className='row-span-3'>
@@ -211,12 +210,12 @@ const NavBar = () => {
                     passHref
                   >
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
+                      className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-emerald-100")}
                     >
                       {t("sustainability")}
                     </NavigationMenuLink>
                   </Link>
-                </NavigationMenuItem>{" "}
+                </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link
                     href={`/${locale}/sell-phone`}
@@ -224,14 +223,14 @@ const NavBar = () => {
                     passHref
                   >
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
+                      className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-emerald-100")}
                     >
                       {t("sellPhone")}
                     </NavigationMenuLink>
                   </Link>
-                </NavigationMenuItem>{" "}
+                </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>{t("repair")}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="bg-transparent hover:bg-emerald-100">{t("repair")}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className='grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'>
                       <li className='row-span-3'>
@@ -311,14 +310,18 @@ const NavBar = () => {
                       </li>
                     </ul>
                   </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
+                </NavigationMenuItem>              </NavigationMenuList>
             </NavigationMenu>
+          </div>
+          
+          {/* Right side elements - Search, Cart, User */}
+          <div className='hidden md:flex items-center space-x-3 flex-shrink-0'>
             {/* Search Bar */}
-            <div className='flex-1 max-w-md mx-4'>
+            <div className='w-64'>
               <SearchBarModal />
-            </div>{" "}            {/* User and Cart */}
-            <div className='flex items-center space-x-4'>
+            </div>
+            {/* User and Cart */}
+            <div className='flex items-center space-x-2'>
               {/* Cart Sheet Component */}
               <CartSheet />
               {user ? (
@@ -415,9 +418,12 @@ const NavBar = () => {
                     {t("login")}
                   </Button>
                 </Link>
-              )}
-            </div>
-          </div>{" "}          {/* Mobile Menu Button */}          <div className='flex items-center md:hidden gap-2'>            <SearchBarModal iconOnly={true} />
+              )}            </div>
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <div className='flex items-center md:hidden gap-2'>
+            <SearchBarModal iconOnly={true} />
             {/* Mobile Cart Sheet */}
             <div className="scale-90">
               <CartSheet />
@@ -437,7 +443,7 @@ const NavBar = () => {
             </button>
           </div>
         </div>
-      </div>{" "}
+      </div>
       {/* Mobile Menu */}
       {isOpen && (
         <div className='md:hidden' id='mobile-menu'>
