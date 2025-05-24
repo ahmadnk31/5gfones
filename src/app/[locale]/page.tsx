@@ -474,8 +474,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{service.name}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{service.description}</p>
-                  <p className="text-xl font-bold text-blue-600 mb-4">
+                  <p className="text-gray-600 mb-4 line-clamp-2">{service.description}</p>                  <p className="text-xl font-bold text-emerald-600 mb-4">
                     {formatCurrency(service.base_price)}
                   </p>
                   <Link href={`/repair/services/${service.id}`}>
@@ -680,8 +679,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                     {(product.refurbished_price || product.original_price) && (
                       <div className='flex items-center justify-between mb-3'>
                         <div>
-                          {product.refurbished_price && (
-                            <span className='text-xl font-bold text-blue-700'>
+                          {product.refurbished_price && (                            <span className='text-xl font-bold text-emerald-700'>
                               {formatCurrency(product.refurbished_price)}
                             </span>
                           )}
@@ -739,14 +737,13 @@ console.log("phoneTradeIns:", phoneTradeIns);
                 key={service.id}
                 className='bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:translate-y-[-5px]'
               >
-                <div className='flex items-start'>
-                  <div className='bg-blue-100 p-3 rounded-full mr-4'>
+                <div className='flex items-start'>                  <div className='bg-emerald-100 p-3 rounded-full mr-4'>
                     <Image
                       src={service.image_url || "/images/repair-service.png"}
                       alt={service.name}
                       width={44}
                       height={44}
-                      className='text-blue-600'
+                      className='text-emerald-600'
                     />
                   </div>
                   <div>
@@ -756,8 +753,7 @@ console.log("phoneTradeIns:", phoneTradeIns);
                   
                     <div className='flex items-center text-sm text-gray-500 mb-4'>
                       <span className='flex items-center mr-4'>
-                        <svg
-                          className='w-4 h-4 mr-1 text-blue-500'
+                        <svg                          className='w-4 h-4 mr-1 text-emerald-500'
                           xmlns='http://www.w3.org/2000/svg'
                           fill='none'
                           viewBox='0 0 24 24'

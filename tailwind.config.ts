@@ -18,6 +18,12 @@ const config = {
   		}
   	},
   	extend: {
+  		textShadow: {
+  			DEFAULT: '0 2px 4px rgba(0,0,0,0.1)',
+  			sm: '0 1px 2px rgba(0,0,0,0.2)',
+  			lg: '0 2px 6px rgba(0,0,0,0.3)',
+  			xl: '0 2px 8px rgba(0,0,0,0.4)',
+  		},
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',

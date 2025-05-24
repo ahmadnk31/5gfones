@@ -66,16 +66,14 @@ export default async function RepairServicesPage({
                 {service.description && (
                   <p className="text-gray-600 mb-4 line-clamp-2">{service.description}</p>
                 )}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                <div className="flex flex-wrap gap-2 mb-4">                  <span className="bg-emerald-100 text-emerald-800 text-xs font-medium px-2.5 py-0.5 rounded">
                     {t("qualityParts") || "Quality Parts"}
                   </span>
                   <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
                     {t("warrantyIncluded") || "Warranty"}
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-blue-600">
+                <div className="flex justify-between items-center">                  <span className="text-lg font-bold text-emerald-600">
                     {t("fromPrice", { price: service.base_price }) ||
                       `From $${service.base_price}`}
                   </span>
@@ -95,7 +93,7 @@ export default async function RepairServicesPage({
         </div>
       )}
 
-      <div className="mt-16 bg-blue-50 rounded-lg p-8 flex flex-col md:flex-row gap-8 items-center">
+      <div className="mt-16 bg-emerald-50 rounded-lg p-8 flex flex-col md:flex-row gap-8 items-center">
         <div className="flex-1">
           <h2 className="text-2xl font-bold mb-4">
             {t("needHelpChoosingService") || "Not sure which repair service you need?"}
@@ -113,7 +111,7 @@ export default async function RepairServicesPage({
         </div>
         <div className="flex flex-col gap-4 md:w-1/3">
           <div className="flex items-start gap-3">
-            <ShieldCheck className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+            <ShieldCheck className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-1" />
             <div>
               <h3 className="font-medium">{t("qualityGuarantee") || "Quality Guarantee"}</h3>
               <p className="text-sm text-gray-600">
@@ -122,7 +120,7 @@ export default async function RepairServicesPage({
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <Star className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+            <Star className="w-6 h-6 text-emerald-600 flex-shrink-0 mt-1" />
             <div>
               <h3 className="font-medium">{t("expertTechnicians") || "Expert Technicians"}</h3>
               <p className="text-sm text-gray-600">

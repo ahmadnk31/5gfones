@@ -92,14 +92,14 @@ export default function BannerCarousel({ targetPage = "home" }: BannerCarouselPr
   const currentBanner = banners[currentIndex];
 
   return (
-    <div className="relative w-full h-[300px] md:h-[400px] bg-gray-100 rounded-lg overflow-hidden">
+    <div className="relative w-full h-[85vh]  bg-gray-100 rounded-lg overflow-hidden">
       {/* Banner Image */}
       <Image
         src={currentBanner.image_url}
         alt={currentBanner.title}
         fill
         priority
-        className="object-cover"
+        className="object-cover h-full w-full transition duration-300"
         sizes="(max-width: 768px) 100vw, 1200px"
       />
       

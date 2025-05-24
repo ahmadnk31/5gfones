@@ -717,11 +717,10 @@ const RepairSchedulePage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {/* Custom Device Request Link */}
-                <div className='p-3 mb-6 bg-blue-50 border border-blue-100 rounded-md'>
+                {/* Custom Device Request Link */}                <div className='p-3 mb-6 bg-emerald-50 border border-emerald-100 rounded-md'>
                   <div className='flex items-start space-x-3'>
-                    <HelpCircleIcon className='w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0' />
-                    <div>                      <p className='text-sm text-emerald-700 mb-2'>
+                    <HelpCircleIcon className='w-5 h-5 text-emerald-600 mt-0.5 flex-shrink-0' />
+                    <div><p className='text-sm text-emerald-700 mb-2'>
                         {t("cantFindDevice")}
                       </p>
                       <Link href={`/${locale}/repair/custom-request`}>
@@ -750,11 +749,10 @@ const RepairSchedulePage = () => {
                       {deviceBrands.length > 0 ? (
                         deviceBrands.map((brand) => (
                           <div
-                            key={brand.id}
-                            className={`p-3 border rounded-lg text-center cursor-pointer transition-all ${
+                            key={brand.id}                            className={`p-3 border rounded-lg text-center cursor-pointer transition-all ${
                               selectedBrand === brand.id
-                                ? "border-blue-500 bg-blue-50"
-                                : "border-gray-200 hover:border-blue-300"
+                                ? "border-emerald-500 bg-emerald-50"
+                                : "border-gray-200 hover:border-emerald-300"
                             }`}
                             onClick={() => setSelectedBrand(brand.id)}
                           >

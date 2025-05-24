@@ -340,9 +340,8 @@ export default function BannersPage() {
                 </TableHeader>
                 <TableBody>
                   {banners.map((banner) => (
-                    <TableRow key={banner.id}>
-                      <TableCell>{banner.id}</TableCell>
-                      <TableCell>
+                    <TableRow key={banner.id}>                      <TableCell className="whitespace-nowrap">{banner.id}</TableCell>
+                      <TableCell className="whitespace-nowrap">
                         <div>
                           <div className="font-medium">{banner.title}</div>
                           {banner.subtitle && (
@@ -350,7 +349,7 @@ export default function BannersPage() {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="whitespace-nowrap">
                         <div className="relative h-16 w-32 overflow-hidden rounded">
                           <Image
                             src={banner.image_url}
@@ -361,16 +360,16 @@ export default function BannersPage() {
                           />
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="whitespace-nowrap">
                         <div className="text-sm">
                           <div>{new Date(banner.start_date).toLocaleDateString()}</div>
                           <div>to</div>
                           <div>{new Date(banner.end_date).toLocaleDateString()}</div>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="whitespace-nowrap">
                         <Badge
-                          variant={banner.is_active ? "success" : "secondary"}
+                          variant={banner.is_active ? "success" : "secondary"} 
                           className="capitalize"
                         >
                           {banner.is_active ? t("active") : t("inactive")}

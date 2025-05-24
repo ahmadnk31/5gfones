@@ -9,74 +9,46 @@ interface User {
   name?: string;
 }
 
+// Create Supabase client once, outside of the hook
+const supabase = createClient();
+
 export const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = createClient();
-
-    // Get initial user
-    const getUser = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error('Error getting session:', error);
-          setLoading(false);
-          return;
-        }
-
-        if (session?.user) {
-          const { data: userData } = await supabase
-            .from('users')
-            .select('name')
-            .eq('id', session.user.id)
-            .single();
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            name: userData?.name,
-          });
-        }
-      } catch (error) {
-        console.error('Error in getUser:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getUser();
-
     // Set up subscription for auth changes
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        try {
-          const { data: userData } = await supabase
-            .from('users')
-            .select('name')
-            .eq('id', session.user.id)
-            .single();
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            name: userData?.name,
-          });
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        } finally {
-          setLoading(false);
-        }
-      } else if (event === 'SIGNED_OUT') {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setLoading(true);
+      
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email || '',
+          name: session.user.user_metadata?.full_name || '',
+        });
+      } else {
         setUser(null);
-        setLoading(false);
       }
+      
+      setLoading(false);
     });
 
+    // Get initial user state
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setUser({
+          id: user.id,
+          email: user.email || '',
+          name: user.user_metadata?.full_name || '',
+        });
+      }
+      setLoading(false);
+    });
+
+    // Cleanup subscription
     return () => {
-      authListener?.subscription?.unsubscribe();
+      subscription.unsubscribe();
     };
   }, []);
 

@@ -33,7 +33,7 @@ export default async function ProductsPage({
 }) {
   const t = await getTranslations("products");
   const { locale } = await params;
-
+  
   // Create Supabase client
   const supabase = await createClient();
   // Parse query parameters

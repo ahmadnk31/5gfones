@@ -1,6 +1,6 @@
 import React from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getTranslations } from "next-intl/server";
+import { getTranslations            } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -45,9 +45,8 @@ export default async function RepairPage({
     .limit(8);
 
   return (
-    <div>
-      {/* Hero Section */}
-      <section className='bg-gradient-to-r from-blue-700 to-indigo-700 text-white py-16 md:py-24'>
+    <div>      {/* Hero Section */}
+      <section className='bg-gradient-to-r from-emerald-600 to-green-700 text-white py-16 md:py-24'>
         <div className='container mx-auto px-4 max-w-6xl'>
           <div className='max-w-3xl'>
             <h1 className='text-3xl md:text-5xl font-bold mb-4'>
@@ -55,7 +54,7 @@ export default async function RepairPage({
             </h1>
             <p className='text-lg md:text-xl mb-6 opacity-90'>
               {t("heroSubtitle") ||
-                "Fast, reliable repairs for phones, tablets, and computers with quality parts and expert technicians."}            </p>            <Link href={`/repair/schedule`}>
+                "Fast, reliable repairs for phones, tablets, and computers with quality parts and expert technicians."}</p>            <Link href={`/repair/schedule`}>
               <Button size='lg' variant='secondary'>
                 {t("scheduleButton") || "Schedule a Repair"}
               </Button>
@@ -75,10 +74,9 @@ export default async function RepairPage({
               "Simple, transparent process to get your device fixed and back in your hands as quickly as possible."}
           </p>
 
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
-            <div className='bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center'>
-              <div className='w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <CalendarIcon className='h-8 w-8 text-blue-600' />
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>            <div className='bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center'>
+              <div className='w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <CalendarIcon className='h-8 w-8 text-emerald-600' />
               </div>
               <h3 className='text-xl font-semibold mb-2'>
                 {t("processStep1Title") || "1. Schedule"}
@@ -87,11 +85,9 @@ export default async function RepairPage({
                 {t("processStep1Description") ||
                   "Book an appointment online or walk in with your device at a time that works for you."}
               </p>
-            </div>
-
-            <div className='bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center'>
-              <div className='w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4'>
-                <PenToolIcon className='h-8 w-8 text-blue-600' />
+            </div>            <div className='bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center'>
+              <div className='w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4'>
+                <PenToolIcon className='h-8 w-8 text-emerald-600' />
               </div>
               <h3 className='text-xl font-semibold mb-2'>
                 {t("processStep2Title") || "2. Diagnose"}
@@ -191,8 +187,7 @@ export default async function RepairPage({
                     <h3 className='text-xl font-semibold mb-2'>
                       {service.name}
                     </h3>
-                    <div className='flex justify-between items-center'>
-                      <span className='text-lg font-bold text-blue-600'>
+                    <div className='flex justify-between items-center'>                      <span className='text-lg font-bold text-emerald-600'>
                         {t("fromPrice", { price: service.base_price }) ||
                           `From $${service.base_price}`}
                       </span>
@@ -216,8 +211,7 @@ export default async function RepairPage({
         </section>
       )}
 
-      {/* Why Choose Us */}
-      <section className='py-16 bg-blue-50'>
+      {/* Why Choose Us */}      <section className='py-16 bg-emerald-50'>
         <div className='container mx-auto px-4 max-w-6xl'>
           <h2 className='text-2xl md:text-3xl font-bold mb-3 text-center'>
             {t("whyChooseTitle") || "Why Choose Our Repair Services"}
@@ -229,7 +223,7 @@ export default async function RepairPage({
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
             <div className='bg-white p-6 rounded-lg shadow-sm'>
-              <Shield className='h-10 w-10 text-blue-600 mb-4' />
+              <Shield className='h-10 w-10 text-emerald-600 mb-4' />
               <h3 className='text-lg font-semibold mb-2'>
                 {t("warrantyTitle") || "Warranty Guaranteed"}
               </h3>
@@ -237,10 +231,8 @@ export default async function RepairPage({
                 {t("warrantyDescription") ||
                   "All our repairs come with a 90-day warranty on parts and service."}
               </p>
-            </div>
-
-            <div className='bg-white p-6 rounded-lg shadow-sm'>
-              <Clock className='h-10 w-10 text-blue-600 mb-4' />
+            </div>            <div className='bg-white p-6 rounded-lg shadow-sm'>
+              <Clock className='h-10 w-10 text-emerald-600 mb-4' />
               <h3 className='text-lg font-semibold mb-2'>
                 {t("turnaroundTitle") || "Quick Turnaround"}
               </h3>
@@ -248,10 +240,8 @@ export default async function RepairPage({
                 {t("turnaroundDescription") ||
                   "Many repairs completed same-day, getting your device back to you faster."}
               </p>
-            </div>
-
-            <div className='bg-white p-6 rounded-lg shadow-sm'>
-              <PenToolIcon className='h-10 w-10 text-blue-600 mb-4' />
+            </div>            <div className='bg-white p-6 rounded-lg shadow-sm'>
+              <PenToolIcon className='h-10 w-10 text-emerald-600 mb-4' />
               <h3 className='text-lg font-semibold mb-2'>
                 {t("techniciansTitle") || "Expert Technicians"}
               </h3>
@@ -259,10 +249,8 @@ export default async function RepairPage({
                 {t("techniciansDescription") ||
                   "Skilled, certified technicians with years of experience in device repair."}
               </p>
-            </div>
-
-            <div className='bg-white p-6 rounded-lg shadow-sm'>
-              <Phone className='h-10 w-10 text-blue-600 mb-4' />
+            </div>            <div className='bg-white p-6 rounded-lg shadow-sm'>
+              <Phone className='h-10 w-10 text-emerald-600 mb-4' />
               <h3 className='text-lg font-semibold mb-2'>
                 {t("diagnosticsTitle") || "Free Diagnostics"}
               </h3>
@@ -273,10 +261,8 @@ export default async function RepairPage({
             </div>
           </div>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className='py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white'>
+      </section>      {/* CTA Section */}
+      <section className='py-16 bg-gradient-to-r from-emerald-600 to-green-700 text-white'>
         <div className='container mx-auto px-4 max-w-6xl text-center'>
           <h2 className='text-2xl md:text-3xl font-bold mb-4'>
             {t("ctaTitle") || "Ready to get your device fixed?"}

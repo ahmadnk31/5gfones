@@ -22,6 +22,7 @@ import {
 } from "./ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import CartSheet from "./cart-sheet";
+import { LogoutButton } from "./logout-button";
 
 const NavBar = () => {
   const t = useTranslations("navigation");
@@ -405,15 +406,7 @@ const NavBar = () => {
                       >
                         {t("myDevices")}
                       </Link>
-                      <button
-                        className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                        onClick={async () => {
-                          await supabase.auth.signOut();
-                          router.push(`/${locale}`);
-                        }}
-                      >
-                        {t("logout")}
-                      </button>
+                      <LogoutButton/>
                     </div>
                   </div>
                 </div>
