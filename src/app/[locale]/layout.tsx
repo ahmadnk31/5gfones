@@ -8,12 +8,13 @@ import NavBar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
-import { ClientSupportProvider } from "@/components/support-provider";
+
 import { CookieConsent } from "@/components/cookie-consent";
 import { ChatSupportBubble } from '@/components/chat-support-bubble';
 import { generateSEOMetadata, PageType } from "@/lib/seo";
 import OrganizationStructuredData from "@/components/seo/organization-structured-data";
 import SEODebugger from "@/components/seo/seo-debugger";
+import ShippingBanner from "@/components/shipping-banner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,11 +51,11 @@ export default async function RootLayout({
     <html lang={locale} className='scroll-smooth'>
       <body className={inter.className}>
         {" "}        <NextIntlClientProvider locale={locale} messages={messages}>
-          {" "}
-          <Providers>
+          {" "}          <Providers>
                          <Toaster />
               <OrganizationStructuredData locale={locale} />
-              <NavBar />              <main className='min-h-screen'>{children}</main>
+              <ShippingBanner />
+              <NavBar /><main className='min-h-screen'>{children}</main>
               <ChatSupportBubble />
               <Footer />
               <CookieConsent />

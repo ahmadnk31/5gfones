@@ -77,15 +77,12 @@ const NavBar = () => {
               className='flex-shrink-0 flex items-center'
             >
               <Image
-                src='/placeholder.svg'
+                src='/logo.svg'
                 alt='5GPhones'
-                width={32}
-                height={32}
-                className='h-8 w-auto'
+                width={42}
+                height={42}
+                className='h-12 w-auto'
               />
-              <span className='ml-2 text-lg sm:text-xl font-bold text-emerald-700 truncate max-w-[100px] sm:max-w-full'>
-                5GPhones
-              </span>
             </Link>
           </div>
           

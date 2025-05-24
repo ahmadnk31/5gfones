@@ -8,6 +8,7 @@ import { NewsletterForm } from "./newsletter-form";
 import { ThemeToggle } from "./theme-toggle";
 import { CreatedBy } from "./created-by";
 import { GdprComplianceBadge } from "./gdpr-compliance-badge";
+import PaymentIcons from "./payment-icons";
 
 const Footer = () => {
   const t = useTranslations("footer");
@@ -253,8 +254,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>{" "}
-        </div>
-        <div className='border-t border-gray-800 mt-8 pt-6'>
+        </div>        <div className='border-t border-gray-800 mt-8 pt-6'>
           {" "}
           <div className='flex flex-col md:flex-row justify-between items-center'>
             {/* Language & Theme Selectors */}
@@ -262,6 +262,7 @@ const Footer = () => {
               {/* Theme Toggle */}
               <div className='flex items-center gap-2 text-sm'>
                 <span>{t("theme") || "Theme"}:</span>
+                <ThemeToggle />
               </div>
 
               {/* Language Selector */}
@@ -284,41 +285,26 @@ const Footer = () => {
                     English
                   </Link>
                   <Link
-                    href='/es'
+                    href='/nl'
                     className={`${
-                      locale === "es"
+                      locale === "nl"
                         ? "text-white font-medium"
                         : "text-gray-400"
                     } hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900 px-2 py-1 rounded-sm`}
                     aria-current={locale === "es" ? "page" : undefined}
                   >
-                    Español
-                  </Link>
-                  <Link
-                    href='/fr'
-                    className={`${
-                      locale === "fr"
-                        ? "text-white font-medium"
-                        : "text-gray-400"
-                    } hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900 px-2 py-1 rounded-sm`}
-                    aria-current={locale === "fr" ? "page" : undefined}
-                  >
-                    Français
-                  </Link>
-                  <Link
-                    href='/de'
-                    className={`${
-                      locale === "de"
-                        ? "text-white font-medium"
-                        : "text-gray-400"
-                    } hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-gray-900 px-2 py-1 rounded-sm`}
-                    aria-current={locale === "de" ? "page" : undefined}
-                  >
-                    Deutsch
+                    Nederlands
                   </Link>
                 </div>
               </div>
-            </div>{" "}            {/* Copyright */}{" "}
+            </div>
+
+            {/* Payment Icons */}
+            <div className='mb-4 md:mb-0'>
+              <PaymentIcons />
+            </div>
+            
+            {/* Copyright */}{" "}
             <div className='text-sm text-center text-gray-400'>
               <p>{t("copyright", { year: new Date().getFullYear() })}</p>
               <p className='mt-2'>{t("proudlyMadeBy")}</p>

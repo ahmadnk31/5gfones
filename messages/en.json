@@ -1004,9 +1004,11 @@
     "theme": "Theme",
     "login": "Login"
   },  "auth": {
+    "logout":"Logout",
     "login": {
       "title": "Welcome back",
       "subtitle": "Enter your email and password to sign in",
+
       "email": "Email",
       "emailPlaceholder": "name@example.com",
       "password": "Password",
@@ -2301,7 +2303,7 @@
     "returns": "Returns & Refunds",
     "contact": "Contact Us",
     "address": "Bondgenotenlaan 84A,Leuven",
-    "phone": "+1 (555) 123-4567",
+    "phone": "+32 466134181",
     "email": "support@5gphones.be",
     "hours": "Mon-Fri: 10AM-6PM, Sat: 10AM-6:30PM",
     "copyright": "© {year} 5GPhones. All rights reserved.",
@@ -2860,12 +2862,14 @@
     "step4Desc": "Your devices are broken down and recycled following strict environmental standards. We'll send you a certificate of recycling upon completion."
   },
   "seo": {
-    "siteTitle": "5GPhones - Your One-Stop Shop for 5G Phones & Accessories",
+    "siteTitle": "5GPhones Leuven - Your One-Stop Shop for 5G Phones & Accessories",
     "siteDescription": "Discover the latest 5G smartphones, professional repair services, premium accessories, and refurbished devices. Expert technicians, quality parts, and competitive prices in Belgium.",
-    "homeTitle": "5GPhones - Premium 5G Smartphones & Professional Services",
+    "homeTitle": "5GPhones Leuven - Premium 5G Smartphones & Professional Services",
     "homeDescription": "Shop the latest 5G smartphones, book expert repair services, and find premium accessories. Professional device repair, trade-in programs, and certified refurbished phones in Belgium.",
     "homeKeywords": [
       "5G phones",
+      "Leuven",
+      "Bondgenotenlaan",
       "smartphone repair",
       "phone accessories",
       "refurbished phones",
@@ -2935,5 +2939,13 @@
     "categoryPrefix": "Shop",
     "brandPrefix": "Browse",
     "productSuffix": "- Buy Online at 5GPhones"
+  },
+  "paymentIcons":{
+    "title":"We Accept",
+    "description":"Secure payment options for your convenience"
+  },
+  "shippingBanner": {
+    "title": "Free Shipping ",
+    "description": "Enjoy free shipping across Belgium on all orders above €50."
   }
 }

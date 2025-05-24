@@ -89,67 +89,88 @@ export default function BannerCarousel({ targetPage = "home" }: BannerCarouselPr
     return null;
   }
 
-  const currentBanner = banners[currentIndex];
-
-  return (
-    <div className="relative w-full h-[85vh]  bg-gray-100 rounded-lg overflow-hidden">
-      {/* Banner Image */}
-      <Image
-        src={currentBanner.image_url}
-        alt={currentBanner.title}
-        fill
-        priority
-        className="object-cover h-full w-full transition duration-300"
-        sizes="(max-width: 768px) 100vw, 1200px"
-      />
-      
-      {/* Banner Content */}
-      <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 bg-gradient-to-r from-black/50 to-transparent">
-        <div className="max-w-lg text-white">
-          <h2 className="text-2xl md:text-4xl font-bold mb-2">{currentBanner.title}</h2>
-          {currentBanner.subtitle && (
-            <p className="text-sm md:text-base mb-6">{currentBanner.subtitle}</p>
-          )}
-          {currentBanner.link_url && (
-            <Link href={currentBanner.link_url} className="inline-block">
-              <Button className="mt-4" size="lg">
-                {currentBanner.button_text || "Learn More"}
-              </Button>
-            </Link>
-          )}
-        </div>
+  const currentBanner = banners[currentIndex];  return (
+    <div className="banner-carousel relative w-full h-[85vh] bg-gray-100 rounded-lg overflow-hidden">
+      {/* Banner Images with transitions */}
+      <div className="relative w-full h-full">
+        {banners.map((banner, index) => (
+          <div
+            key={banner.id}
+            className={`banner-slide absolute inset-0 ${
+              index === currentIndex ? 'active' : 'inactive'
+            }`}
+          >
+            <Image
+              src={banner.image_url}
+              alt={banner.title}
+              fill
+              priority={index === 0}
+              className="object-cover h-full w-full"
+              sizes="(max-width: 768px) 100vw, 1200px"
+            />
+          </div>
+        ))}
       </div>
+        {/* Enhanced overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20 z-10"></div>
+      <div className="absolute inset-0 bg-black/20 z-10"></div>
       
-      {/* Navigation Arrows */}
+      {/* Banner Content with enhanced readability */}
+      <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 z-20">
+        <div className="max-w-lg">
+          <div className="banner-content space-y-4">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 text-white banner-text-shadow">
+              {currentBanner.title}
+            </h2>
+            {currentBanner.subtitle && (
+              <p className="text md:text-lg mb-6 text-white/95 banner-text-shadow leading-relaxed">
+                {currentBanner.subtitle}
+              </p>
+            )}
+            {currentBanner.link_url && (
+              <Link href={currentBanner.link_url} className="inline-block">
+                <Button 
+                  className="mt-4 shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105" 
+                  size="lg"
+                >
+                  {currentBanner.button_text || "Learn More"}
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>      {/* Enhanced Navigation Arrows */}
       {banners.length > 1 && (
         <>
           <Button
             variant="ghost"
             size="icon"
-            className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/30 hover:bg-black/50 text-white"
+            className="banner-nav-button absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/20 z-20"
             onClick={goToPrevious}
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={28} />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/30 hover:bg-black/50 text-white"
+            className="banner-nav-button absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white/20 hover:bg-white/30 text-white border border-white/20 z-20"
             onClick={goToNext}
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={28} />
           </Button>
         </>
       )}
       
-      {/* Indicator Dots */}
+      {/* Enhanced Indicator Dots */}
       {banners.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
           {banners.map((_, index) => (
             <button
               key={index}
-              className={`h-2 w-2 rounded-full transition-all ${
-                index === currentIndex ? "bg-white w-4" : "bg-white/50"
+              className={`banner-indicator h-3 w-3 rounded-full ${
+                index === currentIndex 
+                  ? "bg-white w-8 shadow-lg" 
+                  : "bg-white/60 hover:bg-white/80"
               }`}
               onClick={() => setCurrentIndex(index)}
             />

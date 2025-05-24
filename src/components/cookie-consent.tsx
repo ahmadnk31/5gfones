@@ -321,7 +321,7 @@ export function CookieConsent() {
     <>
       <button
         onClick={handleOpenPreferences}
-        className="fixed bottom-4 left-4 z-50 bg-white dark:bg-gray-800 shadow-md rounded-full p-5 border border-gray-200 dark:border-gray-700"
+        className="fixed bottom-4 left-4 z-50 bg-white dark:bg-gray-800 shadow-md rounded-full p-4 border border-gray-200 dark:border-gray-700"
         aria-label={t('cookieConsent.manageCookies')}
       >
         <svg

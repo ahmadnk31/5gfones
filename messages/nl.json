@@ -201,15 +201,14 @@
       "authRequired": "Inloggen vereist om een reparatie in te plannen",
       "authRequiredMessage": "U moet ingelogd zijn om een reparatie-afspraak in te plannen. Log in om door te gaan.",
       "missingDeliveryMethod": "Selecteer een bezorgmethode."
-    },
-      "shipping": {
+    },      
+    "shipping": {
       "title": "Verzending",
       "addressTitle": "Verzendadres",
       "delivery": {
         "method": "Verzendmethode",
         "cost": "Verzendkosten:"
-      },
-      "shipping": {
+      },      "shipping": {
         "title": "Verzenden naar Klant",
         "description": "We verzenden het apparaat terug naar de klant na reparatie"
       }
@@ -236,7 +235,61 @@
     "service": "service",
     "shippingLabel": "Verzending",
     "estimatedTotal": "Geschat Totaal",
-    "shippingAddressLabel": "Verzendadres"
+    "shippingAddressLabel": "Verzendadres"  },
+  
+  "shipping": {
+    "policy": {
+      "title": "Verzend- & Leveringsbeleid",
+      "subtitle": "Informatie over onze verzendopties, timing en beleid",
+      "domesticShipping": "Binnenlandse Verzending",
+      "internationalShipping": "Internationale Verzending",
+      "standardShipping": "Standaard Verzending",
+      "standardDomesticDescription": "Onze standaard verzendoptie biedt betrouwbare levering tegen betaalbare tarieven voor alle binnenlandse bestellingen.",
+      "standardDomesticTime": "3-5 werkdagen",
+      "standardDomesticCost": "€5.99 (Gratis voor bestellingen boven €50)",
+      "expressShipping": "Express Verzending",
+      "expressDomesticDescription": "Heeft u uw artikelen snel nodig? Kies onze express leveringsoptie voor snellere service.",
+      "expressDomesticTime": "1-2 werkdagen",
+      "expressDomesticCost": "€12.99",
+      "standardInternational": "Internationaal Standaard",
+      "standardInternationalDescription": "We verzenden naar de meeste landen wereldwijd met onze standaard internationale service.",
+      "standardInternationalTime": "7-14 werkdagen",
+      "standardInternationalCost": "Vanaf €15.99",
+      "expressInternational": "Internationaal Express",
+      "expressInternationalDescription": "Krijg snellere levering naar internationale bestemmingen met onze express service.",
+      "expressInternationalTime": "3-5 werkdagen",
+      "expressInternationalCost": "Vanaf €29.99",
+      "processingTime": "Bestelling Verwerken",
+      "processingTimeDescription": "Bestellingen worden doorgaans verwerkt binnen 1-2 werkdagen na betalingsbevestiging. Tijdens piekperiodes of promotieperiodes kan verwerking een extra 1-2 werkdagen duren.",
+      "deliveryTime": "Levertijd",
+      "shippingCost": "Kosten",
+      "additionalInformation": "Aanvullende Informatie",
+      "trackingInfo": "Bestelling Volgen",
+      "trackingDescription": "Een trackingnummer wordt per e-mail verstrekt zodra uw bestelling is verzonden. U kunt dit gebruiken om de status van uw levering te volgen.",
+      "shippingRestrictions": "Verzendbeperkingen",
+      "restrictionsDescription": "Sommige producten kunnen niet naar bepaalde locaties worden verzonden vanwege lokale regelgeving. We zullen u op de hoogte stellen als er beperkingen zijn voor uw bestelling.",
+      "internationalInfo": "Internationale Bestellingen Informatie",
+      "internationalDescription": "We verzenden naar de meeste landen wereldwijd. Internationale klanten zijn verantwoordelijk voor alle invoerrechten, importbelastingen en douanekosten die kunnen worden geheven.",
+      "importantNote": "Belangrijke Opmerking",
+      "customsNote": "Internationale zendingen kunnen onderhevig zijn aan douane-inspectie en mogelijke vertragingen. Invoerrechten en belastingen zijn de verantwoordelijkheid van de ontvanger en zijn niet inbegrepen in de verzendkosten.",
+      "faqs": "Veelgestelde Vragen",
+      "faq1": {
+        "question": "Hoe kan ik mijn bestelling volgen?",
+        "answer": "Zodra uw bestelling wordt verzonden, ontvangt u een bevestigingsmail met trackinginformatie. U kunt uw bestelling ook volgen door in te loggen op uw account en uw bestelgeschiedenis te bekijken."
+      },
+      "faq2": {
+        "question": "Wat als mijn pakket beschadigd is of artikelen ontbreken?",
+        "answer": "Neem binnen 48 uur contact op met onze klantenservice als uw pakket beschadigd aankomt of artikelen ontbreken. We zullen snel werken om het probleem op te lossen."
+      },
+      "faq3": {
+        "question": "Bezorgen jullie naar postbussen?",
+        "answer": "Ja, we bezorgen naar postbussen voor standaard verzendopties, maar express verzending vereist een fysiek adres voor levering."
+      },
+      "faq4": {
+        "question": "Hoe worden verzendkosten berekend?",
+        "answer": "Verzendkosten worden berekend op basis van het gewicht van uw bestelling, de geselecteerde verzendmethode en uw leveringslocatie. De exacte kosten worden weergegeven bij het afrekenen voordat u uw aankoop voltooit."
+      }
+    }
   },
   
   "app": {
@@ -278,6 +331,8 @@
     "categories": {
       "title": "Productcategorieën",
       "browse": "Bladeren",
+      "empty": "Geen categorieën gevonden",
+      "emptyDescription": "Probeer een andere zoekopdracht of bekijk onze populaire merken.",
       "description": "Blader door ons uitgebreide assortiment producten en accessoires per categorie",
       "viewAll": "Alle Categorieën Bekijken",
       "productCount": "Producten",
@@ -1066,6 +1121,7 @@
     "alreadySubscribed": "Dit e-mailadres is al ingeschreven voor onze nieuwsbrief"
   },
   "auth": {
+    "logout":"Uitloggen",
     "login": {
       "title": "Welkom terug",
       "subtitle": "Voer uw e-mailadres en wachtwoord in om in te loggen",
@@ -1559,6 +1615,7 @@
     },
     "categories": {
       "title": "Shop per Categorie | 5GPhones",
+      
       "description": "Blader door alle productcategorieën bij 5GPhones. Vind smartphones, tablets, laptops, smartwatches, koptelefoons en accessoires georganiseerd per categorie voor gemakkelijk winkelen.",
       "keywords": "productcategorieën, smartphones per categorie, mobiele apparaat categorieën, elektronica categorieën, telefoon accessoires, tech producten, apparaat types"
     },
@@ -1590,5 +1647,13 @@
     "categoryPrefix": "Shop",
     "brandPrefix": "Blader",
     "productSuffix": "- Online Kopen bij 5GPhones"
+  },
+  "paymentIcons":{
+    "title":"Wij accepteren",
+    "description":"Betaal veilig met uw favoriete methode"
+  },
+  "shippingBanner": {
+    "title": "Gratis Verzending ",
+    "description": "Gratis verzending op alle binnenlandse bestellingen boven €50."
   }
 }

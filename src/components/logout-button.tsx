@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl'
 
 export function LogoutButton() {
   const router = useRouter()
-  const t = useTranslations('auth.logout')
+  const t = useTranslations('auth')
   const logout = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
