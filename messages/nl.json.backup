@@ -593,7 +593,11 @@
       "viewAll": "Alles Bekijken"
     }
   },
-  
+  "seo": {
+      "returns": "Retouren en Terugbetalingen",
+      "products": "Producten",
+      "repairs": "Reparatiediensten"
+    },
     "general": {
       "what": {
         "question": "Wat is 5GPhones?",
@@ -1766,7 +1770,7 @@
     "description":"Betaal veilig met uw favoriete methode"
   },  "shippingBanner": {
     "title": "Gratis Verzending ",
-    "description": "op alle binnenlandse bestellingen boven €50."
+    "description": "Gratis verzending op alle binnenlandse bestellingen boven €50."
   },
   "returnsPolicy": {
     "title": "Retour & Terugbetalingsbeleid",
@@ -2001,145 +2005,5 @@
         "answer": "U kunt uw reparatiestatus volgen door uw reparatieticketnummer in te voeren op onze website of door in te loggen op uw account. U ontvangt ook geautomatiseerde updates via e-mail of SMS bij elke fase van het reparatieproces, inclusief wanneer we uw toestel ontvangen, wanneer we eraan beginnen te werken en wanneer het klaar is voor ophalen of bezorging."
       }
     }
-  },
-  "shipping": {
-  "title": "Bezorgopties",
-  "addressTitle": "Verzendadres",
-  "continue": "Doorgaan",
-  "processing": "Bezig met verwerken...",
-  "pickup": {
-    "title": "Afhalen door klant",
-    "description": "De klant haalt het apparaat op na de reparatie"
-  },
-  "in_store": {
-    "title": "In de winkel",
-    "description": "Het apparaat blijft in de winkel voor afhaling door de klant"
-  },
-  "shipping": {
-    "title": "Verzenden naar klant",
-    "description": "Wij sturen het apparaat terug naar de klant na de reparatie"
-  },
-  "delivery": {
-    "method": "Verzendmethode",
-    "cost": "Verzendkosten:"
-  },
-
-  "policy": {
-    "title": "Verzend- en bezorgbeleid",
-    "subtitle": "Informatie over onze verzendopties, levertijden en beleid",
-    "domesticShipping": "Binnenlandse verzending",
-    "internationalShipping": "Internationale verzending",
-    "standardShipping": "Standaard verzending",
-    "standardDomesticDescription": "Onze standaard verzendoptie biedt betrouwbare levering tegen betaalbare tarieven voor alle binnenlandse bestellingen.",
-    "standardDomesticTime": "3-5 werkdagen",
-    "standardDomesticCost": "€5,99 (Gratis bij bestellingen boven €50)",
-    "expressShipping": "Spoedverzending",
-    "expressDomesticDescription": "Heb je je bestelling snel nodig? Kies dan voor onze spoedverzending voor snellere service.",
-    "expressDomesticTime": "1-2 werkdagen",
-    "expressDomesticCost": "€12,99",
-    "standardInternational": "Internationale standaard",
-    "standardInternationalDescription": "Wij verzenden naar de meeste landen wereldwijd via onze standaard internationale service.",
-    "standardInternationalTime": "7-14 werkdagen",
-    "standardInternationalCost": "Vanaf €15,99",
-    "expressInternational": "Internationale spoedverzending",
-    "expressInternationalDescription": "Snellere levering naar internationale bestemmingen met onze spoedservice.",
-    "expressInternationalTime": "3-5 werkdagen",
-    "expressInternationalCost": "Vanaf €29,99",
-    "processingTime": "Verwerking van bestelling",
-    "processingTimeDescription": "Bestellingen worden doorgaans binnen 1-2 werkdagen verwerkt na betalingsbevestiging. Tijdens drukke periodes of promoties kan dit 1-2 extra werkdagen duren.",
-    "deliveryTime": "Levertijd",
-    "shippingCost": "Kosten",
-    "additionalInformation": "Aanvullende informatie",
-    "trackingInfo": "Volgen van bestelling",
-    "trackingDescription": "Een track & trace-nummer wordt per e-mail verstrekt zodra je bestelling is verzonden. Hiermee kun je de status van je levering volgen.",
-    "shippingRestrictions": "Beperkingen bij verzending",
-    "restrictionsDescription": "Sommige producten kunnen vanwege lokale regelgeving niet naar bepaalde locaties worden verzonden. We nemen contact met je op als er beperkingen zijn voor je bestelling.",
-    "internationalInfo": "Informatie over internationale bestellingen",
-    "internationalDescription": "Wij verzenden naar de meeste landen wereldwijd. Klanten uit het buitenland zijn verantwoordelijk voor invoerrechten, belastingen en douanekosten.",
-    "importantNote": "Belangrijke opmerking",
-    "customsNote": "Internationale zendingen kunnen onderworpen zijn aan douane-inspecties en mogelijke vertragingen. Invoerrechten en belastingen zijn voor rekening van de ontvanger en zijn niet inbegrepen in de verzendkosten.",
-    "faqs": "Veelgestelde vragen",
-    "faq1": {
-      "question": "Hoe kan ik mijn bestelling volgen?",
-      "answer": "Zodra je bestelling is verzonden, ontvang je een bevestigingsmail met trackinginformatie. Je kunt je bestelling ook volgen door in te loggen op je account en je bestelgeschiedenis te bekijken."
-    },
-    "faq2": {
-      "question": "Wat als mijn pakket beschadigd is of producten mist?",
-      "answer": "Neem binnen 48 uur na ontvangst van je pakket contact op met onze klantenservice als het beschadigd is of er producten ontbreken. We lossen het probleem zo snel mogelijk op."
-    },
-    "faq3": {
-      "question": "Verzenden jullie naar postbusadressen?",
-      "answer": "Ja, wij verzenden naar postbusadressen voor standaardverzending, maar spoedverzending vereist een fysiek adres."
-    },
-    "faq4": {
-      "question": "Hoe worden de verzendkosten berekend?",
-      "answer": "De verzendkosten worden berekend op basis van het gewicht van je bestelling, de gekozen verzendmethode en je bezorgadres. De exacte kosten worden weergegeven bij het afrekenen voordat je je aankoop voltooit."
-    }
   }
-},
-"terms": {
-  "title": "Algemene Voorwaarden",
-  "subtitle": "Lees deze voorwaarden zorgvuldig door voordat je onze diensten gebruikt.",
-  "lastUpdated": "Laatst bijgewerkt: {date}",
-  "introduction": "Welkom bij FinOpenPOS. Deze algemene voorwaarden beschrijven de regels en bepalingen voor het gebruik van onze website en diensten. Door toegang te verkrijgen tot deze website en gebruik te maken van onze diensten, gaan we ervan uit dat je deze algemene voorwaarden volledig accepteert. Gebruik de website en diensten van FinOpenPOS niet als je niet akkoord gaat met alle voorwaarden op deze pagina.",
-  "contactTitle": "Contactgegevens",
-  "contactDescription": "Als je vragen hebt over deze Algemene Voorwaarden, neem dan contact met ons op:",
-  "emailLabel": "E-mail",
-  "phoneLabel": "Telefoon",
-  "addressLabel": "Adres",
-  "email": "legal@5gphones.be",
-  "phone": "+32 466 13 41 81",
-  "address": "Bondgenotenlaan 84A, Leuven, België",
-  "section1": {
-    "title": "1. Aanvaarding van de Voorwaarden",
-    "content1": "Door een account aan te maken op onze website, een bestelling te plaatsen via ons platform of op enige andere wijze toegang te krijgen tot of gebruik te maken van onze diensten, ga je akkoord met deze Algemene Voorwaarden.",
-    "content2": "Als je het niet eens bent met (een deel van) deze voorwaarden, maak dan geen gebruik van onze website of diensten."
-  },
-  "section2": {
-    "title": "2. Gebruikersaccounts",
-    "content1": "Wanneer je een account bij ons aanmaakt, moet je juiste, volledige en actuele informatie verstrekken. Je bent verantwoordelijk voor het geheimhouden van je accountgegevens en wachtwoord, en voor het beperken van de toegang tot je computer.",
-    "content2": "Je aanvaardt de verantwoordelijkheid voor alle activiteiten die onder jouw account plaatsvinden. Als je vermoedt dat er ongeoorloofd gebruik van je account is, moet je ons daar onmiddellijk van op de hoogte stellen."
-  },
-  "section3": {
-    "title": "3. Producten en Diensten",
-    "content1": "Alle producten en diensten zijn afhankelijk van beschikbaarheid. We behouden ons het recht voor om elk product of dienst op elk moment stop te zetten.",
-    "content2": "We doen ons best om de kleuren en kenmerken van onze producten zo nauwkeurig mogelijk weer te geven. We kunnen echter niet garanderen dat het scherm van je apparaat de werkelijke kleur van de producten correct weergeeft.",
-    "list": {
-      "item1": "Productbeschrijvingen en specificaties kunnen zonder voorafgaande kennisgeving worden gewijzigd.",
-      "item2": "Prijzen kunnen zonder voorafgaande kennisgeving worden gewijzigd.",
-      "item3": "We behouden ons het recht voor om de hoeveelheden van producten of diensten die we aanbieden te beperken.",
-      "item4": "Alle beschrijvingen van producten en diensten kunnen op elk moment zonder voorafgaande kennisgeving worden gewijzigd, naar eigen goeddunken van ons."
-    }
-  },
-  "section4": {
-    "title": "4. Bestellingen en Betaling",
-    "content1": "Wanneer je een bestelling plaatst, ga je ermee akkoord om actuele, volledige en juiste aankoop- en accountinformatie te verstrekken. We behouden ons het recht voor om je bestelling op elk moment te weigeren of te annuleren om redenen zoals maar niet beperkt tot: productbeschikbaarheid, fouten in product- of prijsinformatie, of problemen vastgesteld door onze krediet- en fraudepreventieafdeling.",
-    "content2": "Alle betalingen moeten volledig zijn voldaan vóór levering van producten of diensten. Wij accepteren verschillende betaalmethoden die op onze website worden vermeld."
-  },
-  "section5": {
-    "title": "5. Verzending en Levering",
-    "content1": "Voor gedetailleerde informatie over onze verzendmethoden, geschatte levertijden en bijbehorende kosten, verwijzen wij je naar ons Verzendingbeleid.",
-    "content2": "Wij zijn niet aansprakelijk voor leveringsvertragingen veroorzaakt door omstandigheden buiten onze controle, zoals douane-afhandeling, natuurrampen, extreme weersomstandigheden of vertragingen bij vervoerders."
-  },
-  "section6": {
-    "title": "6. Retouren en Terugbetalingen",
-    "content1": "Ons Retour- en Terugbetalingsbeleid beschrijft de procedures en voorwaarden voor het retourneren van producten en het ontvangen van terugbetalingen. Door een bestelling bij ons te plaatsen, ga je akkoord met de voorwaarden van dit beleid.",
-    "content2": "We behouden ons het recht voor om retourzendingen te weigeren die niet in overeenstemming zijn met ons retourbeleid."
-  },
-  "section7": {
-    "title": "7. Intellectueel Eigendom",
-    "content1": "Alle inhoud op deze website, zoals tekst, afbeeldingen, logo’s, knoppen, audiofragmenten, digitale downloads, gegevensverzamelingen en software, is eigendom van FinOpenPOS of haar contentleveranciers en is beschermd door internationale auteursrechtwetten.",
-    "content2": "Je mag deze website of enig deel daarvan niet reproduceren, verspreiden, weergeven, verkopen, verhuren, overdragen, afgeleide werken maken van, vertalen, aanpassen, reverse-engineeren, demonteren, decompileren of op enige andere wijze exploiteren zonder onze uitdrukkelijke schriftelijke toestemming."
-  },
-  "section8": {
-    "title": "8. Aansprakelijkheidsbeperking",
-    "content1": "Voor zover wettelijk toegestaan zijn wij niet aansprakelijk voor enige indirecte, incidentele, speciale, gevolg- of bestraffende schade, of enig verlies van winst of inkomsten, direct of indirect opgelopen, of enig verlies van gegevens, gebruik, goodwill of andere immateriële verliezen, voortvloeiend uit jouw toegang tot of gebruik van, of het onvermogen om toegang te krijgen tot of gebruik te maken van de diensten.",
-    "content2": "Onze totale aansprakelijkheid voor alle vorderingen die voortvloeien uit of verband houden met de diensten is beperkt tot het hoogste bedrag van: (a) de vergoedingen die je ons hebt betaald in de 12 maanden voorafgaand aan de gebeurtenis die aanleiding gaf tot de aansprakelijkheid, of (b) €100."
-  },
-  "section9": {
-    "title": "9. Toepasselijk Recht",
-    "content1": "Deze voorwaarden worden beheerst door en geïnterpreteerd in overeenstemming met de wetten van België, zonder rekening te houden met conflicterende rechtsprincipes.",
-    "content2": "Eventuele geschillen die voortvloeien uit of verband houden met deze voorwaarden vallen onder de exclusieve bevoegdheid van de rechtbanken in België."
-  }
-}
 }
