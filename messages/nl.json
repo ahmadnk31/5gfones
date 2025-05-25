@@ -1366,7 +1366,7 @@
     "address": "Bondgenotenlaan 84, 3000 Leuven, België",
     "phone": "+32 466 134181",
     "email": "support@5gphones.be",
-    "hours": "Ma-Za: 10u-18u, ",
+    "hours": "Ma-Za: 10u-18u ",
     "copyright": "© {year} 5GPhones. Alle rechten voorbehouden.",
     "followUs": "Volg Ons",
     "theme": "Thema",
@@ -2140,6 +2140,44 @@
     "title": "9. Toepasselijk Recht",
     "content1": "Deze voorwaarden worden beheerst door en geïnterpreteerd in overeenstemming met de wetten van België, zonder rekening te houden met conflicterende rechtsprincipes.",
     "content2": "Eventuele geschillen die voortvloeien uit of verband houden met deze voorwaarden vallen onder de exclusieve bevoegdheid van de rechtbanken in België."
+  }
+},
+"contact": {
+  "title": "Neem contact met ons op",
+  "subtitle": "Heb je vragen of hulp nodig? Neem contact op met ons team.",
+  "getInTouch": "Neem contact op",
+  "contactInfo": "Onze contactgegevens",
+  "address": "Adres",
+  "phone": "Telefoon",
+  "email": "E-mail",
+  "hours": "Openingstijden",
+  "contactForm": "Contactformulier",
+  "formDescription": "Vul het onderstaande formulier in en we nemen zo snel mogelijk contact met je op.",
+  "name": "Volledige naam",
+  "namePlaceholder": "Vul je volledige naam in",
+  "emailPlaceholder": "Vul je e-mailadres in",
+  "subject": "Onderwerp",
+  "subjectPlaceholder": "Waar gaat dit over?",
+  "message": "Bericht",
+  "messagePlaceholder": "Waarmee kunnen we je helpen?",
+  "send": "Verzend bericht",
+  "sending": "Bezig met verzenden...",
+  "messageSent": "Je bericht is succesvol verzonden! We nemen binnenkort contact met je op.",
+  "messageError": "Bericht kon niet worden verzonden. Probeer het later opnieuw.",
+  "verificationSent": "Controleer je e-mail om je contactverzoek te verifiëren.",
+  "findUs": "Vind ons",
+  "nameRequired": "Naam is verplicht",
+  "emailRequired": "E-mailadres is verplicht",
+  "emailInvalid": "Voer een geldig e-mailadres in",
+  "subjectRequired": "Onderwerp is verplicht",
+  "messageRequired": "Bericht is verplicht",
+  "confirmation": {
+    "verificationSuccess": "E-mail succesvol geverifieerd",
+    "verificationSuccessMessage": "Bedankt voor het verifiëren van je e-mail. We hebben je contactverzoek ontvangen en nemen spoedig contact met je op.",
+    "verificationError": "Verificatie mislukt",
+    "verificationErrorMessage": "We konden je contactverzoek niet verifiëren. De verificatielink is mogelijk verlopen of ongeldig. Probeer je bericht opnieuw in te dienen.",
+    "returnToHomepage": "Terug naar de homepage",
+    "contactAgain": "Neem opnieuw contact met ons op"
   }
 }
 }
