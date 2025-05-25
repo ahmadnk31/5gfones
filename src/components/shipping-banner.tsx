@@ -13,7 +13,7 @@ const ShippingBanner = () => {
   return (
     <div className="relative bg-gradient-to-r from-green-600 to-green-700 text-white py-2 px-4 text-center text-sm font-medium">
       <div className="flex items-center justify-center gap-2">
-        <Truck size={16} className="flex-shrink-0" />
+        
         <span>
           🚚 <strong>
             {t("title")}
