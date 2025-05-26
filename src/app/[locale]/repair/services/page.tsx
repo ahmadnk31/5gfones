@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Star } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import RepairLayout from "@/components/repair-layout";
 
 export default async function RepairServicesPage({
   params,
@@ -32,7 +33,8 @@ export default async function RepairServicesPage({
     .order("base_price", { ascending: true });
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-6xl">
+    <RepairLayout activeTab="services">
+      <div className="container mx-auto px-4 py-12 max-w-6xl">
       <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">
         {t("allRepairServices") || "All Repair Services"}
       </h1>
@@ -131,5 +133,6 @@ export default async function RepairServicesPage({
         </div>
       </div>
     </div>
+    </RepairLayout>
   );
 }

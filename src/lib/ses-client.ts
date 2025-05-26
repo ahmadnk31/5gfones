@@ -46,7 +46,7 @@ const sanitizeOptions = {
 };
 
 // Source email that has been verified in AWS SES
-const SOURCE_EMAIL = process.env.SES_SOURCE_EMAIL || "noreply@finopenspos.com";
+const SOURCE_EMAIL = process.env.SES_SOURCE_EMAIL || "noreply@5gphones.be";
 
 /**
  * Send a simple email using AWS SES

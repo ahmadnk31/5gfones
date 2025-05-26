@@ -36,6 +36,7 @@ import {
 } from "date-fns";
 import { toast } from "sonner";
 import Link from "next/link";
+import RepairLayout from "@/components/repair-layout";
 
 interface DeviceBrand {
   id: number;
@@ -692,7 +693,8 @@ const RepairSchedulePage = () => {
   };
 
   return (
-    <div className='container mx-auto px-4 py-12 max-w-4xl'>
+    <RepairLayout activeTab="schedule">
+      <div className='container mx-auto px-4 py-12 max-w-4xl'>
       <h1 className='text-2xl md:text-3xl font-bold mb-6'>{t("schedule")}</h1>      {/* Modern Progress Steps */}
       <RepairStepper
         currentStep={currentStep}
@@ -1525,6 +1527,7 @@ const RepairSchedulePage = () => {
         </Link>
       </div>
     </div>
+    </RepairLayout>
   );
 };
 

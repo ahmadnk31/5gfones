@@ -16,6 +16,7 @@ interface RepairLayoutProps {
     | "status"
     | "brands"
     | "devices"
+    |"services"
     | "models"
     | "parts";
 }
@@ -27,41 +28,44 @@ const RepairLayout = ({ children, activeTab = "home" }: RepairLayoutProps) => {
 
   return (
     <div>
-      {/* Primary Repair Navigation */}
-      <div className='bg-white shadow-sm border-b sticky top-20 z-40'>
-        <div className='container mx-auto flex justify-center overflow-x-auto'>
-          <Tabs defaultValue={activeTab} className='w-full max-w-6xl'>
+      {/* Primary Repair Navigation */}      <div className='bg-white shadow-sm border-b sticky top-20 z-40 w-full'>
+        <div className='container mx-auto px-4 flex justify-center'>
+          <Tabs defaultValue={activeTab} className='w-full max-w-3xl'>
             <TabsList className='grid grid-cols-4 w-full'>
-              <Link href={`/${locale}/repair`}>                <TabsTrigger
+              <Link href={`/${locale}/repair`} className='w-full'>
+                <TabsTrigger
                   value='home'
-                  className='flex items-center gap-2 data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                  className='flex justify-center items-center gap-2 w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                 >
                   <Phone className='h-4 w-4' />
                   <span className='hidden sm:inline'>{t("services")}</span>
                 </TabsTrigger>
               </Link>
-              <Link href={`/${locale}/repair/schedule`}>                <TabsTrigger
+              <Link href={`/${locale}/repair/schedule`} className='w-full'>
+                <TabsTrigger
                   value='schedule'
-                  className='flex items-center gap-2 data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                  className='flex justify-center items-center gap-2 w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                 >
                   <Calendar className='h-4 w-4' />
                   <span className='hidden sm:inline'>{t("schedule")}</span>
                 </TabsTrigger>
               </Link>
-              <Link href={`/${locale}/repair/track`}>                <TabsTrigger
+              <Link href={`/${locale}/repair/track`} className='w-full'>
+                <TabsTrigger
                   value='track'
-                  className='flex items-center gap-2 data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                  className='flex justify-center items-center gap-2 w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                 >
                   <Search className='h-4 w-4' />
                   <span className='hidden sm:inline'>{t("track")}</span>
                 </TabsTrigger>
               </Link>
-              <Link href={`/${locale}/repair/status`}>                <TabsTrigger
+              <Link href={`/${locale}/repair/status`} className='w-full'>
+                <TabsTrigger
                   value='status'
-                  className='flex items-center gap-2 data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                  className='flex justify-center items-center gap-2 w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                 >
                   <Wrench className='h-4 w-4' />
-                  <span className='hidden sm:inline'>{t("status")}</span>
+                  <span className='hidden sm:inline'>{t("status.name")}</span>
                 </TabsTrigger>
               </Link>
             </TabsList>
@@ -74,36 +78,40 @@ const RepairLayout = ({ children, activeTab = "home" }: RepairLayoutProps) => {
         activeTab === "parts" ||
         activeTab === "home") && (
         <div className='bg-emerald-50/30 border-b sticky top-32 z-30'>
-          <div className='container mx-auto'>
+          <div className='container mx-auto px-4 flex justify-center'>
             <Tabs
               defaultValue={activeTab === "home" ? "parts" : activeTab}
-              className='w-full'
+              className='w-full max-w-3xl'
             >
-              <TabsList className='h-auto max-w-full overflow-x-auto flex flex-wrap gap-1 pb-1'>                <Link href={`/${locale}/repair/brands`}>
+              <TabsList className='h-auto w-full overflow-x-auto flex justify-center gap-2 py-2'>
+                <Link href={`/${locale}/repair/brands`} className='flex-1 max-w-[150px]'>
                   <TabsTrigger
                     value='brands'
-                    className='data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                    className='w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                   >
                     {t("brands")}
                   </TabsTrigger>
-                </Link>                <Link href={`/${locale}/repair/devices`}>
+                </Link>
+                <Link href={`/${locale}/repair/devices`} className='flex-1 max-w-[150px]'>
                   <TabsTrigger
                     value='devices'
-                    className='data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                    className='w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                   >
                     {t("deviceTypes") || "Device Types"}
                   </TabsTrigger>
-                </Link>                <Link href={`/${locale}/repair/models`}>
+                </Link>
+                <Link href={`/${locale}/repair/models`} className='flex-1 max-w-[150px]'>
                   <TabsTrigger
                     value='models'
-                    className='data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                    className='w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                   >
                     {t("models")}
                   </TabsTrigger>
-                </Link>                <Link href={`/${locale}/repair/parts`}>
+                </Link>
+                <Link href={`/${locale}/repair/parts`} className='flex-1 max-w-[150px]'>
                   <TabsTrigger
                     value='parts'
-                    className='data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
+                    className='w-full data-[state=active]:bg-emerald-50 data-[state=active]:text-emerald-700'
                   >
                     {t("repairParts")}
                   </TabsTrigger>

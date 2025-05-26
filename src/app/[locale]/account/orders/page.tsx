@@ -46,7 +46,7 @@ interface Product {
 interface OrderItem {
   id: string;
   quantity: number;
-  price: number;
+  unit_price: number; // Changed from price to unit_price to match database schema
   product_id: string;
   product: Product;
 }
@@ -100,19 +100,18 @@ export default function OrdersPage() {
         } = await supabase.auth.getUser();
         if (!user) return;        // Get user orders
         const { data, error } = await supabase
-          .from("orders")
-          .select(
+          .from("orders")          .select(
             `
             id,
             created_at,
             status,
-            total,
+            total_amount,
             payment_status,
             refund_status,
             order_items (
               id,
               quantity,
-              price,
+              unit_price,
               product_id,
               product:products (name)
             )
@@ -252,9 +251,8 @@ export default function OrdersPage() {
                         <TableCell>{item.product.name}</TableCell>
                         <TableCell className='text-right'>
                           {item.quantity}
-                        </TableCell>
-                        <TableCell className='text-right'>
-                          {formatCurrency(item.price)}
+                        </TableCell>                        <TableCell className='text-right'>
+                          {formatCurrency(item.unit_price)}
                         </TableCell>
                       </TableRow>
                     ))}

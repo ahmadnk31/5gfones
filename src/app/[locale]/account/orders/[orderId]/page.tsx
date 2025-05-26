@@ -71,7 +71,7 @@ interface Product {
 interface OrderItem {
   id: string;
   quantity: number;
-  price: number;
+  unit_price: number; // Changed from price to unit_price to match database schema
   product_id: string;
   product: Product;
 }
@@ -131,11 +131,10 @@ export default function OrderDetailsPage() {
           .select(
             `
             *,
-            user_uid,
-            order_items (
+            user_uid,            order_items (
               id,
               quantity,
-              price,
+              unit_price,
               product_id,
               product:products (id, name, image_url)
             ),
@@ -304,15 +303,14 @@ export default function OrderDetailsPage() {
                             </span>
                           </Link>
                         </div>
-                      </TableCell>
-                      <TableCell className='text-right'>
+                      </TableCell>                      <TableCell className='text-right'>
                         {item.quantity}
                       </TableCell>
                       <TableCell className='text-right'>
-                        {formatCurrency(item.price / item.quantity)}
+                        {formatCurrency(item.unit_price / item.quantity)}
                       </TableCell>
                       <TableCell className='text-right'>
-                        {formatCurrency(item.price)}
+                        {formatCurrency(item.unit_price)}
                       </TableCell>
                     </TableRow>
                   ))}

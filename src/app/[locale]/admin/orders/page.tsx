@@ -213,11 +213,10 @@ export default function OrdersPage() {
     setIsCustomersLoading(true);
     setIsProductsLoading(true);
 
-    try {
-      // Fetch customers
+    try {      // Fetch customers
       const { data: customersData, error: customersError } = await supabase
-        .from("customers")
-        .select("id, name, email, phone, address")
+        .from("profiles")
+        .select("id, full_name, email, phone, address")
         .order("name", { ascending: true });
 
       if (customersError) throw customersError;

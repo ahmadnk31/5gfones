@@ -37,7 +37,7 @@ export default async function RepairPage({
 }) {
   const t = await getTranslations("repair");
   const supabase = createClient();
-  const { locale } = await params;
+
 
   // Fetch repair services
   const { data: repairServices } = await supabase
@@ -147,7 +147,7 @@ export default async function RepairPage({
               {deviceBrands.map((brand) => (
                 <Link
                   key={brand.id}
-                  href={`/${locale}/repair/brands/${brand.id}`}
+                  href={`/repair/brands/${brand.id}`}
                   className='flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow'
                 >                  <div className='w-16 h-16 relative mb-3'>
                     <Image
@@ -208,7 +208,7 @@ export default async function RepairPage({
                         {t("fromPrice", { price: service.base_price }) ||
                           `From $${service.base_price}`}
                       </span>
-                      <Link href={`/${locale}/repair/services/${service.id}`}>
+                      <Link href={`/repair/services/${service.id}`}>
                         <Button variant='outline' size='sm'>
                           {t("learnMore") || "Learn More"}
                         </Button>
@@ -218,7 +218,7 @@ export default async function RepairPage({
                 </div>
               ))}
             </div>            <div className='text-center mt-10'>
-              <Link href={`/${locale}/repair/services`}>
+              <Link href={`/repair/services`}>
                 <Button>
                   {t("viewAllServices") || "View All Repair Services"}
                 </Button>
@@ -287,12 +287,12 @@ export default async function RepairPage({
           <p className='text-lg mb-8 max-w-2xl mx-auto'>
             {t("ctaDescription") ||
               "Schedule a repair appointment now or contact us to speak with a technician about your device."}
-          </p>          <div className='flex flex-col sm:flex-row justify-center gap-4'>            <Link href={`/${locale}/repair/schedule`}>
+          </p>          <div className='flex flex-col sm:flex-row justify-center gap-4'>            <Link href={`/repair/schedule`}>
               <Button size='lg' variant='secondary'>
                 {t("scheduleRepair")}
               </Button>
             </Link>
-            <Link href={`/${locale}/contact`}>
+            <Link href={`/contact`}>
               <Button
                 size='lg'
                 variant='outline'

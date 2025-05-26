@@ -30,12 +30,10 @@ export async function POST(
         { error: "Bad Request", message: "Missing required fields" },
         { status: 400 }
       );
-    }
-
-    // Get customer information if available
+    }    // Get customer information if available
     let customerId = null;
     const { data: customerData } = await supabase
-      .from("customers")
+      .from("profiles")
       .select("id")
       .eq("email", data.customerEmail)
       .maybeSingle();
@@ -80,8 +78,7 @@ export async function POST(
       preferredLanguage: locale,
       content: {        subject: {
           en: `Repair Request Confirmation - ${data.deviceName}`,
-          es: `Confirmación de Solicitud de Reparación - ${data.deviceName}`,
-          nl: `Reparatieverzoek Bevestiging - ${data.deviceName}`,
+          nl: `Confirmación de Solicitud de Reparación - ${data.deviceName}`,
         },
         htmlBody: {
           en: `
@@ -116,39 +113,6 @@ export async function POST(
               </ol>
               <p>If you have any questions, please contact our support team.</p>
               <p>Thank you for choosing our services.</p>
-            </div>
-          `,
-          es: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #1a56db;">Solicitud de Reparación Recibida</h2>
-              <p>Gracias por enviar una solicitud de reparación para su <strong>${
-                data.deviceName
-              }</strong>.</p>
-              <p>Su solicitud de reparación ha sido recibida y está siendo revisada por nuestro equipo técnico. Nos pondremos en contacto con usted en breve para discutir sus necesidades de reparación y proporcionar un presupuesto.</p>
-              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Detalles de la Reparación:</h3>
-                <p><strong>Dispositivo:</strong> ${data.deviceName}</p>
-                ${
-                  data.deviceBrand
-                    ? `<p><strong>Marca:</strong> ${data.deviceBrand}</p>`
-                    : ""
-                }
-                ${
-                  data.deviceType
-                    ? `<p><strong>Tipo:</strong> ${data.deviceType}</p>`
-                    : ""
-                }
-                <p><strong>Problema:</strong> ${data.problemDescription}</p>
-                <p><strong>ID de Referencia:</strong> ${requestData.id}</p>
-              </div>
-              <p>Próximos pasos:</p>
-              <ol>
-                <li>Nuestros técnicos revisarán su solicitud.</li>
-                <li>Nos comunicaremos con usted para discutir los detalles y evaluar la reparación.</li>
-                <li>Le proporcionaremos un presupuesto para el servicio de reparación.</li>
-                <li>Una vez aprobado, procederemos con el proceso de reparación.</li>
-              </ol>              <p>Si tiene alguna pregunta, comuníquese con nuestro equipo de soporte.</p>
-              <p>Gracias por elegir nuestros servicios.</p>
             </div>
           `,
           nl: `
@@ -213,31 +177,7 @@ export async function POST(
             
             Thank you for choosing our services.
           `,
-          es: `
-            Solicitud de Reparación Recibida
-            
-            Gracias por enviar una solicitud de reparación para su ${
-              data.deviceName
-            }.
-            
-            Su solicitud de reparación ha sido recibida y está siendo revisada por nuestro equipo técnico. Nos pondremos en contacto con usted en breve para discutir sus necesidades de reparación y proporcionar un presupuesto.
-            
-            Detalles de la Reparación:
-            - Dispositivo: ${data.deviceName}
-            ${data.deviceBrand ? `- Marca: ${data.deviceBrand}` : ""}
-            ${data.deviceType ? `- Tipo: ${data.deviceType}` : ""}
-            - Problema: ${data.problemDescription}
-            - ID de Referencia: ${requestData.id}
-            
-            Próximos pasos:
-            1. Nuestros técnicos revisarán su solicitud.
-            2. Nos comunicaremos con usted para discutir los detalles y evaluar la reparación.            3. Le proporcionaremos un presupuesto para el servicio de reparación.
-            4. Una vez aprobado, procederemos con el proceso de reparación.
-            
-            Si tiene alguna pregunta, comuníquese con nuestro equipo de soporte.
-            
-            Gracias por elegir nuestros servicios.
-          `,
+          
           nl: `
             Reparatieverzoek Ontvangen
             
@@ -278,8 +218,7 @@ export async function POST(
       content: {
         subject: {
           en: `New Custom Repair Request (#${requestData.id}) - ${data.deviceName}`,
-          es: `Nueva Solicitud de Reparación Personalizada (#${requestData.id}) - ${data.deviceName}`,
-          nl: `Nieuw Aangepast Reparatieverzoek (#${requestData.id}) - ${data.deviceName}`,
+          nl:`Nieuw Aangepast Reparatieverzoek (#${requestData.id}) - ${data.deviceName}`,
         },
         htmlBody: {
           en: `
@@ -336,61 +275,7 @@ export async function POST(
               <p>To manage this request, log in to the admin dashboard.</p>
             </div>
           `,
-          es: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #1a56db;">Nueva Solicitud de Reparación Personalizada</h2>
-              <p>Se ha enviado una nueva solicitud de reparación para un dispositivo que no está en el catálogo estándar.</p>
-              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Detalles de la Solicitud:</h3>
-                <p><strong>ID de Solicitud:</strong> ${requestData.id}</p>
-                <p><strong>Dispositivo:</strong> ${data.deviceName}</p>
-                ${
-                  data.deviceBrand
-                    ? `<p><strong>Marca:</strong> ${data.deviceBrand}</p>`
-                    : ""
-                }
-                ${
-                  data.deviceType
-                    ? `<p><strong>Tipo:</strong> ${data.deviceType}</p>`
-                    : ""
-                }
-                ${
-                  data.deviceColor
-                    ? `<p><strong>Color:</strong> ${data.deviceColor}</p>`
-                    : ""
-                }
-                ${
-                  data.deviceModelYear
-                    ? `<p><strong>Año del Modelo:</strong> ${data.deviceModelYear}</p>`
-                    : ""
-                }
-                ${
-                  data.deviceSerialNumber
-                    ? `<p><strong>Número de Serie:</strong> ${data.deviceSerialNumber}</p>`
-                    : ""
-                }
-                <p><strong>Problema:</strong> ${data.problemDescription}</p>
-              </div>
-              <div style="background-color: #f3f4f6; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Información del Cliente:</h3>
-                <p><strong>Correo Electrónico:</strong> ${
-                  data.customerEmail
-                }</p>
-                ${
-                  data.customerPhone
-                    ? `<p><strong>Teléfono:</strong> ${data.customerPhone}</p>`
-                    : ""
-                }
-                <p><strong>ID de Usuario:</strong> ${user.id}</p>
-                ${
-                  customerId
-                    ? `<p><strong>ID de Cliente:</strong> ${customerId}</p>`
-                    : ""
-                }
-              </div>              <p>Por favor, revise esta solicitud y contacte al cliente para proporcionar un presupuesto de reparación.</p>
-              <p>Para gestionar esta solicitud, inicie sesión en el panel de administración.</p>
-            </div>
-          `,
+          
           nl: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2 style="color: #1a56db;">Nieuw Aangepast Reparatieverzoek</h2>
@@ -479,37 +364,7 @@ export async function POST(
             Please review this request and contact the customer to provide a repair quote.
             To manage this request, log in to the admin dashboard.
           `,
-          es: `
-            Nueva Solicitud de Reparación Personalizada
-            
-            Se ha enviado una nueva solicitud de reparación para un dispositivo que no está en el catálogo estándar.
-            
-            Detalles de la Solicitud:
-            - ID de Solicitud: ${requestData.id}
-            - Dispositivo: ${data.deviceName}
-            ${data.deviceBrand ? `- Marca: ${data.deviceBrand}` : ""}
-            ${data.deviceType ? `- Tipo: ${data.deviceType}` : ""}
-            ${data.deviceColor ? `- Color: ${data.deviceColor}` : ""}
-            ${
-              data.deviceModelYear
-                ? `- Año del Modelo: ${data.deviceModelYear}`
-                : ""
-            }
-            ${
-              data.deviceSerialNumber
-                ? `- Número de Serie: ${data.deviceSerialNumber}`
-                : ""
-            }
-            - Problema: ${data.problemDescription}
-            
-            Información del Cliente:
-            - Correo Electrónico: ${data.customerEmail}
-            ${data.customerPhone ? `- Teléfono: ${data.customerPhone}` : ""}
-            - ID de Usuario: ${user.id}
-            ${customerId ? `- ID de Cliente: ${customerId}` : ""}
-              Por favor, revise esta solicitud y contacte al cliente para proporcionar un presupuesto de reparación.
-            Para gestionar esta solicitud, inicie sesión en el panel de administración.
-          `,
+          
           nl: `
             Nieuw Aangepast Reparatieverzoek
             

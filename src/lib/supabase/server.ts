@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
 export function createClient() {
   const cookieStore = cookies()
@@ -9,13 +10,13 @@ export function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll()
+        async getAll() {
+          return (await cookieStore).getAll()
         },
         setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+            cookiesToSet.forEach(async ({ name, value, options }) =>
+              (await cookieStore).set(name, value, options)
             )
           } catch {
             // The `setAll` method was called from a Server Component.
@@ -26,4 +27,21 @@ export function createClient() {
       },
     }
   )
+}
+
+// Create a Supabase admin client with service role key
+export function createAdminClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Missing environment variables for Supabase service role')
+  }
+  
+  return createSupabaseClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  })
 }

@@ -29,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLocale } from "next-intl";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -42,27 +43,27 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
-
+  const locale=useLocale()
   // Check authentication and admin role
   useEffect(() => {
     const checkUser = async () => {
       try {
         setLoading(true);
-        const { data: session } = await supabase.auth.getSession();
+        const { data: {user} } = await supabase.auth.getUser();
 
-        if (!session.session) {
+        if (!user?.id) {
           // No session, redirect to login
-          router.push("/en/login?redirect=/admin");
+          router.push(`/${locale}/auth/login?redirect=/admin`);
           return;
         }
 
-        setUser(session.session.user);
+        setUser(user);
 
         // Check if user has admin role
         const { data: profile, error } = await supabase
           .from("profiles")
           .select("role")
-          .eq("id", session.session.user.id)
+          .eq("id", user?.id)
           .single();
 
         if (error) {
@@ -80,7 +81,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         }
       } catch (error) {
         console.error("Error checking auth:", error);
-        router.push("/en/login?redirect=/admin");
+        router.push(`/${locale}/auth/login?redirect=/admin`);
       } finally {
         setLoading(false);
       }
@@ -91,9 +92,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/en");
+    router.push(`/${locale}/auth/login?redirect=/admin`);
   };
-
   // Navigation items
   const navItems = [
     {
@@ -112,6 +112,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       name: "Orders",
       href: "/admin/orders",
       icon: <CreditCard className='h-5 w-5' />,
+      exact: false,
+    },
+    {
+      name: "Users",
+      href: "/admin/users",
+      icon: <Users className='h-5 w-5' />,
       exact: false,
     },
     {
@@ -185,7 +191,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className='flex-1 flex flex-col min-h-0'>
           <div className='flex items-center h-16 flex-shrink-0 px-4 border-b'>
             <Link href='/admin' className='flex items-center'>
-              <span className='text-xl font-semibold'>FinOpenPOS Admin</span>
+              <span className='text-xl font-semibold'>5GPhones Admin</span>
             </Link>
           </div>
           <div className='flex-1 flex flex-col overflow-y-auto pt-5 pb-4'>
@@ -307,7 +313,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
           <div className='flex-1 flex flex-col min-h-0'>
             <div className='flex items-center h-16 flex-shrink-0 px-4 border-b'>
-              <span className='text-xl font-semibold'>FinOpenPOS Admin</span>
+              <span className='text-xl font-semibold'>5GPhones Admin</span>
             </div>
             <div className='flex-1 flex flex-col overflow-y-auto pt-5 pb-4'>
               <nav className='flex-1 px-2 space-y-1'>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,7 +43,7 @@ export default function RepairStatusPage() {
   const t = useTranslations("repair");
   const supabase = createClient();
   const router = useRouter();
-
+  const locale=useLocale();
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,9 +54,9 @@ export default function RepairStatusPage() {
   useEffect(() => {
     const checkAuth = async () => {
       const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
+        data: { user },
+      } = await supabase.auth.getUser();
+      setIsAuthenticated(!!user?.id);
     };
 
     checkAuth();
@@ -64,8 +64,8 @@ export default function RepairStatusPage() {
     // Set up auth state change listener
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session);
+    } = supabase.auth.onAuthStateChange((_event, user) => {
+      setIsAuthenticated(!!user);
     });
 
     return () => {
@@ -194,7 +194,7 @@ export default function RepairStatusPage() {
   };
 
   const handleLogin = () => {
-    router.push("/login");
+    router.push(`/${locale}/auth/login`);
   };
 
   const getStatusClass = (statusId: number) => {
@@ -211,14 +211,12 @@ export default function RepairStatusPage() {
 
     return colorMap[statusInfo[status]?.color || "gray"];
   };
-
   return (
     <RepairLayout activeTab="status">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <h1 className="text-3xl font-bold mb-2">Check Repair Status</h1>
+        <h1 className="text-3xl font-bold mb-2">{t("status.title")}</h1>
         <p className="text-gray-600 mb-8">
-          Enter your repair appointment number to check the status of your
-          repair
+          {t("status.description")}
         </p>
 
         {/* Authentication Warning */}
@@ -236,22 +234,20 @@ export default function RepairStatusPage() {
                   d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
                   clipRule="evenodd"
                 ></path>
-              </svg>              <span className="mr-2">{t("auth.authentication.loginRequired")}</span>
+              </svg>              <span className="mr-2">{t("status.authDescription")}</span>
               <Button size="sm" onClick={handleLogin} className="ml-auto">
                 <LogInIcon className="w-4 h-4 mr-2" />
-                {t("auth.authentication.login")}
+                {t("status.authRequired")}
               </Button>
             </div>
           </div>
         )}
 
-        {/* Search Form */}
-        <Card className="mb-8">
+        {/* Search Form */}        <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Find Your Repair</CardTitle>
+            <CardTitle>{t("status.findRepair")}</CardTitle>
             <CardDescription>
-              Enter the appointment number provided when you scheduled your
-              repair
+              {t("status.enterAppointmentNumber")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -262,7 +258,7 @@ export default function RepairStatusPage() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Enter your appointment number"
+                    placeholder={t("status.appointmentNumberPlaceholder")}
                     className="w-full px-4 py-3 border rounded-lg pr-10"
                   />
                   <SearchIcon className="absolute top-3 right-3 text-gray-400 w-5 h-5" />
@@ -274,7 +270,7 @@ export default function RepairStatusPage() {
                   }
                   className="px-6"
                 >
-                  {loading ? "Searching..." : "Check Status"}
+                  {loading ? t("status.searching") : t("status.checkStatus")}
                 </Button>
               </div>
             </form>
@@ -282,7 +278,7 @@ export default function RepairStatusPage() {
           <CardFooter className="bg-gray-50 border-t">
             <div className="text-sm text-gray-500 flex items-center">
               <PhoneIcon className="w-4 h-4 mr-2" />
-              <span>You can also call us at (555) 123-4567 for assistance</span>
+              <span>{t("status.callAssistance")}</span>
             </div>
           </CardFooter>
         </Card>
@@ -315,8 +311,7 @@ export default function RepairStatusPage() {
             <Card>
               <CardHeader className="bg-gray-50 border-b">
                 <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle>Repair #{repairData.id}</CardTitle>
+                  <div>                    <CardTitle>{t("status.repairNumber", { id: repairData.id })}</CardTitle>
                     <CardDescription>
                       {repairData.device.series.device_type.brand.name}{" "}
                       {repairData.device.name}
@@ -341,9 +336,8 @@ export default function RepairStatusPage() {
               <CardContent className="py-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-3">
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-500">
-                        Appointment Date
+                    <div>                      <h3 className="text-sm font-medium text-gray-500">
+                        {t("status.appointmentDate")}
                       </h3>
                       <p className="font-medium">
                         {format(
@@ -351,12 +345,10 @@ export default function RepairStatusPage() {
                           "PPP, h:mm a"
                         )}
                       </p>
-                    </div>
-
-                    {repairData.estimated_completion_date && (
+                    </div>                    {repairData.estimated_completion_date && (
                       <div>
                         <h3 className="text-sm font-medium text-gray-500">
-                          Expected Completion
+                          {t("status.expectedCompletion")}
                         </h3>
                         <p className="font-medium">
                           {format(
@@ -370,7 +362,7 @@ export default function RepairStatusPage() {
                     {repairData.actual_completion_date && (
                       <div>
                         <h3 className="text-sm font-medium text-gray-500">
-                          Completed Date
+                          {t("status.completedDate")}
                         </h3>
                         <p className="font-medium">
                           {format(
@@ -382,10 +374,9 @@ export default function RepairStatusPage() {
                     )}
                   </div>
 
-                  <div className="space-y-3">
-                    <div>
+                  <div className="space-y-3">                    <div>
                       <h3 className="text-sm font-medium text-gray-500">
-                        Device
+                        {t("device")}
                       </h3>
                       <p className="font-medium">
                         {repairData.device.series.device_type.brand.name}{" "}
@@ -395,7 +386,7 @@ export default function RepairStatusPage() {
 
                     <div>
                       <h3 className="text-sm font-medium text-gray-500">
-                        Services
+                        {t("status.services")}
                       </h3>
                       <ul className="list-disc ml-5">
                         {repairData.appointment_items.map((item) => (
@@ -413,9 +404,8 @@ export default function RepairStatusPage() {
                     </div>
 
                     {repairData.technician_notes && (
-                      <div>
-                        <h3 className="text-sm font-medium text-gray-500">
-                          Technician Notes
+                      <div>                        <h3 className="text-sm font-medium text-gray-500">
+                          {t("status.technicianNotes")}
                         </h3>
                         <p className="text-sm text-gray-700">
                           {repairData.technician_notes}
@@ -426,8 +416,7 @@ export default function RepairStatusPage() {
                 </div>
 
                 {/* Status Progress */}
-                <div className="mt-8">
-                  <h3 className="text-lg font-medium mb-4">Repair Progress</h3>
+                <div className="mt-8">                  <h3 className="text-lg font-medium mb-4">{t("status.repairProgress")}</h3>
                   <div className="relative">
                     <div className="absolute left-[15px] h-full w-0.5 bg-gray-200"></div>
                     <div className="space-y-8">
@@ -453,10 +442,9 @@ export default function RepairStatusPage() {
                             ></path>
                           </svg>
                         </div>
-                        <div className="ml-4">
-                          <h4 className="font-medium">Check-In</h4>
+                        <div className="ml-4">                          <h4 className="font-medium">{t("status.checkIn")}</h4>
                           <p className="text-sm text-gray-500">
-                            Appointment scheduled
+                            {t("status.appointmentScheduled")}
                           </p>
                           <p className="text-xs text-gray-400 mt-1">
                             {format(
@@ -492,10 +480,9 @@ export default function RepairStatusPage() {
                             <span className="text-sm text-white">2</span>
                           )}
                         </div>
-                        <div className="ml-4">
-                          <h4 className="font-medium">Diagnostic</h4>
+                        <div className="ml-4">                          <h4 className="font-medium">{t("status.diagnostic")}</h4>
                           <p className="text-sm text-gray-500">
-                            Technician evaluating your device
+                            {t("status.technicianEvaluating")}
                           </p>
                           {repairData.technician_notes &&
                             repairData.status_id >= 2 && (
@@ -531,10 +518,9 @@ export default function RepairStatusPage() {
                             <span className="text-sm text-white">3</span>
                           )}
                         </div>
-                        <div className="ml-4">
-                          <h4 className="font-medium">Repair in Progress</h4>
+                        <div className="ml-4">                          <h4 className="font-medium">{t("status.repairInProgress")}</h4>
                           <p className="text-sm text-gray-500">
-                            Fixing your device
+                            {t("status.fixingDevice")}
                           </p>
                           {repairData.status_id >= 4 && (
                             <p className="text-xs text-gray-400 mt-1">
@@ -575,10 +561,9 @@ export default function RepairStatusPage() {
                             <span className="text-sm text-white">4</span>
                           )}
                         </div>
-                        <div className="ml-4">
-                          <h4 className="font-medium">Ready for Pickup</h4>
+                        <div className="ml-4">                          <h4 className="font-medium">{t("status.readyForPickup")}</h4>
                           <p className="text-sm text-gray-500">
-                            Your device is repaired and ready
+                            {t("status.deviceRepaired")}
                           </p>
                           {repairData.status_id >= 5 && (
                             <p className="text-xs text-gray-400 mt-1">
@@ -617,10 +602,9 @@ export default function RepairStatusPage() {
                             <span className="text-sm text-white">5</span>
                           )}
                         </div>
-                        <div className="ml-4">
-                          <h4 className="font-medium">Completed</h4>
+                        <div className="ml-4">                          <h4 className="font-medium">{t("status.completed")}</h4>
                           <p className="text-sm text-gray-500">
-                            Repair completed and device picked up
+                            {t("status.devicePickedUp")}
                           </p>
                         </div>
                       </div>
@@ -636,17 +620,15 @@ export default function RepairStatusPage() {
                       className="flex items-center"
                       asChild
                     >
-                      <a href={`tel:+15551234567`}>
-                        <PhoneIcon className="w-4 h-4 mr-2" />
-                        Call for Support
+                      <a href={`tel:+15551234567`}>                        <PhoneIcon className="w-4 h-4 mr-2" />
+                        {t("status.callSupport")}
                       </a>
                     </Button>
                   </div>
                   <div>
                     <Button className="flex items-center" asChild>
-                      <Link href={`/en/repair/schedule?edit=${repairData.id}`}>
-                        <FileTextIcon className="w-4 h-4 mr-2" />
-                        Modify Appointment
+                      <Link href={`/en/repair/schedule?edit=${repairData.id}`}>                        <FileTextIcon className="w-4 h-4 mr-2" />
+                        {t("status.modifyAppointment")}
                       </Link>
                     </Button>
                   </div>
@@ -654,20 +636,16 @@ export default function RepairStatusPage() {
               </CardFooter>
             </Card>
           </div>
-        )}
-
-        {/* Need Help Section */}
+        )}        {/* Need Help Section */}
         <div className="mt-12 bg-blue-50 border border-blue-100 rounded-lg p-6">
-          <h2 className="text-lg font-semibold mb-2">Need Help?</h2>
+          <h2 className="text-lg font-semibold mb-2">{t("status.needHelp")}</h2>
           <p className="text-gray-700 mb-4">
-            If you&apos;re having trouble finding your repair status or have any
-            questions, our support team is ready to help!
+            {t("status.helpDescription")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex items-start">
               <PhoneIcon className="w-5 h-5 mr-2 text-blue-600 mt-0.5" />
-              <div>
-                <p className="font-medium">Call Us</p>
+              <div>                <p className="font-medium">{t("status.callUs")}</p>
                 <p className="text-sm text-gray-500">(555) 123-4567</p>
               </div>
             </div>
@@ -681,8 +659,7 @@ export default function RepairStatusPage() {
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
               </svg>
-              <div>
-                <p className="font-medium">Email Us</p>
+              <div>                <p className="font-medium">{t("status.emailUs")}</p>
                 <p className="text-sm text-gray-500">support@finopenpos.com</p>
               </div>
             </div>
@@ -699,10 +676,9 @@ export default function RepairStatusPage() {
                   clipRule="evenodd"
                 />
               </svg>
-              <div>
-                <p className="font-medium">Business Hours</p>
+              <div>                <p className="font-medium">{t("status.businessHours")}</p>
                 <p className="text-sm text-gray-500">
-                  Mon-Fri: 9AM-6PM, Sat: 10AM-4PM
+                  {t("status.businessHoursInfo")}
                 </p>
               </div>
             </div>

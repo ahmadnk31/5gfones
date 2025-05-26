@@ -17,11 +17,15 @@ import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-// Initialize Stripe with public key
+// Initialize Stripe
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 // Checkout Form Component
-const CheckoutForm = ({ currency = 'usd' }) => {
+interface CheckoutFormProps {
+  clientSecret: string;
+}
+
+const CheckoutForm = ({ clientSecret }: CheckoutFormProps) => {
   const t = useTranslations('checkout');
   const stripe = useStripe();
   const elements = useElements();
@@ -30,90 +34,42 @@ const CheckoutForm = ({ currency = 'usd' }) => {
   const supabase = createClient();
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
-  const [clientSecret, setClientSecret] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   
-  // Calculate additional amounts - moved inside component to ensure reactivity
+  // Calculate additional amounts
   const shippingCost = subtotal >= 50 ? 0 : 5.99;
   const taxRate = 0.08;
   const taxAmount = subtotal * taxRate;
   const total = subtotal + shippingCost + taxAmount;
-  // Format currency using the currency from settings
+  
+  // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: currency.toUpperCase(),
+      currency: 'EUR',
     }).format(amount);
   };
-
-  // Create payment intent when component mounts or when cart items change
-  useEffect(() => {
-    const createPaymentIntent = async () => {
-      if (!items.length) {
-        router.push('/cart');
-        return;
-      }
-      
-      try {
-        // First we need to create an order in the database
-        const { data: orderData, error: orderError } = await supabase.rpc('create_order_from_items', {
-          items_json: JSON.stringify(items),
-          shipping_amount: shippingCost,
-          tax_amount: taxAmount
-        });
-        
-        if (orderError || !orderData?.order_id) {
-          throw new Error('Failed to create order');
-        }
-        
-        // Now create a payment intent for this order
-        const response = await fetch('/api/payment-intent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            orderId: orderData.order_id,
-            amount: Math.round(total * 100), // Convert to cents for Stripe
-            currency: currency.toLowerCase(),
-            description: `Order #${orderData.order_id}`
-          }),
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-          setError(data.error);
-          return;
-        }
-        
-        setClientSecret(data.clientSecret);
-      } catch (err) {
-        setError('Failed to initialize payment. Please try again.');
-        console.error('Error creating payment intent:', err);
-      }
-    };
-    
-    createPaymentIntent();
-  }, [items, currency, router, supabase, shippingCost, taxAmount, total]);
   
-    // Check current user
-  useEffect(() => {
-    const getCurrentUser = async () => {
+  // No need to create payment intent here - it's handled by the parent component
+  
+  // Check current user
+  useEffect(() => {    const getCurrentUser = async () => {
       const { data } = await supabase.auth.getSession();
       if (data?.session?.user) {
+        // Get user info from profiles table
         const { data: profile } = await supabase
-          .from('customers')
-          .select('name, email')
+          .from('profiles')
+          .select('email_notifications, preferred_language')
           .eq('id', data.session.user.id)
           .single();
           
-        if (profile) {
-          setName(profile.name || '');
-          setEmail(profile.email || data.session.user.email || '');
-        } else {
-          setEmail(data.session.user.email || '');
+        // Set email from user session
+        setEmail(data.session.user.email || '');
+        
+        // Set name from user metadata if available
+        if (data.session.user.user_metadata?.full_name) {
+          setName(data.session.user.user_metadata.full_name);
         }
       }
     };
@@ -152,10 +108,8 @@ const CheckoutForm = ({ currency = 'usd' }) => {
         setProcessing(false);
         return;
       }
-      
-      const { error: confirmError } = await stripe.confirmPayment({
+        const { error: confirmError } = await stripe.confirmPayment({
         elements,
-        clientSecret,
         confirmParams: {
           return_url: `${window.location.origin}/en/order-confirmation?order_id=${orderData.order_id}`,
         },
@@ -208,7 +162,8 @@ const CheckoutForm = ({ currency = 'usd' }) => {
               <CardTitle>{t('billingAddress')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="mb-6">                <AddressElement
+              <div className="mb-6">
+                <AddressElement
                   options={{
                     mode: 'shipping',
                     allowedCountries: ['US', 'CA'],
@@ -216,7 +171,8 @@ const CheckoutForm = ({ currency = 'usd' }) => {
                       phone: 'always',
                     },
                     defaultValues: {
-                      name
+                      name,
+                      email
                     }
                   }}
                 />
@@ -307,104 +263,117 @@ const CheckoutForm = ({ currency = 'usd' }) => {
 
 const CheckoutPage = () => {
   const { items } = useCart();
-  const router= useRouter();
-  const [options, setOptions] = useState({
-    clientSecret: '',
-    appearance: {
-      theme: 'stripe',
-      variables: {
-        colorPrimary: '#3b82f6',
-      },
-    },
-  });
-  const [stripeInstance, setStripeInstance] = useState<any>(null);
-  const [paymentSettings, setPaymentSettings] = useState<{
-    stripe_public_key: string;
-    payment_currency: string;
-    enable_stripe_checkout: boolean;
-    enable_stripe_elements: boolean;
-  }>({
-    stripe_public_key: '',
-    payment_currency: 'eur',
-    enable_stripe_checkout: true,
-    enable_stripe_elements: true,
-  });
-  const [loading, setLoading] = useState(true);
+  const clientSecretState = useState<string>('');
+  const clientSecret = clientSecretState[0]; 
+  const setClientSecret = clientSecretState[1];
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Fetch payment settings
+  // Create payment intent when component mounts to get client secret
   useEffect(() => {
-    const fetchPaymentSettings = async () => {
+    if (!items || items.length === 0) {
+      setLoading(false);
+      return;
+    }
+    
+    const fetchPaymentIntent = async () => {
       try {
-        const response = await fetch('/api/payment-settings');
+        // Calculate additional amounts for the API call
+        const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const shippingCost = subtotal >= 50 ? 0 : 5.99;
+        const taxRate = 0.08;
+        const taxAmount = subtotal * taxRate;
+        
+        const response = await fetch('/api/payment-intent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: Math.round((subtotal + shippingCost + taxAmount) * 100), // Convert to cents
+            currency: 'eur',
+            items: items, // Send cart items
+          }),
+        });
+        
         const data = await response.json();
         
-        if (data.settings) {
-          setPaymentSettings(data.settings);
-          
-          // Initialize Stripe with the public key from settings
-          if (data.settings.stripe_public_key) {
-            setStripeInstance(loadStripe(data.settings.stripe_public_key));
-          }
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to create payment intent');
         }
-      } catch (error) {
-        console.error('Error fetching payment settings:', error);
-        // Fallback to environment variable
-        setStripeInstance(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''));
+        
+        setClientSecret(data.clientSecret);
+      } catch (err: any) {
+        console.error('Error creating payment intent:', err);
+        setError(err.message || 'Failed to initialize payment');
       } finally {
         setLoading(false);
       }
     };
     
-    fetchPaymentSettings();
-  }, []);
+    fetchPaymentIntent();
+  }, [items]);
   
-  // If cart is empty, no need to load Stripe
+  // If cart is empty, show message
   if (!items || items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <h1 className="text-2xl md:text-3xl font-bold mb-8">Checkout</h1>
-        <CheckoutForm />
+        <div className="text-center py-12">
+          <p className="text-lg mb-4">Your cart is empty</p>
+          <Button asChild>
+            <Link href="/products">Continue Shopping</Link>
+          </Button>
+        </div>
       </div>
     );
   }
-  
-  // While loading settings
+
+  // Show loading state
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-12 max-w-6xl">
         <h1 className="text-2xl md:text-3xl font-bold mb-8">Checkout</h1>
-        <div className="text-center py-16">
-          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p>Loading payment options...</p>
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
         </div>
       </div>
-    );  }
-
-  // useEffect must be called at the top level
-  useEffect(() => {
-    if (paymentSettings.enable_stripe_checkout && !paymentSettings.enable_stripe_elements) {
-      router.push('/checkout/stripe');
-    }
-  }, [paymentSettings, router]);
-
-  // Return early if settings indicate we should use Stripe Checkout
-  if (paymentSettings.enable_stripe_checkout && !paymentSettings.enable_stripe_elements) {
-    return null;
+    );
   }
 
+  // Show error state
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-12 max-w-6xl">
+        <h1 className="text-2xl md:text-3xl font-bold mb-8">Checkout</h1>
+        <div className="p-4 bg-red-50 text-red-700 rounded-md">
+          <p className="font-medium">Error</p>
+          <p>{error}</p>
+          <Button className="mt-4" onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+  // Only render Elements when we have a client secret
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
-      <h1 className="text-2xl md:text-3xl font-bold mb-8">Checkout</h1>
-      {stripeInstance ? (
-        <Elements stripe={stripeInstance} options={options as any}>
-          <CheckoutForm currency={paymentSettings.payment_currency} />
+      <h1 className="text-2xl md:text-3xl font-bold mb-8">Checkout</h1>      {clientSecret && (
+        <Elements 
+          stripe={stripePromise} 
+          options={{
+            clientSecret: clientSecret,
+            appearance: {
+              theme: 'stripe',
+              variables: {
+                colorPrimary: '#10b981', // emerald-600
+              },
+            },
+          }}
+        >
+          <CheckoutForm clientSecret={clientSecret} />
         </Elements>
-      ) : (
-        <div className="text-center py-16">
-          <div className="p-4 bg-yellow-50 text-yellow-700 rounded-md">
-            <p>Payment system is currently unavailable. Please try again later.</p>
-          </div>
-        </div>
       )}
     </div>
   );

@@ -21,6 +21,7 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { maskEmail } from "@/lib/utils/mask-email";
 import CartSheet from "./cart-sheet";
 import { LogoutButton } from "./logout-button";
 
@@ -36,13 +37,13 @@ const NavBar = () => {
   // Check authentication state
   useEffect(() => {
     const checkUser = async () => {
-      const { data } = await supabase.auth.getSession();
-      setUser(data?.session?.user || null);
-      if (data?.session?.user) {
+      const { data:{user} } = await supabase.auth.getUser();
+      setUser(user || null);
+      if (user?.id) {
         const { data: profileData, error } = await supabase
           .from("profiles")
           .select("role")
-          .eq("id", data.session.user.id)
+          .eq("id",user.id)
           .single();
         if (error) {
           console.error("Error fetching user role:", error);
@@ -342,15 +343,13 @@ const NavBar = () => {
                           .toUpperCase()}
                       </AvatarFallback>
                     )}
-                  </Avatar>
-                  <div className='absolute right-0 w-48 mt-2 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50'>
-                    <div className='py-1'>
-                      <div className='px-4 py-2 border-b border-gray-100'>
+                  </Avatar>                  <div className='absolute right-0 w-48 mt-2 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50'>
+                    <div className='py-1'>                      <div className='px-4 py-2 border-b border-gray-100'>
                         <p className='font-medium text-sm'>
-                          {user.user_metadata?.full_name || user.email}
+                          {user.user_metadata?.full_name || maskEmail(user.email)}
                         </p>
-                        <p className='text-xs text-gray-500 truncate'>
-                          {user.email}
+                        <p className='text-xs text-gray-500 truncate max-w-[180px]'>
+                          {maskEmail(user.email)}
                         </p>
                       </div>
                       <Link
@@ -399,14 +398,14 @@ const NavBar = () => {
                         className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                       >
                         {t("myOrders")}
-                      </Link>
-                      <Link
+                      </Link>                      <Link
                         href={`/${locale}/my-devices`}
                         className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                       >
                         {t("myDevices")}
-                      </Link>
-                      <LogoutButton/>
+                      </Link>                      <div className='hover:bg-gray-100'>
+                        <LogoutButton />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -548,9 +547,8 @@ const NavBar = () => {
                 </Link>
               </div>
             </div>
-            
-            {/* Admin Section for Mobile (only shown to admins) */}
-            {user?.user_metadata?.is_admin && (
+              {/* Admin Section for Mobile (only shown to admins) */}
+            {userRole === 'admin' && (
               <div className='space-y-1'>
                 <div className='flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'>
                   <Link href={`/${locale}/admin`}>Admin</Link>
@@ -570,16 +568,24 @@ const NavBar = () => {
 
                 <div id='admin-submenu-mobile' className='pl-6 hidden space-y-1'>
                   <Link
+                    href={`/${locale}/admin`}
+                    className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
+                  >
+                    Admin Dashboard
+                  </Link>
+                  <Link
                     href={`/${locale}/admin/settings`}
                     className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                   >
                     Payment Settings
-                  </Link>                  <Link
+                  </Link>
+                  <Link
                     href={`/${locale}/admin/test-payment`}
                     className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                   >
                     Test Payment
-                  </Link>                  <Link
+                  </Link>
+                  <Link
                     href={`/${locale}/admin/refund-requests`}
                     className='block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-gray-100'
                   >
@@ -631,23 +637,57 @@ const NavBar = () => {
                         </AvatarFallback>
                       )}
                     </Avatar>
-                  </div>
-                  <div>
-                    <p className='text-base font-medium text-gray-800'>
-                      {user.user_metadata?.full_name || user.email}
+                  </div>                  <div>                    <p className='text-base font-medium text-gray-800'>
+                      {user.user_metadata?.full_name || maskEmail(user.email)}
                     </p>
-                    <p className='text-sm text-gray-500 truncate'>
-                      {user.email}
+                    <p className='text-sm text-gray-500 truncate max-w-[180px]'>
+                      {maskEmail(user.email)}
                     </p>
                   </div>
-                </div>
-
-                <Link
+                </div>                <Link
                   href={`/${locale}/account`}
                   className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
                 >
                   {t("account")}
-                </Link>                <Link
+                </Link>
+
+                {/* Admin links for staff members */}
+                {userRole === 'admin' && (
+                  <>
+                    <Link
+                      href={`/${locale}/admin`}
+                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
+                    >
+                      Admin Dashboard
+                    </Link>
+                    <Link
+                      href={`/${locale}/admin/settings`}
+                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
+                    >
+                      Payment Settings
+                    </Link>
+                    <Link
+                      href={`/${locale}/admin/test-payment`}
+                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
+                    >
+                      Test Payment
+                    </Link>
+                    <Link
+                      href={`/${locale}/admin/refund-requests`}
+                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
+                    >
+                      Refund Requests
+                    </Link>
+                    <Link
+                      href={`/${locale}/admin/dhl-shipping`}
+                      className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
+                    >
+                      DHL Shipping
+                    </Link>
+                  </>
+                )}
+
+                <Link
                   href={`/${locale}/account/orders`}
                   className='block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100'
                 >

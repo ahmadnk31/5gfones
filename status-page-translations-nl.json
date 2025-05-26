@@ -1,0 +1,39 @@
+{
+  "repair": {
+    "status": {
+      "title": "Controleer Reparatiestatus",
+      "description": "Voer uw reparatieafspraak-nummer in om de status van uw reparatie te controleren",
+      "findRepair": "Zoek Uw Reparatie",
+      "enterAppointmentNumber": "Voer het afspraaknummer in dat u ontving bij het plannen van uw reparatie",
+      "appointmentNumberPlaceholder": "Voer uw afspraaknummer in",
+      "searching": "Zoeken...",
+      "checkStatus": "Controleer Status",
+      "callAssistance": "U kunt ook bellen naar +32 466 13 41 81 voor hulp",
+      "repairNumber": "Reparatie #{id}",
+      "appointmentDate": "Afspraakdatum",
+      "expectedCompletion": "Verwachte Voltooiing",
+      "completedDate": "Voltooiingsdatum",
+      "services": "Diensten",
+      "technicianNotes": "Notities van Technicus",
+      "repairProgress": "Reparatie Voortgang",
+      "checkIn": "Aanmelden",
+      "appointmentScheduled": "Afspraak gepland",
+      "diagnostic": "Diagnose",
+      "technicianEvaluating": "Technicus beoordeelt uw apparaat",
+      "repairInProgress": "Reparatie Bezig",
+      "fixingDevice": "Bezig met het repareren van uw apparaat",
+      "readyForPickup": "Klaar voor Ophalen",
+      "deviceRepaired": "Uw apparaat is gerepareerd en klaar",
+      "completed": "Voltooid",
+      "devicePickedUp": "Reparatie voltooid en apparaat opgehaald",
+      "callSupport": "Bel voor Ondersteuning",
+      "modifyAppointment": "Afspraak Wijzigen",
+      "needHelp": "Hulp Nodig?",
+      "helpDescription": "Als u problemen heeft met het vinden van uw reparatiestatus of vragen heeft, staat ons ondersteuningsteam klaar om te helpen!",
+      "callUs": "Bel Ons",
+      "emailUs": "E-mail Ons",
+      "businessHours": "Openingstijden",
+      "businessHoursInfo": "Ma-Vr: 1:00-18:00, Za: 10:00-16:00"
+    }
+  }
+}

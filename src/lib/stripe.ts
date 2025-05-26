@@ -1,6 +1,10 @@
 
 import Stripe from 'stripe';
 // Function to get Stripe instance with proper configuration
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-04-30.basil',
+  typescript: true,
+});
 async function getStripeInstance() {
   try {
     // First try to get settings from database
@@ -86,24 +90,23 @@ export async function createPaymentIntent({
 }: {
   amount: number;
   currency?: string;
-  orderId: string;
+  orderId?: string | null;
   discounts?: string[];
   userId?: string;
   customerEmail?: string;
   paymentMethodTypes?: string[];
   description?: string;
-}) {  try {
+}) {
+  try {
     // Get properly initialized Stripe instance
-    const stripe = await getStripe();
     
     // Amount should be in cents (e.g., $10.00 = 1000)
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Convert to cents and ensure it's an integer
       currency,
       payment_method_types: paymentMethodTypes,
-      description,
-      metadata: {
-        orderId,
+      description,      metadata: {
+        orderId: orderId || 'checkout',
         userId: userId || null,
         discountIds: discounts.length > 0 ? JSON.stringify(discounts) : null,
       },
@@ -147,7 +150,7 @@ export async function createCheckoutSession({
 }) {
   try {
     // Get properly initialized Stripe instance
-    const stripe = await getStripe();
+    
       const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: items as any, // Cast to any to work around type issues
@@ -179,7 +182,7 @@ export async function validateWebhookSignature(
   secret: string
 ) {
   try {
-    const stripe = await getStripe();
+    
     const event = stripe.webhooks.constructEvent(body, signature, secret);
     return { valid: true, event };
   } catch (error: any) {
@@ -226,7 +229,7 @@ export async function createRefund(
   reason?: string
 ) {
   try {
-    const stripe = await getStripe();
+    
     
     try {
       // First try to get the payment intent to get the charge ID
