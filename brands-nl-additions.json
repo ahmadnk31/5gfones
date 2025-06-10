@@ -1,0 +1,9 @@
+{
+  "brands": {
+    "description": "Ontdek producten van topmerken",
+    "featured": "Aanbevolen Merken",
+    "all": "Alle Merken",
+    "empty": "Geen merken gevonden",
+    "viewAll": "Bekijk Alle Merken"
+  }
+}

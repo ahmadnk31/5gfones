@@ -101,8 +101,7 @@ const ProductCard = ({
     style: "currency",
     currency: "EUR",
   }).format(finalPrice);
-  
-  // Format original price for display when discounted
+    // Format original price for display when discounted
   const formattedOriginalPrice = hasAnyDiscount 
     ? new Intl.NumberFormat("en-US", {
         style: "currency",
@@ -110,12 +109,24 @@ const ProductCard = ({
       }).format(price)
     : "";
 
+  // Calculate and format the discount amount (money saved)
+  const discountAmount = hasAnyDiscount ? price - finalPrice : 0;
+  const formattedDiscountAmount = hasAnyDiscount
+    ? new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+      }).format(discountAmount)
+    : "";
+
   // Get the current locale from the URL
   const pathname = usePathname();
-  const locale = pathname.split("/")[1];
-  return (
+  const locale = pathname.split("/")[1];return (
     <Link href={`/${locale}/products/${id}`} className='block h-full w-full'>
-      <Card className='group overflow-hidden rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300 h-full flex flex-col bg-white hover:transform hover:-translate-y-1'>
+      <Card className={`group overflow-hidden rounded-2xl border transition-all duration-300 h-full flex flex-col bg-white hover:transform hover:-translate-y-1 ${
+        hasAnyDiscount
+          ? 'border-red-200 hover:border-red-300 hover:shadow-lg hover:shadow-red-100'
+          : 'border-gray-200 hover:border-blue-200 hover:shadow-lg'
+      }`}>
         <div className='relative aspect-square overflow-hidden bg-gray-50 p-3'>
           <div className='absolute inset-0 bg-gradient-to-b from-gray-50 to-transparent opacity-60 z-0'></div>
           <Image
@@ -129,11 +140,19 @@ const ProductCard = ({
             <Badge className='absolute top-3 left-3 bg-white text-black border shadow-sm z-20'>
               {brandName}
             </Badge>
-          )}
-          {hasVariants && (
+          )}          {hasVariants && !hasAnyDiscount && (
             <Badge className='absolute top-3 right-3 bg-blue-100 text-blue-800 border border-blue-200 shadow-sm z-20'>
               {t("variants")}
             </Badge>
+          )}          {hasAnyDiscount && (
+            <div className="absolute top-3 right-3 flex flex-col gap-1 z-20">
+              <Badge className='bg-red-500 text-white shadow-sm'>
+                -{effectiveDiscount}%
+              </Badge>
+              <Badge className='bg-blue-500 text-white shadow-sm text-xs'>
+                {formattedDiscountAmount}
+              </Badge>
+            </div>
           )}
           {!inStock && (
             <div className='absolute inset-0 bg-gray-900 bg-opacity-70 backdrop-blur-sm flex items-center justify-center z-30'>
@@ -142,20 +161,47 @@ const ProductCard = ({
               </div>
             </div>
           )}
-        </div>
-
-        <CardContent className='p-4 flex-grow'>
-          <h3 className='font-semibold text-lg line-clamp-2 group-hover:text-blue-600 transition-colors'>
+        </div>        <CardContent className='p-4 flex-grow'>
+          <h3 className='font-semibold text-lg line-clamp-2 transition-colors text-blue-700 group-hover:text-blue-800'>
             {name}
           </h3>
-          <p className='text-xl font-bold mt-2 text-blue-600 flex items-baseline'>
-            {formattedPrice}
-            {hasVariants && (
-              <span className='text-xs text-gray-500 ml-2'>
-                {t("fromPrice")}
-              </span>
+          <div className='mt-2'>
+            {hasAnyDiscount ? (
+              <div className='space-y-1'>                <div className="flex items-baseline gap-2">
+                  <p className='text-sm text-gray-500 line-through'>
+                    {formattedOriginalPrice}
+                  </p>
+                  <span className="text-xs bg-red-100 text-red-700 px-1 py-0.5 rounded">
+                    -{effectiveDiscount}%
+                  </span>
+                </div>
+                <p className='text-xl font-bold text-red-600 flex items-baseline'>
+                  {formattedPrice}
+                  {hasVariants && (
+                    <span className='text-xs text-gray-500 ml-2'>
+                      {t("fromPrice")}
+                    </span>
+                  )}
+                </p><div className='flex flex-wrap gap-1'>
+                  <p className='text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md border border-green-200'>
+                    {isDiscountFromCategory ? t("categoryDiscount") : t("productDiscount")} -{effectiveDiscount}%
+                  </p>
+                  <p className='text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded-md border border-blue-200'>
+                    {t("youSave")} <span className="font-bold">{formattedDiscountAmount}</span>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className='text-xl font-bold text-blue-600 flex items-baseline'>
+                {formattedPrice}
+                {hasVariants && (
+                  <span className='text-xs text-gray-500 ml-2'>
+                    {t("fromPrice")}
+                  </span>
+                )}
+              </p>
             )}
-          </p>
+          </div>
           {inStock && (
             <p className='text-sm mt-2 flex items-center'>
               <span className='w-2.5 h-2.5 rounded-full bg-green-500 mr-1.5 animate-pulse'></span>
@@ -166,20 +212,18 @@ const ProductCard = ({
           )}
         </CardContent>
         <CardFooter className='flex justify-between items-center p-4 pt-0'>
-          {inStock ? (
-            <div className='flex w-full gap-2'>
-              {hasVariants ? (
+          {inStock ? (            <div className='flex w-full gap-2'>              {hasVariants ? (
                 <Button
                   variant='outline'
                   size='sm'
-                  className='w-full rounded-full font-medium hover:bg-blue-50 border-blue-200 text-blue-700 transition-all duration-200'
+                  className='w-full rounded-full font-medium transition-all duration-200 hover:bg-blue-50 border-blue-200 text-blue-700 hover:border-blue-300'
                 >
                   {t("viewDetails")}
                 </Button>
               ) : (
                 <Button
                   size='sm'
-                  className='w-full rounded-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 shadow-sm hover:shadow transition-all duration-200'
+                  className='w-full rounded-full shadow-sm hover:shadow transition-all duration-200 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600'
                   onClick={handleAddToCart}
                 >
                   <svg

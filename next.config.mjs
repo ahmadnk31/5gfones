@@ -16,8 +16,7 @@ const nextConfig = {
   // SEO optimizations
   compress: true,
   poweredByHeader: false,
-  generateEtags: true,
-  // Properly handle ESLint and TypeScript errors during build
+  generateEtags: true,  // Properly handle ESLint and TypeScript errors during build
   eslint: {
     // Don't fail the build on ESLint warnings
     ignoreDuringBuilds: true,
@@ -25,6 +24,14 @@ const nextConfig = {
   typescript: {
     // Don't fail the build on TypeScript errors
     ignoreBuildErrors: true,
+  },
+  // Configure page generation
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  // Skip static generation for admin routes
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
   // SEO headers
   async headers() {

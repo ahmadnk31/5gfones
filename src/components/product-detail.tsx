@@ -8,6 +8,34 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/lib/cart-provider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+// Add mobile-friendly styles for product description
+const productDetailStyles = `
+  .product-detail-editor .ql-container.ql-snow {
+    border: none;
+  }
+  
+  .product-detail-editor .ql-toolbar.ql-snow {
+    display: none;
+  }
+  
+  @media (max-width: 640px) {
+    .product-description-content {
+      padding: 0;
+      margin: 0;
+    }
+    
+    .product-detail-editor .ql-container {
+      font-size: 15px;
+      overflow-x: auto;
+    }
+    
+    .product-detail-editor .ql-editor {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+`;
+
 import useEmblaCarousel from "embla-carousel-react";
 import {
   getRelatedProducts,
@@ -33,6 +61,24 @@ const ProductDetail = ({
   variantImages,
   categoryDiscount = 0, // Default to 0 if not provided
 }: ProductDetailProps) => {
+  // Add style tag for mobile-friendly product descriptions
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = productDetailStyles;
+    style.id = 'product-detail-mobile-styles';
+    
+    if (!document.getElementById('product-detail-mobile-styles')) {
+      document.head.appendChild(style);
+    }
+    
+    return () => {
+      const existingStyle = document.getElementById('product-detail-mobile-styles');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+    };
+  }, []);
+
   const t = useTranslations("product");
   const locale = useLocale();
   const { addItem } = useCart();
@@ -208,25 +254,42 @@ const ProductDetail = ({
       setThumbnails(images);
     }
   }, [product, variantImages]);
-
   // Calculate final price based on selected variant and discounts
   const calculatePrice = () => {
     const basePrice = selectedVariant
       ? product.base_price + selectedVariant.price_adjustment
       : product.base_price;
 
-    // Apply the higher of product or category discount
+    // Use variant-specific discount if available, otherwise use product discount
+    const discountPercentage = selectedVariant && selectedVariant.discount_percentage
+      ? selectedVariant.discount_percentage
+      : product.discount_percentage || 0;
+
+    // Get the discount dates (variant-specific or product-level)
+    const discountStartDate = selectedVariant && selectedVariant.discount_start_date
+      ? selectedVariant.discount_start_date
+      : product.discount_start_date;
+      
+    const discountEndDate = selectedVariant && selectedVariant.discount_end_date
+      ? selectedVariant.discount_end_date 
+      : product.discount_end_date;
+
+    // Apply the higher of product or category discount, considering discount dates
     return calculateDiscountedPrice(
       basePrice,
-      product.discount_percentage || 0,
-      categoryDiscount
+      discountPercentage,
+      categoryDiscount,
+      discountStartDate,
+      discountEndDate
     );
   };
 
   // Get the effective discount percentage (higher of product or category discount)
   const effectiveDiscountPercentage = getEffectiveDiscountPercentage(
     product.discount_percentage || 0,
-    categoryDiscount
+    categoryDiscount,
+    product.discount_start_date,
+    product.discount_end_date
   );
 
   // Format price as currency
@@ -642,10 +705,8 @@ const ProductDetail = ({
             >
               {t("details")}
             </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="description" className="pt-6">
-            <div className="prose max-w-none">
+          </TabsList>          <TabsContent value="description" className="pt-6">
+            <div className="prose max-w-none product-description-content">
               {product.description ? (
                 <ReactQuillEditor
                   value={
@@ -655,7 +716,7 @@ const ProductDetail = ({
                   }
                   setValue={() => {}}
                   isEditable={false}
-                  className="bg-background"
+                  className="bg-background product-detail-editor"
                 />
               ) : (
                 <p className="text-gray-500">{t("noDescription")}</p>
@@ -1065,7 +1126,98 @@ const ProductDetail = ({
                   </div>
                 ))}
             </div>
+          </section>          {/* You May Also Like Section */}
+          <section className='mt-16 pt-12 border-t'>
+            <div className='flex justify-between items-center mb-8'>
+              <h2 className='text-2xl font-semibold'>{t("youMayAlsoLike")}</h2>
+              <Link
+                href='/products'
+                className='text-gray-700 hover:underline flex items-center gap-1 text-sm font-medium'
+              >
+                {t("viewAll")}
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  width='16'
+                  height='16'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='currentColor'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                >
+                  <path d='M5 12h14M12 5l7 7-7 7' />
+                </svg>
+              </Link>
+            </div>
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-6'>
+              {/* Get recommendations based on user behavior and product attributes */}
+              {[...new Set([
+                ...relatedProducts.filter(p => 
+                  // Products with same brand but different category (accessories)
+                  p.brand_id === product.brand_id && 
+                  p.category_id !== product.category_id &&
+                  p.id !== product.id
+                ),
+                ...relatedProducts.filter(p =>
+                  // Products with similar price point in same category (alternatives)
+                  p.category_id === product.category_id && 
+                  p.id !== product.id &&
+                  p.base_price >= product.base_price * 0.7 &&
+                  p.base_price <= product.base_price * 1.3
+                )
+              ])].slice(0, 5).map(
+                (recommendedProduct) => (
+                  <div key={recommendedProduct.id} className='group'>
+                    <Link
+                      href={`/products/${recommendedProduct.id}`}
+                      className='block'
+                    >
+                      <div className='aspect-square relative bg-gray-50 rounded-lg mb-3 overflow-hidden'>
+                        <Image
+                          src={recommendedProduct.image_url || "/placeholder.svg"}
+                          alt={recommendedProduct.name}
+                          fill
+                          sizes='(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw'
+                          className='object-contain p-4 group-hover:scale-105 transition-transform duration-300'
+                        />
+                        {recommendedProduct.in_stock < 5 &&
+                          recommendedProduct.in_stock > 0 && (
+                            <div className='absolute top-2 right-2 bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-md font-medium'>
+                              {t("product.onlyLeft", {
+                                count: recommendedProduct.in_stock,
+                              })}
+                            </div>
+                          )}
+                        {recommendedProduct.in_stock === 0 && (
+                          <div className='absolute top-2 right-2 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-md font-medium'>
+                            {t("outOfStock")}
+                          </div>
+                        )}
+                      </div>
+                      <h3 className='text-sm font-medium line-clamp-2 group-hover:text-gray-700'>
+                        {recommendedProduct.name}
+                      </h3>
+                      <div className='flex flex-wrap items-end justify-between mt-1'>
+                        <p className='text-sm font-bold'>
+                          {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "EUR",
+                          }).format(recommendedProduct.base_price)}
+                        </p>
+                        {recommendedProduct.brands?.name && (
+                          <span className='text-xs text-gray-500'>
+                            {recommendedProduct.brands.name}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </div>
+                )
+              )}
+            </div>
           </section>
+
           {/* Recently Viewed Section */}
           <section className='mt-16 pt-12 border-t'>
             <div className='flex justify-between items-center mb-8'>

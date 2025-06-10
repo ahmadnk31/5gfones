@@ -15,6 +15,7 @@ import {
 import { Phone, Tablet, Laptop, Headphones, Tv, Watch, Package } from "lucide-react";
 
 import { Link } from "@/i18n/navigation";
+import { products } from "@/lib/constants";
 
 // Define a mapping of category names to icons
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -142,20 +143,20 @@ if (categoriesError) {
       brands: item.brands ? { name: String(item.brands.name || "") } : null,
       variant_count: Number(item.variant_count || 0)
     }));
-
   return (
     <>
-      {/* Hero section with improved styling */}
-      <div className='relative w-full h-[300px] md:h-[400px] overflow-hidden bg-gradient-to-r from-blue-600 to-violet-700'>
+      {/* Hero section with theme-matching styling */}
+      <div className='relative w-full h-[300px] md:h-[400px] overflow-hidden bg-gradient-to-r from-primary/90 to-emerald-600'>
         <Image
           src={topLevelCategories[0]?.image_url || "/images/categories-hero.jpg"}
           alt='Product Categories'
           fill
-          className='object-cover mix-blend-overlay opacity-60'
+          className='object-cover mix-blend-overlay opacity-50'
           priority
         />
+        <div className='absolute inset-0 bg-black/10' />
         <div className='absolute inset-0 flex flex-col justify-center items-center text-white p-4 text-center'>
-          <h1 className='text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg'>
+          <h1 className='text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg banner-text-shadow'>
             {t("navigation.categories") || "Product Categories"}
           </h1>
           <p className='text-xl md:text-2xl max-w-2xl drop-shadow-md'>
@@ -172,8 +173,7 @@ if (categoriesError) {
               href={`/categories/${category.id}`}
               key={category.id}
               className='block group'
-            >
-              <Card className='h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] relative overflow-hidden'>
+            >              <Card className='h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] relative overflow-hidden border-muted/60 hover:border-primary/50 shadow-sm'>
                 <CardHeader className='pb-4'>
                   <div className='flex justify-center mb-4 relative h-40'>
                     {category.image_url ? (
@@ -187,7 +187,7 @@ if (categoriesError) {
                         <div className='absolute inset-0 bg-gradient-to-t from-black/50 to-transparent' />
                       </div>
                     ) : (
-                      <div className='w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 transition-transform group-hover:scale-110'>
+                      <div className='w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-primary transition-transform group-hover:scale-110 group-hover:bg-primary/20'>
                         {categoryIcons[category.name] || <Package className="w-12 h-12" />}
                       </div>
                     )}

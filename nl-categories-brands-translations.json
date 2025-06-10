@@ -1,0 +1,20 @@
+{
+  "categories": {
+    "title": "Productcategorieën",
+    "description": "Blader door alle productcategorieën bij 5GPhones. Vind smartphones, tablets, laptops, smartwatches, koptelefoons en accessoires georganiseerd per categorie voor gemakkelijk winkelen.",
+    "viewAll": "Bekijk Alle Categorieën",
+    "empty": "Geen categorieën gevonden",
+    "all": "Alle Categorieën"
+  },
+  "deviceBrands": {
+    "title": "Topmerken Apparaten",
+    "viewAll": "Bekijk Alle Merken"
+  },
+  "brands": {
+    "description": "Ontdek producten van topmerken",
+    "featured": "Aanbevolen Merken",
+    "all": "Alle Merken",
+    "empty": "Geen merken gevonden",
+    "viewAll": "Bekijk Alle Merken"
+  }
+}
