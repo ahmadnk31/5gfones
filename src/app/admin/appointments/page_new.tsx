@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminAppointmentsPage() {
   // Get the accept-language header to determine locale
-  const headersList = headers();
-  const acceptLanguage = (await headersList).get('accept-language') || '';
+  const headersList = await headers();
+  const acceptLanguage = headersList.get('accept-language') || '';
   
   // Simple locale detection - default to 'en' if not specified
   const locale = acceptLanguage.startsWith('es') ? 'es' : 
