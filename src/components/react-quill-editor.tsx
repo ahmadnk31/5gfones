@@ -53,9 +53,9 @@ export const ReactQuillEditor = forwardRef<ReactQuillEditorRef, ReactQuillEditor
       }
       return '';
     }
-      // We'll use useImperativeHandle with the forwarded ref later
+    // We'll use useImperativeHandle with the forwarded ref later
     const modules = useMemo(() => ({
-      toolbar: [
+      toolbar: isEditable ? [
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
         ['bold', 'italic', 'underline', 'strike'],
         [{ 'color': [] }, { 'background': [] }],
@@ -64,8 +64,8 @@ export const ReactQuillEditor = forwardRef<ReactQuillEditorRef, ReactQuillEditor
         ['blockquote', 'code-block'],
         ['link', 'image'],
         ['clean']
-      ],
-    }), []);
+      ] : false,
+    }), [isEditable]);
 
     // Define formats that are allowed
     const formats = [
@@ -82,8 +82,7 @@ export const ReactQuillEditor = forwardRef<ReactQuillEditorRef, ReactQuillEditor
     useEffect(() => {
       // Add custom CSS for dark mode
       const style = document.createElement('style');
-      style.id = 'quill-dark-mode-styles';
-      style.innerHTML = `
+      style.id = 'quill-dark-mode-styles';      style.innerHTML = `
         .dark .quill-editor-container .ql-toolbar {
           background-color: #1f2937;
           color: white;
@@ -97,6 +96,15 @@ export const ReactQuillEditor = forwardRef<ReactQuillEditorRef, ReactQuillEditor
         .dark .quill-editor-container .ql-editor {
           color: white;
           background-color: #111827;
+        }
+        /* Mobile-friendly styles */
+        @media (max-width: 768px) {
+          .quill-editor-container .ql-editor {
+            padding: 8px;
+          }
+          .quill-editor-container .ql-container {
+            font-size: 16px;
+          }
         }
         .dark .quill-editor-container .ql-picker {
           color: white;
@@ -137,8 +145,7 @@ export const ReactQuillEditor = forwardRef<ReactQuillEditorRef, ReactQuillEditor
       getPlainText,
       getEditor: () => quillRef.current?.getEditor()
     }));
-    
-    return (
+      return (
       <div className={`quill-editor-container ${className}`}>
         <ReactQuill 
           ref={quillRef}
@@ -149,7 +156,7 @@ export const ReactQuillEditor = forwardRef<ReactQuillEditorRef, ReactQuillEditor
           modules={modules}
           formats={formats}
           placeholder={placeholder}
-          style={{ minHeight: '250px' }}
+          style={{ minHeight: isEditable ? '250px' : 'auto', maxHeight: !isEditable ? '60vh' : 'none', overflowY: !isEditable ? 'auto' : 'visible' }}
         />
       </div>
     );

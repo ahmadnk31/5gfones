@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import dynamic from 'next/dynamic';
 import {
   Table,
   TableBody,
@@ -175,11 +175,26 @@ export default function AccessoriesPage() {
     has_variations: false,
     variants: [],
   });
+  // Use useState but initialize with undefined to avoid issues during SSR
+  const [supabase, setSupabase] = useState<any>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const supabase = createClient();
-
-  // Initial data fetch
+  // Initialize supabase client on component mount (client-side only)
   useEffect(() => {
+    const initializeSupabase = async () => {
+      const { createClient } = await import('@/lib/supabase/client');
+      setSupabase(createClient());
+      setIsMounted(true);
+    };
+    
+    initializeSupabase();
+  }, []);
+
+  // Initial data fetch - moved inside useEffect with supabase dependency
+  useEffect(() => {
+    // Only fetch data if supabase client is initialized and component is mounted
+    if (!supabase || !isMounted) return;
+    
     const fetchData = async () => {
       setLoading(true);
 
@@ -327,7 +342,7 @@ export default function AccessoriesPage() {
     };
 
     fetchData();
-  }, []);
+  }, [supabase]);
 
   // Filter products when search or filters change
   useEffect(() => {
@@ -379,17 +394,33 @@ export default function AccessoriesPage() {
         `
         )
         .eq("id", productId)
-        .single();
+        .single();      if (productError) throw productError;
 
-      if (productError) throw productError;
+      console.log(`=== PRODUCT DATA DEBUG ===`);
+      console.log(`Raw product data:`, product);
+      console.log(`discount_start_date:`, product.discount_start_date, typeof product.discount_start_date);
+      console.log(`discount_end_date:`, product.discount_end_date, typeof product.discount_end_date);
+      console.log(`=== END PRODUCT DATA DEBUG ===`);
 
       // Fetch product variants
       const { data: variants, error: variantsError } = await supabase
         .from("product_variants")
         .select("*")
-        .eq("product_id", productId);
+        .eq("product_id", productId);      if (variantsError) throw variantsError;
 
-      if (variantsError) throw variantsError;
+      console.log(`=== VARIANTS DATA DEBUG ===`);
+      console.log(`Raw variants data:`, variants);
+      if (variants && variants.length > 0) {
+        variants.forEach((variant, index) => {
+          console.log(`Variant ${index}:`, {
+            id: variant.id,
+            discount_start_date: variant.discount_start_date,
+            discount_end_date: variant.discount_end_date,
+            discount_percentage: variant.discount_percentage
+          });
+        });
+      }
+      console.log(`=== END VARIANTS DATA DEBUG ===`);
 
       // Fetch variant images for each variant
       const variantsWithImages = [...(variants || [])];
@@ -404,8 +435,61 @@ export default function AccessoriesPage() {
           if (imagesError) throw imagesError;
           
           variant.images = imagesData?.map(img => img.image_url) || [];
+        }      }      // Format the data for the form      // Format dates for the discount date fields if they exist
+      const formatDateForInput = (dateString: string | Date | null | undefined): string => {
+        console.log(`=== formatDateForInput DEBUG ===`);
+        console.log(`Input:`, dateString, typeof dateString);
+        
+        if (!dateString) {
+          console.log(`Empty dateString, returning empty string`);
+          return "";
         }
-      }      // Format the data for the form
+        
+        try {
+          // Handle different date formats from database
+          let date;
+          
+          // If it's already a Date object
+          if (dateString instanceof Date) {
+            console.log(`Input is Date object:`, dateString);
+            date = dateString;
+          }
+          // If it's a string in YYYY-MM-DD format (date-only)
+          else if (typeof dateString === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+            console.log(`Input is YYYY-MM-DD format:`, dateString);
+            // For date-only strings, create date without timezone issues
+            const [year, month, day] = dateString.split('-').map(Number);
+            date = new Date(year, month - 1, day);
+            console.log(`Created date object:`, date);
+          }
+          // For ISO strings or other formats
+          else {
+            console.log(`Input is other format, parsing:`, dateString);
+            date = new Date(dateString);
+            console.log(`Parsed date object:`, date);
+          }
+            // Check if date is valid
+          if (isNaN(date.getTime())) {
+            console.warn(`Invalid date found: ${dateString}`);
+            return "";
+          }
+          
+          // Format as YYYY-MM-DD for HTML date input without timezone issues
+          // Use local date components instead of UTC to avoid timezone shifts
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          const formatted = `${year}-${month}-${day}`;
+          
+          console.log(`Final formatted output: ${formatted}`);
+          console.log(`=== formatDateForInput END ===`);
+          return formatted;
+        } catch (error) {
+          console.error(`Error formatting date ${dateString}:`, error);
+          return "";
+        }
+      };
+      
       setEditProduct({
         name: product.name,
         description: product.description || "",
@@ -417,18 +501,19 @@ export default function AccessoriesPage() {
         base_price: product.base_price.toString() || "",
         in_stock: product.in_stock.toString() || "0",
         discount_percentage: product.discount_percentage ? product.discount_percentage.toString() : "",
-        discount_start_date: product.discount_start_date || "",
-        discount_end_date: product.discount_end_date || "",
+        discount_start_date: formatDateForInput(product.discount_start_date),
+        discount_end_date: formatDateForInput(product.discount_end_date),
         has_variations: variants && variants.length > 0,
         variants:
           variantsWithImages?.map((variant) => ({
-            id: variant.id,          variant_name: variant.variant_name,
+            id: variant.id,          
+            variant_name: variant.variant_name,
             variant_value: variant.variant_value,
             price_adjustment: variant.price_adjustment.toString(),
             stock: variant.stock.toString(),
             discount_percentage: variant.discount_percentage ? variant.discount_percentage.toString() : "",
-            discount_start_date: variant.discount_start_date || "",
-            discount_end_date: variant.discount_end_date || "",
+            discount_start_date: formatDateForInput(variant.discount_start_date),
+            discount_end_date: formatDateForInput(variant.discount_end_date),
             images: variant.images || [],
           })) || [],
       });
@@ -901,8 +986,8 @@ export default function AccessoriesPage() {
       currency: "USD",
     }).format(price);
   };
-
-  if (loading) {
+  // Show loading state when client component mounts or when data is loading
+  if (!isMounted || loading) {
     return (
       <div className='flex h-[80vh] items-center justify-center'>
         <Loader2Icon className='h-8 w-8 animate-spin text-primary' />

@@ -416,8 +416,7 @@
     "deviceBrands": {
       "title": "Populaire Merken",
       "viewAll": "Alle Merken Bekijken"
-    },
-    "categories": {
+    },    "categories": {
       "title": "Productcategorieën",
       "browse": "Bladeren",
       "empty": "Geen categorieën gevonden",
@@ -428,6 +427,13 @@
       "featuredProducts": "Aanbevolen Producten",
       "noProducts": "Geen producten in deze categorie",
       "availableProducts": "Beschikbare Producten"
+    },
+    "brands": {
+      "description": "Ontdek producten van topmerken",
+      "featured": "Aanbevolen Merken",
+      "all": "Alle Merken",
+      "empty": "Geen merken gevonden",
+      "viewAll": "Bekijk Alle Merken"
     },
     "carousel": {
       "title": "Reparatiediensten",      
@@ -1284,8 +1290,10 @@
     "allConditions": "Alle Condities",
     "excellent": "Uitstekend",
     "good": "Goed",
-    "fair": "Redelijk",
-    "variants": "Varianten",
+    "fair": "Redelijk",    "variants": "Varianten",
+    "categoryDiscount": "Categorie Korting",
+    "productDiscount": "Product Korting",
+    "youSave": "Je bespaart",
     "allProducts": "Alle Producten",
     "withVariants": "Met Varianten",
     "withoutVariants": "Zonder Varianten",
@@ -1544,6 +1552,7 @@
   },
   "product": {
     "addToCart": "In Winkelwagen",
+    "discount": "Korting",
     "viewDetails": "Details Bekijken",
     "inStock": "Op Voorraad",
     "outOfStock": "Niet op Voorraad",
@@ -1846,9 +1855,9 @@
       "description": "Leer over 5GPhones' retour- en terugbetalingsbeleid. Gemakkelijke retouren binnen 30 dagen, probleemloos proces en klanttevredenheidsgarantie voor alle aankopen.",
       "keywords": "retourbeleid, terugbetalingen, retourproces, klanttevredenheid, 30-dagen retouren, probleemloos retourneren, aankoopbescherming"
     },
-    "categories": {
+  "categories": {
       "title": "Shop per Categorie | 5GPhones",
-      
+      "productCount":" {count} Producten",
       "description": "Blader door alle productcategorieën bij 5GPhones. Vind smartphones, tablets, laptops, smartwatches, koptelefoons en accessoires georganiseerd per categorie voor gemakkelijk winkelen.",
       "keywords": "productcategorieën, smartphones per categorie, mobiele apparaat categorieën, elektronica categorieën, telefoon accessoires, tech producten, apparaat types"
     },
@@ -2364,5 +2373,76 @@
     "myDevicesSubtitle": "Volg de status van uw inruilingen",
     "next": "Volgende",
     "back": "Terug"
+  },
+  "categories": {
+    "title": "Productcategorieën",
+    "description": "Blader door alle productcategorieën bij 5GPhones. Vind smartphones, tablets, laptops, smartwatches, koptelefoons en accessoires georganiseerd per categorie voor gemakkelijk winkelen.",
+    "viewAll": "Bekijk Alle Categorieën",
+    "empty": "Geen categorieën gevonden",
+    "all": "Alle Categorieën",
+    "productCount": " Producten",
+    "availableProducts": "Beschikbare Producten"
+  },
+  "deviceBrands": {
+    "title": "Topmerken Apparaten",
+    "viewAll": "Bekijk Alle Merken"
+  },
+  "brands": {
+    "description": "Ontdek producten van topmerken",
+    "featured": "Aanbevolen Merken",
+    "all": "Alle Merken",
+    "empty": "Geen merken gevonden",
+    "viewAll": "Bekijk Alle Merken",
+    "productCount": " Producten"
+  },
+  "admin": {
+    "banners": "Banners",
+    "manageBannersDesc": "Beheer promotionele banners voor uw site",
+    "addBanner": "Banner Toevoegen",
+    "editBanner": "Banner Bewerken",
+    "addBannerDesc": "Maak een nieuwe promotionele banner aan",
+    "editBannerDesc": "Wijzig een bestaande promotionele banner",
+    "bannerTitlePlaceholder": "Voer bannertitel in",
+    "bannerSubtitlePlaceholder": "Voer banner ondertitel in (optioneel)",
+    "bannerImage": "Banner Afbeelding",
+    "bannerImageDesc": "Upload of selecteer een afbeelding voor uw banner (aanbevolen grootte: 1600x400px)",
+    "previewBanner": "Banner Voorbeeld",
+    "previewBannerDesc": "Hoe deze banner op de site zal verschijnen",
+    "linkUrl": "Link URL",
+    "buttonText": "Knoptekst",
+    "targetPage": "Doelpagina",
+    "selectTargetPage": "Selecteer een pagina om deze banner weer te geven",
+    "homePage": "Homepagina",
+    "shopPage": "Winkelpagina",
+    "repairPage": "Reparatiepagina",
+    "tradeInPage": "Inruilpagina",
+    "startDate": "Startdatum",
+    "endDate": "Einddatum",
+    "displayOrder": "Weergavevolgorde",
+    "isActive": "Actief",
+    "updateBanner": "Banner Bijwerken",
+    "createBanner": "Banner Aanmaken",
+    "bannerDetails": "Banner Details",
+    "pasteUrl": "URL Plakken",
+    "or": "of",
+    "shopNow": "Nu Winkelen",
+    "yes": "Ja",
+    "no": "Nee",
+    "id": "ID",
+    "title": "Titel",
+    "subtitle": "Ondertitel",
+    "image": "Afbeelding",
+    "dateRange": "Datumbereik",
+    "status": "Status",
+    "actions": "Acties",
+    "active": "Actief",
+    "inactive": "Inactief",
+    "preview": "Voorbeeld",
+    "edit": "Bewerken",
+    "delete": "Verwijderen",
+    "close": "Sluiten",
+    "cancel": "Annuleren",
+    "confirmDelete": "Weet u zeker dat u dit item wilt verwijderen?",
+    "noBannersFound": "Geen banners gevonden"
   }
 }
